@@ -1,15 +1,6 @@
-﻿using FizzWare.NBuilder.Dates;
-using NHibernate.SqlTypes;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace VastraIndiaDAL
 {
@@ -33,7 +24,7 @@ namespace VastraIndiaDAL
             return dt;
         }
 
-        public DataTable GeNotification()
+        public DataTable GetNotification()
         {
             dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_GeNotification");
             return dt;
@@ -65,9 +56,28 @@ namespace VastraIndiaDAL
             return dt;
         }
 
-        public DataTable GetAllProductCategory()
+        public DataTable GetTippingCodeListByProductId(int id)
         {
-            dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.Text, "SP_GetAllProductCategory");
+            SqlParameter[] param = new SqlParameter[1];
+
+            param[0] = new SqlParameter();
+            param[0].ParameterName = "@Product_Id";
+            param[0].Value = id;
+            param[0].Direction = ParameterDirection.Input;
+
+            dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "[SP_Get_TippingCode_ListByProductId]", param);
+            return dt;
+        }
+
+        public DataTable GetAllProductCategory(int IsBrand)
+        {
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter();
+            param[0].ParameterName = "@IsBrand";
+            param[0].Value = IsBrand;
+            param[0].Direction = ParameterDirection.Input;
+
+            dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_GetAllProductCategory",param);
             return dt;
         }
         // Category End

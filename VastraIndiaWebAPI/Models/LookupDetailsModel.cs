@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace VastraIndiaWebAPI.Models
 {
@@ -20,5 +20,13 @@ namespace VastraIndiaWebAPI.Models
         public DateTime Created_Date { get; set; }
       
         public DateTime Updated_Date { get; set; }
+
+        public string ColorName { get; set; }
+
+        public string tipping_img { get; set; }
+
+        public IFormFile formFile { get; set; }
+
+        public string Imagepath { get; set; }
     }
 }

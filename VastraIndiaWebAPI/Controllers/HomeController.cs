@@ -1,21 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Nancy.Json;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Net;
-using System.Text.Json;
-using System.Xml.Linq;
 using VastraIndiaDAL;
+using MimeKit;
+using MimeKit.Text;
 using VastraIndiaWebAPI.Models;
-
+using System.Net.Mail;
+using System.Linq;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VastraIndiaWebAPI.Controllers
 {
-    //[Route("api/[controller]")]
     //[ApiController]
+    //[Route("api/[controller]")]   
     public class HomeController : ControllerBase
     {
         DataTable dt = new DataTable();
@@ -29,6 +27,86 @@ namespace VastraIndiaWebAPI.Controllers
         public JsonResult GetFaq()
         {
             dt = objHomeDAL.GetFaq();
+            JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
+            Dictionary<string, object> childRow;
+            foreach (DataRow row in dt.Rows)
+            {
+                childRow = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    childRow.Add(col.ColumnName, row[col]);
+                }
+                parentRow.Add(childRow);
+            }
+            return new JsonResult(parentRow);
+        }
+
+        [HttpPost]
+        [Route("api/Home/SendEmail")]
+        public JsonResult SendEmail([FromBody] Home body)
+        {
+            if(body != null)
+            {
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse(body.email));
+                email.Cc.Add(MailboxAddress.Parse(body.email));
+                email.To.Add(MailboxAddress.Parse("yogigole1824@gmail.com"));
+                if(body.subject ==null)
+                {
+                    string subject;
+                    subject = "Enquiry";
+                    body.subject = subject;
+                    email.Subject = body.subject;
+                }
+                else 
+                {
+                    email.Subject = body.subject;
+                }
+
+                //newbody = body.email;
+                //newbody += body.subject;
+                //newbody += body.message;
+
+                string name = body.name;
+                string fromail = body.email;
+                string message = body.message;
+                message += "<br>" + "<b>Name:</b> " + name +"<br>"+ " <b>From:</b> " + fromail ;
+
+
+                email.Body = new TextPart(TextFormat.Html) { Text = message };
+
+                using var smtp = new MailKit.Net.Smtp.SmtpClient();
+                smtp.Connect("smtp.gmail.com", 465);
+                smtp.Authenticate("yogigole1824@gmail.com", "hrwjmbhogwcwhrbo");
+                smtp.Send(email);
+                smtp.Disconnect(true);
+                return new JsonResult("Message Send Successfully");
+            }
+            return new JsonResult("Please Enter Required Fields");
+
+            //var message = new MailMessage();
+            //message.From = new MailAddress("yogigole1824@gmail.com");
+            //message.To.Add("yogigole1824@gmail.com");
+            //message.Subject = "Test email";
+            //message.Body = "This is a test email from my ASP.NET application.";
+            //message.IsBodyHtml = true;
+
+            //var client = new System.Net.Mail.SmtpClient("smtp.gmail.com");
+            //{
+            //    client.Port = 587;
+            //    client.Credentials = new NetworkCredential("yogigole1824@gmail.com", "kfpmxkhhyaflodet");
+            //    client.EnableSsl = true;
+            //}
+            //client.Send(message);
+            //return Ok();
+        }
+
+        [Route("api/Home/GetTippingCodeListByProductId")]
+        [HttpGet("{id}")]
+        public IActionResult GetTippingCodeListByProductId(int id)
+        {
+            dt = objHomeDAL.GetTippingCodeListByProductId(id);
             JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
             List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
             Dictionary<string, object> childRow;
@@ -68,10 +146,10 @@ namespace VastraIndiaWebAPI.Controllers
 
         //Notification
         [HttpGet]
-        [Route("api/Home/GeNotification")]
-        public JsonResult GeNotification()
+        [Route("api/Home/GetNotification")]
+        public JsonResult GetNotification()
         {
-            dt = objHomeDAL.GeNotification();
+            dt = objHomeDAL.GetNotification();
             JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
             List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
             Dictionary<string, object> childRow;
@@ -330,9 +408,9 @@ namespace VastraIndiaWebAPI.Controllers
 
         //Category start
         [Route("api/Home/GetAllCategory")]
-        public JsonResult GetAllCategory()
+        public JsonResult GetAllCategory(int IsBrand)
         {
-            dt = objHomeDAL.GetAllProductCategory();
+            dt = objHomeDAL.GetAllProductCategory(IsBrand);
             JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
             List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
             Dictionary<string, object> childRow;

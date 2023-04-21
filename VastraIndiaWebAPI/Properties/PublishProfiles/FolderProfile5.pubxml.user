@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\VastraIndia\VastraAPIPublish</_PublishTargetUrl>
+    <History>True|2023-04-12T10:15:03.7259968Z;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="Database">
+      <Value>Server=DESKTOP-PVUAOLF%3bDatabase=VastraIndia%3bTrusted_Connection=True%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

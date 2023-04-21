@@ -13,7 +13,7 @@ namespace VastraIndiaDAL
     {
         DataTable dt = new DataTable();
         SqlHelper objsqlHelper = new SqlHelper();
-        List<SqlParameter> SqlParameters = new List<SqlParameter>();
+        //List<SqlParameter> SqlParameters = new List<SqlParameter>();
         public DataTable GetFaqPagination(int pageNo, int pageSize)
         {
             SqlParameter[] param = new SqlParameter[2];

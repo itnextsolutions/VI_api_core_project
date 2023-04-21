@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Nancy.Json;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.IO;
+using System.Threading.Tasks;
 using VastraIndiaDAL;
 using VastraIndiaWebAPI.Models;
 
@@ -14,6 +17,7 @@ namespace VastraIndiaWebAPI.Controllers
     {
         DataTable dt = new DataTable();
         BlogDAL objblog = new BlogDAL();
+        SaveImageDAL saveImage = new SaveImageDAL();
 
         // GET: api/<BlogController>
         [HttpGet]
@@ -74,47 +78,97 @@ namespace VastraIndiaWebAPI.Controllers
             }
             return new JsonResult(parentRow);
         }
-        // POST api/<BlogController>
+        //// POST api/<BlogController>
+        //[Route("api/Blog/InsertBlog")]
+        //[HttpPost]
+        //public IActionResult Post([FromBody] BlogModel blog)
+        //{
+        //    if (blog.Blog_Title != null)
+        //    {
+        //        dt = objblog.InsertBlog(blog.Blog_Title, blog.Blog_Content, blog.Blog_Topic, blog.Image_Name);
+        //        return new JsonResult("Added Successfully");
+        //    }
+        //    else
+        //    {
+        //        return new JsonResult("Please Enter All Details");
+        //    }
+        //}
+
+        // POST api/<CustomerController>
         [Route("api/Blog/InsertBlog")]
         [HttpPost]
-        public IActionResult Post([FromBody] BlogModel blog)
+        public async Task<ActionResult> SaveBlog([FromForm] BlogModel blog)
         {
-            if (blog.Blog_Title != null)
+
+            var Ext = System.IO.Path.GetExtension(blog.formFile.FileName);
+
+            var FileName = blog.Blog_Title + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+
+            var BlogFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "blog");
+         
+
+            if (!Directory.Exists(BlogFolderName))
             {
-                dt = objblog.InsertBlog(blog.Blog_Title, blog.Blog_Content, blog.Blog_Topic, blog.Image_Name);
-                return new JsonResult("Added Successfully");
-            }
-            else
-            {
-                return new JsonResult("Please Enter All Details");
+                //If Directory (Folder) does not exists. Create it.
+                Directory.CreateDirectory(BlogFolderName);
             }
 
+            dt = objblog.InsertBlog(blog.Blog_Title, blog.Blog_Content, blog.Blog_Topic, FileName);
+
+            var SaveImage = saveImage.SaveImagesAsync(blog.formFile, FileName, BlogFolderName);
+
+            return new JsonResult("Added Successfully");
         }
 
-        // PUT api/<BlogController>/5
+        // POST api/<CustomerController>
         [Route("api/Blog/UpdateBlog")]
-        //  [HttpPut("{id}")]
-        [HttpPut]
-        public IActionResult Put([FromBody] BlogModel blog)
+        [HttpPost]
+        public async Task<ActionResult> UpdateBlog([FromForm] BlogModel blog)
         {
-            if (blog != null)
-            {
-                if (blog.Blog_Id != 0)
-                {
-                    dt = objblog.UpdateBlog(blog.Blog_Id, blog.Blog_Title, blog.Blog_Topic, blog.Blog_Content, blog.Image_Name);
-                    return new JsonResult("Updated Successfully");
-                }
-            }
-            return new JsonResult("Data is not valid");
 
+            var Ext = System.IO.Path.GetExtension(blog.formFile.FileName);
+
+            var FileName = blog.Blog_Title + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+
+            var BlogFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra","src","assets","img","blog");
+
+            if (!Directory.Exists(BlogFolderName))
+            {
+                //If Directory (Folder) does not exists. Create it.
+                Directory.CreateDirectory(BlogFolderName);
+            }
+
+            dt = objblog.UpdateBlog(blog.Blog_Id, blog.Blog_Title, blog.Blog_Topic, blog.Blog_Content, FileName);
+         
+            var SaveImage = saveImage.SaveImagesAsync(blog.formFile, FileName, BlogFolderName);
+
+            return new JsonResult("Added Successfully");
         }
+
+
+        //// PUT api/<BlogController>/5
+        //[Route("api/Blog/UpdateBlog")]
+        ////  [HttpPut("{id}")]
+        //[HttpPut]
+        //public IActionResult Put([FromBody] BlogModel blog)
+        //{
+        //    if (blog != null)
+        //    {
+        //        if (blog.Blog_Id != 0)
+        //        {
+        //            dt = objblog.UpdateBlog(blog.Blog_Id, blog.Blog_Title, blog.Blog_Topic, blog.Blog_Content, blog.Image_Name);
+        //            return new JsonResult("Updated Successfully");
+        //        }
+        //    }
+        //    return new JsonResult("Data is not valid");
+
+        //}
 
         // DELETE api/<BlogController>/5
         [Route("api/Blog/Delete")]
         [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
-
             dt = objblog.DeleteBlog(id);
             return new JsonResult("Deleted Successfully");
 

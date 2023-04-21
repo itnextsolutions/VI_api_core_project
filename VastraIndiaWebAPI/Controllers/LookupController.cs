@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Nancy.Json;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Net;
-using System.Text.Json;
-using System.Xml.Linq;
+using System.IO;
 using VastraIndiaDAL;
 using VastraIndiaWebAPI.Models;
 
@@ -21,6 +18,8 @@ namespace VastraIndiaWebAPI.Controllers
         DataTable dt = new DataTable();
 
         LookupDAL lookup = new LookupDAL();
+
+        SaveImageDAL saveImage = new SaveImageDAL();
 
         //LookupMaster start
 
@@ -66,6 +65,35 @@ namespace VastraIndiaWebAPI.Controllers
             return new JsonResult(parentRow);
         }
 
+        [Route("api/Lookup/InsertLookupDetails")]
+        [HttpPost]
+        public IActionResult Post([FromForm] LookupDetailsModel lookupDetail)
+        {
+            if (lookupDetail.Lookup_Id == 3)
+            {
+                var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
+
+                var FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+
+                var TippingFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "tipping");
+
+                if (!Directory.Exists(TippingFolderName))
+                {
+                    //If Directory (Folder) does not exists. Create it.
+                    Directory.CreateDirectory(TippingFolderName);
+                }
+                dt = lookup.InsertLookupDetail(lookupDetail.Lookup_Id, lookupDetail.Description, FileName);
+                var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, FileName, TippingFolderName);
+
+                return new JsonResult("Added Successfully");
+            }
+            else
+            {
+                dt = lookup.InsertLookupDetails(lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.ColorName);
+                return new JsonResult("Added Successfully");
+            }
+        }
+
         // POST api/<LookupController>
         [Route("api/Lookup/InsertLookupMaster")]
         [HttpPost("")]
@@ -100,7 +128,6 @@ namespace VastraIndiaWebAPI.Controllers
             return new JsonResult("Deleted Successfully");
         }
         //LookupMaster end
-
 
         [HttpGet]
         [Route("api/Lookup/GetLookupDetails")]
@@ -143,13 +170,6 @@ namespace VastraIndiaWebAPI.Controllers
             return new JsonResult(parentRow);
         }
 
-        [Route("api/Lookup/InsertLookupDetails")]
-        [HttpPost]
-        public IActionResult Post([FromBody] LookupDetailsModel lookupDetail)
-        {
-            dt = lookup.InsertLookupDetails(lookupDetail.Lookup_Id, lookupDetail.Description);
-            return new JsonResult("Added Successfully");
-        }
 
         [Route("api/Lookup/UpdateLookupDetails")]
         //  [HttpPut("{id}")]
@@ -159,7 +179,7 @@ namespace VastraIndiaWebAPI.Controllers
             if (lookupDetail.Lookup_Details_Id != 0)
             {
                 ;
-                dt = lookup.UpdateLookupDetails(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description);
+                dt = lookup.UpdateLookupDetails(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.ColorName);
                 return new JsonResult("Updated Successfully");
             }
             return new JsonResult("LookupDetailId is not valid");

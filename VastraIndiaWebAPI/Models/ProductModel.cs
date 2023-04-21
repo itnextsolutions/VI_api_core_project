@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿
+using Microsoft.AspNetCore.Http;
 
 namespace VastraIndiaWebAPI.Models
 {
@@ -14,23 +11,30 @@ namespace VastraIndiaWebAPI.Models
 
         public int SubCategory_Id { get; set; }
 
-        public int[] SizeId { get; set; }
+        public string SizeId { get; set; }
 
-        public int[] ColorId { get; set; }
+        public string ColorId { get; set; }
 
         public string Product_Title { get; set; }
 
         public string Product_Description { get; set; }
 
-        public string Image_Name { get; set; }
+        //public string Image_Name { get; set; }
 
-        public IFormFile formFile { get; set; }
+        public IFormFile MenFrontImgFile { get; set; }
 
-        //public int IsActive { get; set; }
+        public IFormFile MenSideImgFile { get; set; }
+        public IFormFile MenBackImgFile { get; set; }
 
-        //public DateTime Created_Date { get; set; }
+        public IFormFile MenSizeChartImgFile { get; set; }
 
-        //public DateTime Updated_Date { get; set; }
+        public string WomenProduct_Description { get; set; }
+        public IFormFile WomenFrontImgFile { get; set; }
+
+        public IFormFile WomenBackImgFile { get; set; }
+        public IFormFile WomenSideImgFile { get; set; }
+
+        public IFormFile WomenSizeChartImgFile { get; set; }
 
     }
 

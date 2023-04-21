@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\VastraIndiaWebAPI",
+    "\\VastraIndiaWebAPI\\Controllers",
+    "\\VastraIndiaWebAPI\\Models"
   ],
-  "SelectedNode": "\\VastraIndiaWebAPI.sln",
+  "SelectedNode": "\\VastraIndiaWebAPI\\VastraIndiaWebAPI.sln",
   "PreviewInSolutionExplorer": false
 }

@@ -1,0 +1,141 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj": {}
+  },
+  "projects": {
+    "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj",
+        "projectName": "VastraIndiaDAL",
+        "projectPath": "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "projectStyle": "PackagesConfig",
+        "configFilePaths": [
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        },
+        "packagesConfigPath": "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaDAL\\packages.config"
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj",
+        "projectName": "VastraIndiaWebAPI",
+        "projectPath": "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaWebAPI\\obj\\publish\\win-x64\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj": {
+                "projectPath": "C:\\Vishal\\Projects\\VastraIndiaProject\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.9, )"
+            },
+            "Microsoft.AspNet.Web.Optimization": {
+              "target": "Package",
+              "version": "[1.1.3, )"
+            },
+            "Microsoft.AspNet.WebApi.Core": {
+              "target": "Package",
+              "version": "[5.2.9, )"
+            },
+            "Nancy": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "Owin": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[3.1.32, 3.1.32]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[3.1.32, 3.1.32]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+              "version": "[3.1.32, 3.1.32]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

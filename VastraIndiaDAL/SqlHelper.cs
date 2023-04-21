@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
-using System.IO;
 
 
 namespace VastraIndiaDAL
 {
     public class SqlHelper
     {
-        public static string sqlDataSource = "Data Source=DESKTOP-0MVKRLN; Initial Catalog=Vastra; Integrated Security= True;";
+        public static string sqlDataSource = "Data Source=208.91.198.59; Initial Catalog=VastraIndia_Test; User Id=Vastra; Password=Vastra@1234";
 
         private Hashtable parmCache = Hashtable.Synchronized(new Hashtable());
         public SqlParameter[] cmdParameter;
@@ -69,7 +63,7 @@ namespace VastraIndiaDAL
                     conn.Close();
                 }
             }
-           
+
         }
 
         public void closeconnection()

@@ -18,7 +18,7 @@ namespace VastraIndiaDAL
 
         DataTable dt = new DataTable();
         SqlHelper objsqlHelper = new SqlHelper();
-        List<SqlParameter> SqlParameters = new List<SqlParameter>();
+        //List<SqlParameter> SqlParameters = new List<SqlParameter>();
 
         public DataTable GetCustomerReview()
         {
@@ -40,7 +40,7 @@ namespace VastraIndiaDAL
             return dt;
         }
 
-        public DataTable InsertCustomerReview(string Name,string Profession,string Review,string ClientPhoto,string Rating)
+        public DataTable InsertCustomerReview(string Name, string Profession, string Review, string ClientPhoto, string Rating)
         {
             SqlParameter[] param = new SqlParameter[5];
 
@@ -73,7 +73,7 @@ namespace VastraIndiaDAL
             return dt;
         }
 
-        public DataTable UpdateCustomerReview(int Id,string Name, string Profession, string Review, string ClientPhoto, string Rating)
+        public DataTable UpdateCustomerReview(int Id, string Name, string Profession, string Review, string ClientPhoto, string Rating)
         {
             SqlParameter[] param = new SqlParameter[6];
             param[0] = new SqlParameter();
@@ -85,7 +85,7 @@ namespace VastraIndiaDAL
             param[1].ParameterName = "@Client_Name";
             param[1].Value = Name;
             param[1].Direction = ParameterDirection.Input;
-            
+
             param[2] = new SqlParameter();
             param[2].ParameterName = "@Profession";
             param[2].Value = Profession;
@@ -110,18 +110,19 @@ namespace VastraIndiaDAL
             return dt;
         }
 
-        //public DataTable DeleteCustomerReviewById(int Id)
-        //{
-        //    SqlParameter[] param = new SqlParameter[1];
+        public DataTable DeleteCustomerReviewById(int Id)
+        {
+            SqlParameter[] param = new SqlParameter[1];
 
-        //    param[0] = new SqlParameter();
-        //    param[0].ParameterName = "@Id";
-        //    param[0].Value = Id;
-        //    param[0].Direction = ParameterDirection.Input;
+            param[0] = new SqlParameter();
+            param[0].ParameterName = "@Customer_Review_Id";
+            param[0].Value = Id;
+            param[0].Direction = ParameterDirection.Input;
 
-        //    dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_DeleteLookupMasterById", param);
-        //    return dt;
-        //}
+            dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_DeleteCustReview", param);
+            return dt;
+        }
+
 
         public DataTable GetCustomerReviewPage(int pageNo, int pageSize)
         {

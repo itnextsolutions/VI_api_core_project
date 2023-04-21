@@ -1,8 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Nancy.ViewEngines;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Nancy.Json;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 using VastraIndiaDAL;
 using VastraIndiaWebAPI.Models;
 

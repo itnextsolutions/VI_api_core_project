@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nancy.Json;
+using System.Collections.Generic;
 using System.Data;
 using VastraIndiaDAL;
 using VastraIndiaWebAPI.Models;
@@ -48,12 +49,8 @@ namespace VastraIndiaWebAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] NotificationModel Notification)
         {
-
-
             dt = objNotificationDAL.UpdateNotification(Notification.NotificationId, Notification.NotificationTitle, Notification.FromDate, Notification.ToDate, Notification.ButtonText, Notification.ButtonUrl);
-
             return new JsonResult("Updated Successfully");
-
         }
 
         [Route("api/Notification/DeleteNotification")]
@@ -61,7 +58,6 @@ namespace VastraIndiaWebAPI.Controllers
         // DELETE api/<ProductController>/5
         public IActionResult DeleteProdctColor(int id)
         {
-
             dt = objNotificationDAL.DeleteNotification(id);
             return new JsonResult("Deleted Successfully");
         }

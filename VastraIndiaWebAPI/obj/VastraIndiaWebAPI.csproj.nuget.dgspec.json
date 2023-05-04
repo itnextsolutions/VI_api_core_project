@@ -1,14 +1,14 @@
 {
   "format": 1,
   "restore": {
-    "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj": {}
+    "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj": {}
   },
   "projects": {
-    "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaDAL\\VastraIndiaDAL.csproj": {
+    "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj": {
       "restore": {
-        "projectUniqueName": "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaDAL\\VastraIndiaDAL.csproj",
+        "projectUniqueName": "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj",
         "projectName": "VastraIndiaDAL",
-        "projectPath": "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaDAL\\VastraIndiaDAL.csproj",
+        "projectPath": "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {}
@@ -19,14 +19,14 @@
         "net472": {}
       }
     },
-    "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj": {
+    "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj",
+        "projectUniqueName": "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj",
         "projectName": "VastraIndiaWebAPI",
-        "projectPath": "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj",
+        "projectPath": "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaWebAPI\\VastraIndiaWebAPI.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaWebAPI\\obj\\",
+        "outputPath": "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaWebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,8 +43,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaDAL\\VastraIndiaDAL.csproj": {
-                "projectPath": "C:\\VastraIndia\\VastraIndiaAPI\\VastraIndiaDAL\\VastraIndiaDAL.csproj"
+              "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj": {
+                "projectPath": "C:\\Projects\\Publish\\VastraIndia\\VastraIndiaDAL\\VastraIndiaDAL.csproj"
               }
             }
           }
@@ -111,7 +111,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

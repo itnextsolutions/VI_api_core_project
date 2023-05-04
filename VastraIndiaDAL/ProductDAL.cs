@@ -108,104 +108,104 @@ namespace VastraIndiaDAL
         //    return dt;
         //}
 
-        public DataTable InsertProduct(int CategoryId, int SubCategory_Id, string ProductName, string Description, string MenFrontImage, string MenSidePhotoName, string MenBackPhotoName, string MenSizeChartImage, String WomenDescription, string WomenFrontImage, String WomenSideImage, String WomenBackImage, string WomenSizeChartImage, string ColorId, string SizeId)
-        {
-            SqlParameter[] param = new SqlParameter[15];
+        //public DataTable InsertProduct(int CategoryId, int SubCategory_Id, string ProductName, string Description, string MenFrontImage, string MenSidePhotoName, string MenBackPhotoName, string MenSizeChartImage, String WomenDescription, string WomenFrontImage, String WomenSideImage, String WomenBackImage, string WomenSizeChartImage, string ColorId, string SizeId)
+        //{
+        //    SqlParameter[] param = new SqlParameter[15];
 
-            param[0] = new SqlParameter();
-            param[0].ParameterName = "@Category_Id";
-            param[0].SqlDbType = SqlDbType.Int;
-            param[0].Value = CategoryId;
-            param[0].Direction = ParameterDirection.Input;
+        //    param[0] = new SqlParameter();
+        //    param[0].ParameterName = "@Category_Id";
+        //    param[0].SqlDbType = SqlDbType.Int;
+        //    param[0].Value = CategoryId;
+        //    param[0].Direction = ParameterDirection.Input;
 
-            param[1] = new SqlParameter();
-            param[1].ParameterName = "@SubCategory_Id";
-            param[1].SqlDbType = SqlDbType.Int;
-            param[1].Value = SubCategory_Id;
-            param[1].Direction = ParameterDirection.Input;
+        //    param[1] = new SqlParameter();
+        //    param[1].ParameterName = "@SubCategory_Id";
+        //    param[1].SqlDbType = SqlDbType.Int;
+        //    param[1].Value = SubCategory_Id;
+        //    param[1].Direction = ParameterDirection.Input;
 
-            param[2] = new SqlParameter();
-            param[2].ParameterName = "@Product_Title";
-            param[2].SqlDbType = SqlDbType.VarChar;
-            param[2].Value = ProductName;
-            param[2].Direction = ParameterDirection.Input;
+        //    param[2] = new SqlParameter();
+        //    param[2].ParameterName = "@Product_Title";
+        //    param[2].SqlDbType = SqlDbType.VarChar;
+        //    param[2].Value = ProductName;
+        //    param[2].Direction = ParameterDirection.Input;
 
-            param[3] = new SqlParameter();
-            param[3].ParameterName = "@Product_Photo";
-            param[3].SqlDbType = SqlDbType.VarChar;
-            param[3].Value = MenFrontImage;
-            param[3].Direction = ParameterDirection.Input;
+        //    param[3] = new SqlParameter();
+        //    param[3].ParameterName = "@Product_Photo";
+        //    param[3].SqlDbType = SqlDbType.VarChar;
+        //    param[3].Value = MenFrontImage;
+        //    param[3].Direction = ParameterDirection.Input;
 
-            param[4] = new SqlParameter();
-            param[4].ParameterName = "@Product_SidePhoto";
-            param[4].SqlDbType = SqlDbType.VarChar;
-            param[4].Value = MenSidePhotoName;
-            param[4].Direction = ParameterDirection.Input;
+        //    param[4] = new SqlParameter();
+        //    param[4].ParameterName = "@Product_SidePhoto";
+        //    param[4].SqlDbType = SqlDbType.VarChar;
+        //    param[4].Value = MenSidePhotoName;
+        //    param[4].Direction = ParameterDirection.Input;
 
-            param[5] = new SqlParameter();
-            param[5].ParameterName = "@Product_BackPhoto";
-            param[5].SqlDbType = SqlDbType.VarChar;
-            param[5].Value = MenBackPhotoName;
-            param[5].Direction = ParameterDirection.Input;
+        //    param[5] = new SqlParameter();
+        //    param[5].ParameterName = "@Product_BackPhoto";
+        //    param[5].SqlDbType = SqlDbType.VarChar;
+        //    param[5].Value = MenBackPhotoName;
+        //    param[5].Direction = ParameterDirection.Input;
 
-            param[6] = new SqlParameter();
-            param[6].ParameterName = "@Description";
-            param[6].SqlDbType = SqlDbType.VarChar;
-            param[6].Value = Description;
-            param[6].Direction = ParameterDirection.Input;
+        //    param[6] = new SqlParameter();
+        //    param[6].ParameterName = "@Description";
+        //    param[6].SqlDbType = SqlDbType.VarChar;
+        //    param[6].Value = Description;
+        //    param[6].Direction = ParameterDirection.Input;
 
-            param[7] = new SqlParameter();
-            param[7].ParameterName = "@SizeChartForMen";
-            param[7].SqlDbType = SqlDbType.VarChar;
-            param[7].Value = MenSizeChartImage;
-            param[7].Direction = ParameterDirection.Input;
+        //    param[7] = new SqlParameter();
+        //    param[7].ParameterName = "@SizeChartForMen";
+        //    param[7].SqlDbType = SqlDbType.VarChar;
+        //    param[7].Value = MenSizeChartImage;
+        //    param[7].Direction = ParameterDirection.Input;
 
-            param[8] = new SqlParameter();
-            param[8].ParameterName = "@WomenProduct_Description";
-            param[8].SqlDbType = SqlDbType.VarChar;
-            param[8].Value = WomenDescription;
-            param[8].Direction = ParameterDirection.Input;
+        //    param[8] = new SqlParameter();
+        //    param[8].ParameterName = "@WomenProduct_Description";
+        //    param[8].SqlDbType = SqlDbType.VarChar;
+        //    param[8].Value = WomenDescription;
+        //    param[8].Direction = ParameterDirection.Input;
 
-            param[9] = new SqlParameter();
-            param[9].ParameterName = "@WomenProduct_Photo";
-            param[9].SqlDbType = SqlDbType.VarChar;
-            param[9].Value = WomenFrontImage;
-            param[9].Direction = ParameterDirection.Input;
+        //    param[9] = new SqlParameter();
+        //    param[9].ParameterName = "@WomenProduct_Photo";
+        //    param[9].SqlDbType = SqlDbType.VarChar;
+        //    param[9].Value = WomenFrontImage;
+        //    param[9].Direction = ParameterDirection.Input;
 
 
-            param[10] = new SqlParameter();
-            param[10].ParameterName = "@WomenProduct_SidePhoto";
-            param[10].SqlDbType = SqlDbType.VarChar;
-            param[10].Value = WomenSideImage;
-            param[10].Direction = ParameterDirection.Input;
+        //    param[10] = new SqlParameter();
+        //    param[10].ParameterName = "@WomenProduct_SidePhoto";
+        //    param[10].SqlDbType = SqlDbType.VarChar;
+        //    param[10].Value = WomenSideImage;
+        //    param[10].Direction = ParameterDirection.Input;
 
-            param[11] = new SqlParameter();
-            param[11].ParameterName = "@WomenProduct_BackPhoto";
-            param[11].SqlDbType = SqlDbType.VarChar;
-            param[11].Value = WomenBackImage;
-            param[11].Direction = ParameterDirection.Input;
+        //    param[11] = new SqlParameter();
+        //    param[11].ParameterName = "@WomenProduct_BackPhoto";
+        //    param[11].SqlDbType = SqlDbType.VarChar;
+        //    param[11].Value = WomenBackImage;
+        //    param[11].Direction = ParameterDirection.Input;
 
-            param[12] = new SqlParameter();
-            param[12].ParameterName = "@SizeChartForWomen";
-            param[12].SqlDbType = SqlDbType.VarChar;
-            param[12].Value = WomenSizeChartImage;
-            param[12].Direction = ParameterDirection.Input;
+        //    param[12] = new SqlParameter();
+        //    param[12].ParameterName = "@SizeChartForWomen";
+        //    param[12].SqlDbType = SqlDbType.VarChar;
+        //    param[12].Value = WomenSizeChartImage;
+        //    param[12].Direction = ParameterDirection.Input;
 
-            param[13] = new SqlParameter();
-            param[13].ParameterName = "@xmlcolor";
-            param[13].SqlDbType = SqlDbType.Xml;
-            param[13].Value = ColorId;
-            param[13].Direction = ParameterDirection.Input;
+        //    param[13] = new SqlParameter();
+        //    param[13].ParameterName = "@xmlcolor";
+        //    param[13].SqlDbType = SqlDbType.Xml;
+        //    param[13].Value = ColorId;
+        //    param[13].Direction = ParameterDirection.Input;
 
-            param[14] = new SqlParameter();
-            param[14].ParameterName = "@xmlsize";
-            param[14].SqlDbType = SqlDbType.Xml;
-            param[14].Value = SizeId;
-            param[14].Direction = ParameterDirection.Input;
+        //    param[14] = new SqlParameter();
+        //    param[14].ParameterName = "@xmlsize";
+        //    param[14].SqlDbType = SqlDbType.Xml;
+        //    param[14].Value = SizeId;
+        //    param[14].Direction = ParameterDirection.Input;
 
-            dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_InsertProducts", param);
-            return dt;
-        }
+        //    dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_InsertProducts", param);
+        //    return dt;
+        //}
 
 
         //public DataTable UpdateProduct(int Product_Id, int CategoryId, int SubCategory_Id, string ProductName, string Description, string Image_Name, string SidePhotoName, string BackPhotoName, string ColorId, string SizeId)
@@ -275,30 +275,249 @@ namespace VastraIndiaDAL
         //    return dt;
         //}
 
-        public DataTable UpdateProduct(int Product_Id, int CategoryId, int SubCategory_Id, string ProductName, string Description, string MenFrontImage, string MenSidePhotoName, string MenBackPhotoName, string MenSizeChartImage, String WomenDescription, string WomenFrontImage, String WomenSideImage, String WomenBackImage, string WomenSizeChartImage, string ColorId, string SizeId)
+        //public DataTable UpdateProduct(int Product_Id, int CategoryId, int SubCategory_Id, string ProductName, string Description, string MenFrontImage, string MenSidePhotoName, string MenBackPhotoName, string MenSizeChartImage, String WomenDescription, string WomenFrontImage, String WomenSideImage, String WomenBackImage, string WomenSizeChartImage, string ColorId, string SizeId)
+        //{
+        //    SqlParameter[] param = new SqlParameter[16];
+
+        //    param[0] = new SqlParameter();
+        //    param[0].ParameterName = "@Product_Id";
+        //    param[0].Value = Product_Id;
+        //    param[0].Direction = ParameterDirection.Input;
+
+        //    param[1] = new SqlParameter();
+        //    param[1].ParameterName = "@Category_Id";
+        //    param[1].Value = CategoryId;
+        //    param[1].Direction = ParameterDirection.Input;
+
+        //    param[2] = new SqlParameter();
+        //    param[2].ParameterName = "@SubCategory_Id";
+        //    param[2].SqlDbType = SqlDbType.Int;
+        //    param[2].Value = SubCategory_Id;
+        //    param[2].Direction = ParameterDirection.Input;
+
+
+        //    param[3] = new SqlParameter();
+        //    param[3].ParameterName = "@Product_Title";
+        //    param[3].Value = ProductName;
+        //    param[3].Direction = ParameterDirection.Input;
+
+        //    param[4] = new SqlParameter();
+        //    param[4].ParameterName = "@Description";
+        //    param[4].SqlDbType = SqlDbType.VarChar;
+        //    param[4].Value = Description;
+        //    param[4].Direction = ParameterDirection.Input;
+
+        //    param[5] = new SqlParameter();
+        //    param[5].ParameterName = "@Product_Photo";
+        //    param[5].SqlDbType = SqlDbType.VarChar;
+        //    param[5].Value = MenFrontImage;
+        //    param[5].Direction = ParameterDirection.Input;
+
+        //    param[6] = new SqlParameter();
+        //    param[6].ParameterName = "@Product_SidePhoto";
+        //    param[6].SqlDbType = SqlDbType.VarChar;
+        //    param[6].Value = MenSidePhotoName;
+        //    param[6].Direction = ParameterDirection.Input;
+
+        //    param[7] = new SqlParameter();
+        //    param[7].ParameterName = "@Product_BackPhoto";
+        //    param[7].SqlDbType = SqlDbType.VarChar;
+        //    param[7].Value = MenBackPhotoName;
+        //    param[7].Direction = ParameterDirection.Input;
+
+        //    param[8] = new SqlParameter();
+        //    param[8].ParameterName = "@SizeChartForMen";
+        //    param[8].SqlDbType = SqlDbType.VarChar;
+        //    param[8].Value = MenSizeChartImage;
+        //    param[8].Direction = ParameterDirection.Input;
+
+        //    param[9] = new SqlParameter();
+        //    param[9].ParameterName = "@WomenProduct_Description";
+        //    param[9].SqlDbType = SqlDbType.VarChar;
+        //    param[9].Value = WomenDescription;
+        //    param[9].Direction = ParameterDirection.Input;
+
+        //    param[10] = new SqlParameter();
+        //    param[10].ParameterName = "@WomenProduct_Photo";
+        //    param[10].SqlDbType = SqlDbType.VarChar;
+        //    param[10].Value = WomenFrontImage;
+        //    param[10].Direction = ParameterDirection.Input;
+
+
+        //    param[11] = new SqlParameter();
+        //    param[11].ParameterName = "@WomenProduct_SidePhoto";
+        //    param[11].SqlDbType = SqlDbType.VarChar;
+        //    param[11].Value = WomenSideImage;
+        //    param[11].Direction = ParameterDirection.Input;
+
+        //    param[12] = new SqlParameter();
+        //    param[12].ParameterName = "@WomenProduct_BackPhoto";
+        //    param[12].SqlDbType = SqlDbType.VarChar;
+        //    param[12].Value = WomenBackImage;
+        //    param[12].Direction = ParameterDirection.Input;
+
+        //    param[13] = new SqlParameter();
+        //    param[13].ParameterName = "@SizeChartForWomen";
+        //    param[13].SqlDbType = SqlDbType.VarChar;
+        //    param[13].Value = WomenSizeChartImage;
+        //    param[13].Direction = ParameterDirection.Input;
+
+
+        //    param[14] = new SqlParameter();
+        //    param[14].ParameterName = "@xmlcolor";
+        //    param[14].SqlDbType = SqlDbType.Xml;
+        //    param[14].Value = ColorId;
+        //    param[14].Direction = ParameterDirection.Input;
+
+        //    param[15] = new SqlParameter();
+        //    param[15].ParameterName = "@xmlsize";
+        //    param[15].SqlDbType = SqlDbType.Xml;
+        //    param[15].Value = SizeId;
+        //    param[15].Direction = ParameterDirection.Input;
+
+
+        //    dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_UpdateProducts", param);
+        //    return dt;
+        //}
+
+
+        public DataTable InsertProduct(int CategoryId, int SubCategory_Id, string ProductName, string Description, string MenFrontImage, /*string MenSidePhotoName, string MenBackPhotoName,*/ string MenSizeChartImage, String WomenDescription, string WomenFrontImage, /*String WomenSideImage, String WomenBackImage,*/ string WomenSizeChartImage, string ColorId, string SizeId, string Men_f_svgpath, string Women_f_svgpath)
         {
-            SqlParameter[] param = new SqlParameter[16];
+            SqlParameter[] param = new SqlParameter[13];
 
             param[0] = new SqlParameter();
-            param[0].ParameterName = "@Product_Id";
-            param[0].Value = Product_Id;
+            param[0].ParameterName = "@Category_Id";
+            param[0].SqlDbType = SqlDbType.Int;
+            param[0].Value = CategoryId;
             param[0].Direction = ParameterDirection.Input;
 
             param[1] = new SqlParameter();
-            param[1].ParameterName = "@Category_Id";
-            param[1].Value = CategoryId;
+            param[1].ParameterName = "@SubCategory_Id";
+            param[1].SqlDbType = SqlDbType.Int;
+            param[1].Value = SubCategory_Id;
             param[1].Direction = ParameterDirection.Input;
 
             param[2] = new SqlParameter();
-            param[2].ParameterName = "@SubCategory_Id";
-            param[2].SqlDbType = SqlDbType.Int;
-            param[2].Value = SubCategory_Id;
+            param[2].ParameterName = "@Product_Title";
+            param[2].SqlDbType = SqlDbType.VarChar;
+            param[2].Value = ProductName;
             param[2].Direction = ParameterDirection.Input;
 
+            param[3] = new SqlParameter();
+            param[3].ParameterName = "@Product_Photo";
+            param[3].SqlDbType = SqlDbType.VarChar;
+            param[3].Value = MenFrontImage;
+            param[3].Direction = ParameterDirection.Input;
+
+            param[4] = new SqlParameter();
+            param[4].ParameterName = "@xmlsize";
+            param[4].SqlDbType = SqlDbType.Xml;
+            param[4].Value = SizeId;
+            param[4].Direction = ParameterDirection.Input;
+
+            param[5] = new SqlParameter();
+            param[5].ParameterName = "@xmlcolor";
+            param[5].SqlDbType = SqlDbType.Xml;
+            param[5].Value = ColorId;
+            param[5].Direction = ParameterDirection.Input;
+
+            param[6] = new SqlParameter();
+            param[6].ParameterName = "@Description";
+            param[6].SqlDbType = SqlDbType.VarChar;
+            param[6].Value = Description;
+            param[6].Direction = ParameterDirection.Input;
+
+            param[7] = new SqlParameter();
+            param[7].ParameterName = "@SizeChartForMen";
+            param[7].SqlDbType = SqlDbType.VarChar;
+            param[7].Value = MenSizeChartImage;
+            param[7].Direction = ParameterDirection.Input;
+
+            param[8] = new SqlParameter();
+            param[8].ParameterName = "@WomenProduct_Description";
+            param[8].SqlDbType = SqlDbType.VarChar;
+            param[8].Value = WomenDescription;
+            param[8].Direction = ParameterDirection.Input;
+
+            param[9] = new SqlParameter();
+            param[9].ParameterName = "@WomenProduct_Photo";
+            param[9].SqlDbType = SqlDbType.VarChar;
+            param[9].Value = WomenFrontImage;
+            param[9].Direction = ParameterDirection.Input;
+
+
+            param[10] = new SqlParameter();
+            param[10].ParameterName = "@women_f_svgpath";
+            param[10].SqlDbType = SqlDbType.VarChar;
+            param[10].Value = Women_f_svgpath;
+            param[10].Direction = ParameterDirection.Input;
+
+            param[11] = new SqlParameter();
+            param[11].ParameterName = "@men_f_svgpath";
+            param[11].SqlDbType = SqlDbType.VarChar;
+            param[11].Value = Men_f_svgpath;
+            param[11].Direction = ParameterDirection.Input;
+
+            param[12] = new SqlParameter();
+            param[12].ParameterName = "@SizeChartForWomen";
+            param[12].SqlDbType = SqlDbType.VarChar;
+            param[12].Value = WomenSizeChartImage;
+            param[12].Direction = ParameterDirection.Input;
+
+            //param[13] = new SqlParameter();
+            //param[13].ParameterName = "@Product_BackPhoto";
+            //param[13].SqlDbType = SqlDbType.VarChar;
+            //param[13].Value =  MenBackPhotoName;
+            //param[13].Direction = ParameterDirection.Input;
+
+            //param[14] = new SqlParameter();
+            //param[14].ParameterName =  "@Product_SidePhoto";
+            //param[14].SqlDbType = SqlDbType.VarChar;
+            //param[14].Value =  MenSidePhotoName;
+            //param[14].Direction = ParameterDirection.Input;
+
+            //param[15] = new SqlParameter();
+            //param[15].ParameterName =  "@WomenProduct_BackPhoto";
+            //param[15].SqlDbType = SqlDbType.VarChar;
+            //param[15].Value = WomenBackImage;
+            //param[15].Direction = ParameterDirection.Input;
+
+            //param[16] = new SqlParameter();
+            //param[16].ParameterName = "@WomenProduct_SidePhoto";
+            //param[16].SqlDbType = SqlDbType.VarChar;
+            //param[16].Value = WomenSideImage;
+            //param[16].Direction = ParameterDirection.Input;
+
+            dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_InsertProducts", param);
+            return dt;
+        }
+
+        public DataTable InsertMultiProduct(int CategoryId, int SubCategory_Id, string ProductName, string Description, string NameWithid, string SizeId, string MenFrontPhoto, string MenSizeChartName, string WomenFrontPhoto, string WomenSizeChart)
+        {
+            SqlParameter[] param = new SqlParameter[10];
+
+            param[0] = new SqlParameter();
+            param[0].ParameterName = "@Category_Id";
+            param[0].SqlDbType = SqlDbType.Int;
+            param[0].Value = CategoryId;
+            param[0].Direction = ParameterDirection.Input;
+
+            param[1] = new SqlParameter();
+            param[1].ParameterName = "@SubCategory_Id";
+            param[1].SqlDbType = SqlDbType.Int;
+            param[1].Value = SubCategory_Id;
+            param[1].Direction = ParameterDirection.Input;
+
+            param[2] = new SqlParameter();
+            param[2].ParameterName = "@Product_Title";
+            param[2].SqlDbType = SqlDbType.VarChar;
+            param[2].Value = ProductName;
+            param[2].Direction = ParameterDirection.Input;
 
             param[3] = new SqlParameter();
-            param[3].ParameterName = "@Product_Title";
-            param[3].Value = ProductName;
+            param[3].ParameterName = "@xmlsize";
+            param[3].SqlDbType = SqlDbType.Xml;
+            param[3].Value = SizeId;
             param[3].Direction = ParameterDirection.Input;
 
             param[4] = new SqlParameter();
@@ -308,73 +527,135 @@ namespace VastraIndiaDAL
             param[4].Direction = ParameterDirection.Input;
 
             param[5] = new SqlParameter();
-            param[5].ParameterName = "@Product_Photo";
-            param[5].SqlDbType = SqlDbType.VarChar;
-            param[5].Value = MenFrontImage;
+            param[5].ParameterName = "@xmlImageName";
+            param[5].SqlDbType = SqlDbType.Xml;
+            param[5].Value = NameWithid;
             param[5].Direction = ParameterDirection.Input;
 
             param[6] = new SqlParameter();
-            param[6].ParameterName = "@Product_SidePhoto";
+            param[6].ParameterName = "@Product_Photo";
             param[6].SqlDbType = SqlDbType.VarChar;
-            param[6].Value = MenSidePhotoName;
+            param[6].Value = MenFrontPhoto;
             param[6].Direction = ParameterDirection.Input;
 
             param[7] = new SqlParameter();
-            param[7].ParameterName = "@Product_BackPhoto";
+            param[7].ParameterName = "@SizeChartForMen";
             param[7].SqlDbType = SqlDbType.VarChar;
-            param[7].Value = MenBackPhotoName;
+            param[7].Value = MenSizeChartName;
             param[7].Direction = ParameterDirection.Input;
 
             param[8] = new SqlParameter();
-            param[8].ParameterName = "@SizeChartForMen";
+            param[8].ParameterName = "@SizeChartForWomen";
             param[8].SqlDbType = SqlDbType.VarChar;
-            param[8].Value = MenSizeChartImage;
+            param[8].Value = WomenSizeChart;
             param[8].Direction = ParameterDirection.Input;
 
             param[9] = new SqlParameter();
-            param[9].ParameterName = "@WomenProduct_Description";
+            param[9].ParameterName = "@WomenProduct_Photo";
             param[9].SqlDbType = SqlDbType.VarChar;
-            param[9].Value = WomenDescription;
+            param[9].Value = WomenFrontPhoto;
             param[9].Direction = ParameterDirection.Input;
 
+
+
+            dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_InsertMultiProducts", param);
+            return dt;
+        }
+
+
+
+
+
+
+        public DataTable UpdateProduct(int Product_Id, int CategoryId, int SubCategory_Id, string ProductName, string Description, string MenFrontImage, /*string MenSidePhotoName, string MenBackPhotoName,*/ string MenSizeChartImage, String WomenDescription, string WomenFrontImage, /*String WomenSideImage, String WomenBackImage,*/ string WomenSizeChartImage, string ColorId, string SizeId, string Men_f_svgpath, string Women_f_svgpath)
+        {
+            SqlParameter[] param = new SqlParameter[14];
+
+
+
+            param[0] = new SqlParameter();
+            param[0].ParameterName = "@Category_Id";
+            param[0].SqlDbType = SqlDbType.Int;
+            param[0].Value = CategoryId;
+            param[0].Direction = ParameterDirection.Input;
+
+            param[1] = new SqlParameter();
+            param[1].ParameterName = "@SubCategory_Id";
+            param[1].SqlDbType = SqlDbType.Int;
+            param[1].Value = SubCategory_Id;
+            param[1].Direction = ParameterDirection.Input;
+
+            param[2] = new SqlParameter();
+            param[2].ParameterName = "@Product_Title";
+            param[2].SqlDbType = SqlDbType.VarChar;
+            param[2].Value = ProductName;
+            param[2].Direction = ParameterDirection.Input;
+
+            param[3] = new SqlParameter();
+            param[3].ParameterName = "@Product_Photo";
+            param[3].SqlDbType = SqlDbType.VarChar;
+            param[3].Value = MenFrontImage;
+            param[3].Direction = ParameterDirection.Input;
+
+            param[4] = new SqlParameter();
+            param[4].ParameterName = "@xmlsize";
+            param[4].SqlDbType = SqlDbType.Xml;
+            param[4].Value = SizeId;
+            param[4].Direction = ParameterDirection.Input;
+
+            param[5] = new SqlParameter();
+            param[5].ParameterName = "@xmlcolor";
+            param[5].SqlDbType = SqlDbType.Xml;
+            param[5].Value = ColorId;
+            param[5].Direction = ParameterDirection.Input;
+
+            param[6] = new SqlParameter();
+            param[6].ParameterName = "@Description";
+            param[6].SqlDbType = SqlDbType.VarChar;
+            param[6].Value = Description;
+            param[6].Direction = ParameterDirection.Input;
+
+            param[7] = new SqlParameter();
+            param[7].ParameterName = "@SizeChartForMen";
+            param[7].SqlDbType = SqlDbType.VarChar;
+            param[7].Value = MenSizeChartImage;
+            param[7].Direction = ParameterDirection.Input;
+
+            param[8] = new SqlParameter();
+            param[8].ParameterName = "@WomenProduct_Description";
+            param[8].SqlDbType = SqlDbType.VarChar;
+            param[8].Value = WomenDescription;
+            param[8].Direction = ParameterDirection.Input;
+
+            param[9] = new SqlParameter();
+            param[9].ParameterName = "@WomenProduct_Photo";
+            param[9].SqlDbType = SqlDbType.VarChar;
+            param[9].Value = WomenFrontImage;
+            param[9].Direction = ParameterDirection.Input;
+
+
             param[10] = new SqlParameter();
-            param[10].ParameterName = "@WomenProduct_Photo";
+            param[10].ParameterName = "@women_f_svgpath";
             param[10].SqlDbType = SqlDbType.VarChar;
-            param[10].Value = WomenFrontImage;
+            param[10].Value = Women_f_svgpath;
             param[10].Direction = ParameterDirection.Input;
 
-
             param[11] = new SqlParameter();
-            param[11].ParameterName = "@WomenProduct_SidePhoto";
+            param[11].ParameterName = "@men_f_svgpath";
             param[11].SqlDbType = SqlDbType.VarChar;
-            param[11].Value = WomenSideImage;
+            param[11].Value = Men_f_svgpath;
             param[11].Direction = ParameterDirection.Input;
 
             param[12] = new SqlParameter();
-            param[12].ParameterName = "@WomenProduct_BackPhoto";
+            param[12].ParameterName = "@SizeChartForWomen";
             param[12].SqlDbType = SqlDbType.VarChar;
-            param[12].Value = WomenBackImage;
+            param[12].Value = WomenSizeChartImage;
             param[12].Direction = ParameterDirection.Input;
 
             param[13] = new SqlParameter();
-            param[13].ParameterName = "@SizeChartForWomen";
-            param[13].SqlDbType = SqlDbType.VarChar;
-            param[13].Value = WomenSizeChartImage;
+            param[13].ParameterName = "@Product_Id";
+            param[13].Value = Product_Id;
             param[13].Direction = ParameterDirection.Input;
-
-
-            param[14] = new SqlParameter();
-            param[14].ParameterName = "@xmlcolor";
-            param[14].SqlDbType = SqlDbType.Xml;
-            param[14].Value = ColorId;
-            param[14].Direction = ParameterDirection.Input;
-
-            param[15] = new SqlParameter();
-            param[15].ParameterName = "@xmlsize";
-            param[15].SqlDbType = SqlDbType.Xml;
-            param[15].Value = SizeId;
-            param[15].Direction = ParameterDirection.Input;
-
 
             dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_UpdateProducts", param);
             return dt;

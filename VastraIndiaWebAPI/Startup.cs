@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,9 @@ namespace VastraindiaAPI
 {
     public class Startup
     {
+
+        
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -69,6 +74,17 @@ namespace VastraindiaAPI
             {
                 endpoints.MapControllers();
             });
+
+        //    app.UseStaticFiles(new StaticFileOptions
+        //    {
+        //        FileProvider = new PhysicalFileProvider(
+        //Path.Combine(Directory.GetCurrentDirectory(), "MyDirectory")),
+        //        RequestPath = "/MyDirectory"
+        //    });
+
+            // setup app's root folders
+            AppDomain.CurrentDomain.SetData("ContentRootPath", env.ContentRootPath);
+            AppDomain.CurrentDomain.SetData("WebRootPath", env.WebRootPath);
         }
     }
 }

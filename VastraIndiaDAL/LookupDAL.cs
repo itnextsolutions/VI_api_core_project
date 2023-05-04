@@ -226,6 +226,11 @@ namespace VastraIndiaDAL
             return dt;
         }
 
+        public DataTable GetTipping()
+        {
+            dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.Text, "SP_GetTipping");
+            return dt;
+        }
         public DataTable GetSize()
         {
             dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_GetSize");

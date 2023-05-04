@@ -171,6 +171,21 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
 
+        //[Route("api/Lookup/UpdateLookupDetails")]
+        ////  [HttpPut("{id}")]
+        //[HttpPut]
+        //public IActionResult Put([FromBody] LookupDetailsModel lookupDetail)
+        //{
+        //    if (lookupDetail.Lookup_Details_Id != 0)
+        //    {
+        //        ;
+        //        dt = lookup.UpdateLookupDetails(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.ColorName);
+        //        return new JsonResult("Updated Successfully");
+        //    }
+        //    return new JsonResult("LookupDetailId is not valid");
+
+        //}
+
         [Route("api/Lookup/UpdateLookupDetails")]
         //  [HttpPut("{id}")]
         [HttpPut]
@@ -178,13 +193,27 @@ namespace VastraIndiaWebAPI.Controllers
         {
             if (lookupDetail.Lookup_Details_Id != 0)
             {
-                ;
+                var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
+
+                var FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+
+                var TippingFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "tipping");
+
+                if (!Directory.Exists(TippingFolderName))
+                {
+                    //If Directory (Folder) does not exists. Create it.
+                    Directory.CreateDirectory(TippingFolderName);
+                }
                 dt = lookup.UpdateLookupDetails(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.ColorName);
+                var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, FileName, TippingFolderName);
+
                 return new JsonResult("Updated Successfully");
             }
             return new JsonResult("LookupDetailId is not valid");
 
         }
+
+
         // DELETE api/<LookupController>/5
         [HttpDelete("{id}")]
         [Route("api/Lookup/DeleteLookupDetails")]
@@ -219,6 +248,26 @@ namespace VastraIndiaWebAPI.Controllers
         public JsonResult GetColor()
         {
             dt = lookup.GetColor();
+            JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
+            Dictionary<string, object> childRow;
+            foreach (DataRow row in dt.Rows)
+            {
+                childRow = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    childRow.Add(col.ColumnName, row[col]);
+                }
+                parentRow.Add(childRow);
+            }
+            return new JsonResult(parentRow);
+        }
+
+        [HttpGet]
+        [Route("api/Lookup/GetTipping")]
+        public JsonResult GetTipping()
+        {
+            dt = lookup.GetTipping();
             JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
             List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
             Dictionary<string, object> childRow;

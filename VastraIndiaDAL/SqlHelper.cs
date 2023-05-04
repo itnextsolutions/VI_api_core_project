@@ -9,7 +9,7 @@ namespace VastraIndiaDAL
 {
     public class SqlHelper
     {
-        public static string sqlDataSource = "Data Source=208.91.198.59; Initial Catalog=VastraIndia_Test; User Id=Vastra; Password=Vastra@1234";
+        public static string sqlDataSource = "Data Source=DESKTOP-AQU9GKL;Initial Catalog=VastraIndia ; Integrated Security = True;";
 
         private Hashtable parmCache = Hashtable.Synchronized(new Hashtable());
         public SqlParameter[] cmdParameter;
@@ -314,6 +314,31 @@ namespace VastraIndiaDAL
             //    serializer.Serialize(strWritr, lToSerialize);
             //    return strWritr.ToString();
             //}
+        }
+
+        public string ListStrAryToXMLImage(object[] imageNameWithId, string parentnode, string childnode)
+        {
+
+
+            string[] propertyNames = { "Id", "MenName", "WomenName" };
+
+            StringBuilder xmlBuilder = new StringBuilder();
+
+            xmlBuilder.AppendFormat("<{0}>", parentnode);
+            foreach (var item in imageNameWithId)
+            {
+                xmlBuilder.AppendFormat("<{0}>", childnode);
+                foreach (string propertyName in propertyNames)
+                {
+                    var property = item.GetType().GetProperty(propertyName);
+                    var value = property.GetValue(item, null);
+                    xmlBuilder.AppendFormat("<{0}>{1}</{0}>", propertyName, value);
+                }
+                xmlBuilder.AppendFormat("</{0}>", childnode);
+            }
+            xmlBuilder.AppendFormat("</{0}>", parentnode);
+            string xml = xmlBuilder.ToString();
+            return xml;
         }
     }
 }

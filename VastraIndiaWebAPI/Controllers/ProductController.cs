@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Nancy.Json;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,26 @@ namespace VastraIndiaWebAPI.Controllers
     //[ApiController]
     public class ProductController : ControllerBase
     {
+
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public ProductController(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
+
+        string contentRootPath = "";
+        public ActionResult Index()
+        {
+            // application's base path
+             contentRootPath = _hostingEnvironment.ContentRootPath;
+
+            // application's publishing path
+            string webRootPath = _hostingEnvironment.WebRootPath;
+
+            return Content(webRootPath + "\n" + contentRootPath); ;
+        }
 
         DataTable dt = new DataTable();
         ProductDAL objProductDAL = new ProductDAL();
@@ -99,73 +120,77 @@ namespace VastraIndiaWebAPI.Controllers
 
 
 
+
+
         // POST api/<ProductController>
         [Route("api/Product/InsertProduct")]
         [HttpPost]
         public async Task<ActionResult> SaveProduct([FromForm] ProductModel product)
         {
-            
 
-            var MenSidephotoName = "";
-            var MenBackphotoName = "";
-            var MenSizeChartName = "";  
+
+
+            var MenFrontPhoto = "";
+            //var MenSidephotoName = "";
+            //var MenBackphotoName = "";
+            var MenSizeChartName = "";
             var WomenFrontPhoto = "";
-            var WomenSidePhoto = "";
-            var WomenBackPhoto = "";
+            //var WomenSidePhoto = "";
+            //var WomenBackPhoto = "";
             var WomenSizeChart = "";
 
-            var Ext = System.IO.Path.GetExtension(product.MenFrontImgFile.FileName);
 
-            var MenFrontPhoto = product.Product_Title + "MenFront" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
-
-            if (product.MenSideImgFile != null)
+            if (product.MenFrontImgFile != null)
             {
-                MenSidephotoName = product.Product_Title + "MenSide" +DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+                var Ext = System.IO.Path.GetExtension(product.MenFrontImgFile.FileName);
+
+                MenFrontPhoto = product.Product_Title + "MenFront" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
             }
 
-            if (product.MenBackImgFile != null)
-            {
-                MenBackphotoName = product.Product_Title + "MenBack" + Ext;
-            }
+
+            
 
             if (product.MenSizeChartImgFile != null)
             {
-                MenSizeChartName = product.Product_Title + "MenSizeChart" + Ext;
+                var Ext = System.IO.Path.GetExtension(product.MenSizeChartImgFile.FileName);
+
+                MenSizeChartName = product.Product_Title + "MenSizeChart" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
             }
 
             if (product.WomenFrontImgFile != null)
             {
-                WomenFrontPhoto = product.Product_Title + "WomenFront" + Ext;
+                var Ext = System.IO.Path.GetExtension(product.WomenFrontImgFile.FileName);
+
+                WomenFrontPhoto = product.Product_Title + "WomenFront" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
             }
 
-            if (product.WomenFrontImgFile != null)
-            {
-                WomenSidePhoto = product.Product_Title + "WomenSide" + Ext;
-            }
-
-            if (product.WomenFrontImgFile != null)
-            {
-                WomenBackPhoto = product.Product_Title + "WomenBack" + Ext;
-            }
+            
 
             if (product.WomenSizeChartImgFile != null)
             {
-                WomenSizeChart = product.Product_Title + "WomenSizeChart" + Ext;
+                var Ext = System.IO.Path.GetExtension(product.WomenSizeChartImgFile.FileName);
+
+                WomenSizeChart = product.Product_Title + "WomenSizeChart" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
             }
 
 
             dt = objProductDAL.GetProductCategoryById(product.Category_Id);
-            string CategoryName = (string)dt.Rows[0]["Category_Name"];
+            string categoryname = ((string)dt.Rows[0]["Category_Name"]).ToLower();
+
+            string CategoryName = categoryname.Replace(" ", "-");
 
             //  var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "Alpesh_VastraPro", "Vastra", "src", "assets", "img", CategoryName);
 
-            var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
+            //var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
 
-            if (!Directory.Exists(ProductFolderbyCategoryName))
-            {
-                //If Directory (Folder) does not exists. Create it.
-                Directory.CreateDirectory(ProductFolderbyCategoryName);
-            }
+            //if (!Directory.Exists(ProductFolderbyCategoryName))
+            //{
+            //    //If Directory (Folder) does not exists. Create it.
+            //    Directory.CreateDirectory(ProductFolderbyCategoryName);
+            //}
+
+
+            var docPath = MyServer.MapPath("App_Data/docs");
 
 
             string ColorId = product.ColorId;
@@ -178,115 +203,214 @@ namespace VastraIndiaWebAPI.Controllers
 
             string xmlcolor = objsqlHelper.ListStrAryToXML(ColorIdsInArray, "colors", "colorcode", "colorid");
             string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
-            dt = objProductDAL.InsertProduct(product.Category_Id, product.SubCategory_Id, product.Product_Title, product.Product_Description, MenFrontPhoto, MenSidephotoName, MenBackphotoName, MenSizeChartName,  product.WomenProduct_Description, WomenFrontPhoto, WomenSidePhoto, WomenBackPhoto, WomenSizeChart, xmlcolor, xmlsize);
+
+
+
+
+            dt = objProductDAL.InsertProduct(product.Category_Id, product.SubCategory_Id, product.Product_Title, product.Product_Description, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, product.WomenProduct_Description, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, xmlcolor, xmlsize, product.Men_f_svgpath, product.Women_f_svgpath);
 
             // var SaveImage = saveImage.SaveProductImagesAsync(product.formFile, product.file1, product.file2, FileName, SidephotoName, BackphotoName, ProductFolderbyCategoryName);
-            var SaveImage = saveImage.SaveProductImagesAsync(product.MenFrontImgFile, product.MenSideImgFile, product.MenBackImgFile, product.MenSizeChartImgFile, MenFrontPhoto, MenSidephotoName, MenBackphotoName, MenSizeChartName, product.WomenFrontImgFile, product.WomenSideImgFile, product.WomenBackImgFile, product.WomenSizeChartImgFile, WomenFrontPhoto, WomenSidePhoto, WomenBackPhoto, WomenSizeChart, ProductFolderbyCategoryName);
+            var SaveImage = saveImage.SaveProductImagesAsync(product.MenFrontImgFile, /*product.MenSideImgFile, product.MenBackImgFile,*/ product.MenSizeChartImgFile, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, product.WomenFrontImgFile, /*product.WomenSideImgFile, product.WomenBackImgFile,*/ product.WomenSizeChartImgFile, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, /*ProductFolderbyCategoryName*/ docPath);
             return new JsonResult("Added Successfully");
 
 
         }
+
+        [Route("api/Product/InsertMultiProduct")]
+        [HttpPost]
+        public async Task<ActionResult> SaveMultiProduct([FromForm] ProductModel product)
+        {
+
+            var MenFrontPhoto = "";
+            var MenSizeChartName = "";
+            var WomenFrontPhoto = "";
+            var WomenSizeChart = "";
+
+            var fileMenName = new List<string>();
+
+
+
+            //var ImageNameInArray = new string[product.MenFrontImgFiles.Length];
+
+            if (product.MenImgFiles.Length > 0)
+            {
+                foreach (var file in product.MenImgFiles)
+                {
+
+                    var Ext = System.IO.Path.GetExtension(file.FileName);
+
+                    var name = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
+
+
+                    var MenPhoto = name + DateTime.Now.ToString("-dd-MM-yyyy-HH") + Ext;
+
+                    //ImageNameInArray.Append(MenFrontPhoto);
+
+                    fileMenName.Add(MenPhoto);
+                }
+
+            }
+            string[] ImageMenNameInArray = fileMenName.ToArray();
+
+
+
+
+            var fileWomenName = new List<string>();
+
+
+
+            //var ImageNameInArray = new string[product.MenFrontImgFiles.Length];
+
+            if (product.WomenImgFiles.Length > 0)
+            {
+                foreach (var file in product.WomenImgFiles)
+                {
+
+                    var Ext = System.IO.Path.GetExtension(file.FileName);
+
+                    var name = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
+
+
+                    var WomenPhoto = name + DateTime.Now.ToString("-dd-MM-yyyy-HH") + Ext;
+
+                    //ImageNameInArray.Append(MenFrontPhoto);
+
+                    fileWomenName.Add(WomenPhoto);
+                }
+
+            }
+
+            string[] ImageWomenNameInArray = fileWomenName.ToArray();
+
+            string[] strArray = product.TipingId.Select(x => x.ToString()).ToArray();
+
+
+            var imageNameWithId = strArray.Zip(ImageMenNameInArray, (id, menImageName) => new { Id = id, MenName = menImageName })
+                       .Zip(ImageWomenNameInArray, (person, womenFileName) => new { person.Id, person.MenName, WomenName = womenFileName })
+                       .ToArray();
+
+
+
+
+            if (product.MenFrontImgFile != null)
+            {
+                var Ext = System.IO.Path.GetExtension(product.MenFrontImgFile.FileName);
+
+                MenFrontPhoto = product.Product_Title + "MenFront" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+            }
+
+            if (product.MenSizeChartImgFile != null)
+            {
+                var Ext = System.IO.Path.GetExtension(product.MenSizeChartImgFile.FileName);
+
+                MenSizeChartName = product.Product_Title + "MenSizeChart" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+            }
+
+            if (product.WomenFrontImgFile != null)
+            {
+                var Ext = System.IO.Path.GetExtension(product.WomenFrontImgFile.FileName);
+
+                WomenFrontPhoto = product.Product_Title + "WomenFront" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+            }
+
+            if (product.WomenSizeChartImgFile != null)
+            {
+                var Ext = System.IO.Path.GetExtension(product.WomenSizeChartImgFile.FileName);
+
+                WomenSizeChart = product.Product_Title + "WomenSizeChart" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+            }
+
+
+            dt = objProductDAL.GetProductCategoryById(product.Category_Id);
+            string categoryname = ((string)dt.Rows[0]["Category_Name"]).ToLower();
+
+            string CategoryName = categoryname.Replace(" ", "-");
+
+            var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
+
+
+
+            if (!Directory.Exists(ProductFolderbyCategoryName))
+            {
+                //If Directory (Folder) does not exists. Create it.
+                Directory.CreateDirectory(ProductFolderbyCategoryName);
+            }
+
+
+            string SizeId = product.SizeId;
+            List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
+            int[] SizeIdSInArray = SizeIdS.ToArray();
+
+            string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
+
+           
+            string xmlNameWithid = objsqlHelper.ListStrAryToXMLImage(imageNameWithId, "tippingDetail", "tippingid");
+
+
+            dt = objProductDAL.InsertMultiProduct(product.Category_Id, product.SubCategory_Id, product.Product_Title, product.Product_Description, xmlNameWithid, xmlsize, MenFrontPhoto, MenSizeChartName, WomenFrontPhoto, WomenSizeChart);
+
+            var SaveImage = saveImage.SaveMultiProductImagesAsync(product.MenImgFiles, product.WomenImgFiles, product.MenFrontImgFile, product.MenSizeChartImgFile, product.WomenFrontImgFile, product.WomenSizeChartImgFile, MenFrontPhoto, MenSizeChartName, WomenFrontPhoto, WomenSizeChart, ProductFolderbyCategoryName);
+
+            return new JsonResult("Added Successfully");
+
+
+        }
+
+
         // PUT api/<ProductController>/5
         [Route("api/Product/UpdateProduct")]
         //  [HttpPut("{id}")]
         [HttpPut]
         public async Task<ActionResult> UpdateProduct([FromForm] ProductModel product)
         {
-            //var SidephotoName = "";
-            //var BackphotoName = "";
-            //var Ext = System.IO.Path.GetExtension(product.Men_formFile.FileName);
 
-            //var FileName = product.Product_Title + "_" + "Front" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
-
-
-            //if (product.Men_file1 != null)
-            //{
-            //    SidephotoName = product.Product_Title + "_" + "Side" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
-            //}
-
-            //if (product.Men_file2 != null)
-            //{
-            //    BackphotoName = product.Product_Title + "_" + "Back" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
-            //}
-
-            //dt = objProductDAL.GetProductCategoryById(product.Category_Id);
-            //string CategoryName = (string)dt.Rows[0]["Category_Name"];
-
-
-
-            //var ProductFolderbyCategoryName = Path.Combine("C:", "Vishal", "Projects", "VastraIndiaProject", "Vastra", "src", "assets", "img", CategoryName);
-            //if (!Directory.Exists(ProductFolderbyCategoryName))
-            //{
-            //    //If Directory (Folder) does not exists. Create it.
-            //    Directory.CreateDirectory(ProductFolderbyCategoryName);
-            //}
-
-            //string ColorId = product.ColorId;
-            //List<int> ColorIds = ColorId.Split(',').Select(int.Parse).ToList();
-            //int[] ColorIdsInArray = ColorIds.ToArray();
-
-            //string SizeId = product.SizeId;
-            //List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
-            //int[] SizeIdSInArray = SizeIdS.ToArray();
-
-            //string xmlcolor = objsqlHelper.ListStrAryToXML(ColorIdsInArray, "colors", "colorcode", "colorid");
-            //string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
-
-            //dt = objProductDAL.UpdateProduct(product.Product_Id, (int)product.Category_Id, 4, product.Product_Title, product.Product_Description, FileName, SidephotoName, BackphotoName, xmlcolor, xmlsize);
-            //var SaveImage = saveImage.SaveProductImagesAsync(product.Men_formFile, product.Men_file1, product.Men_file2, FileName, SidephotoName, BackphotoName, ProductFolderbyCategoryName);
-            //return new JsonResult("Updated Successfully");
-
-            var MenSidephotoName = "";
-            var MenBackphotoName = "";
+            var MenFrontPhoto = "";
+            //var MenSidephotoName = "";
+            //var MenBackphotoName = "";
             var MenSizeChartName = "";
-            //var WomenDescription = "";
             var WomenFrontPhoto = "";
-            var WomenSidePhoto = "";
-            var WomenBackPhoto = "";
+            //var WomenSidePhoto = "";
+            //var WomenBackPhoto = "";
             var WomenSizeChart = "";
-            var Ext = System.IO.Path.GetExtension(product.MenFrontImgFile.FileName);
 
-            var MenFrontPhoto = product.Product_Title + "_" + "Front" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
-
-
-            if (product.MenSideImgFile != null)
+            if (product.MenFrontImgFile != null)
             {
-                MenSidephotoName = product.Product_Title + "_" + "Side" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+                var Ext = System.IO.Path.GetExtension(product.MenFrontImgFile.FileName);
+
+                MenFrontPhoto = product.Product_Title + "_" + "Front" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+
             }
 
-            if (product.MenBackImgFile != null)
-            {
-                MenBackphotoName = product.Product_Title + "_" + "Back" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
-            }
+           
 
             if (product.MenSizeChartImgFile != null)
             {
-                MenSizeChartName = product.Product_Title + "MenSizeChart" + Ext;
+                var Ext = System.IO.Path.GetExtension(product.MenSizeChartImgFile.FileName);
+
+                MenSizeChartName = product.Product_Title + "_" + "MenSizeChart" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
             }
 
             if (product.WomenFrontImgFile != null)
             {
-                WomenFrontPhoto = product.Product_Title + "WomenFront" + Ext;
+                var Ext = System.IO.Path.GetExtension(product.WomenFrontImgFile.FileName);
+
+                WomenFrontPhoto = product.Product_Title + "_" + "WomenFront" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
             }
 
-            if (product.WomenFrontImgFile != null)
-            {
-                WomenSidePhoto = product.Product_Title + "WomenSide" + Ext;
-            }
-
-            if (product.WomenFrontImgFile != null)
-            {
-                WomenBackPhoto = product.Product_Title + "WomenBack" + Ext;
-            }
+           
 
             if (product.WomenSizeChartImgFile != null)
             {
-                WomenSizeChart = product.Product_Title + "WomenSizeChart" + Ext;
+                var Ext = System.IO.Path.GetExtension(product.WomenSizeChartImgFile.FileName);
+
+                WomenSizeChart = product.Product_Title + "_" + "WomenSizeChart" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
             }
 
 
             dt = objProductDAL.GetProductCategoryById(product.Category_Id);
-            string CategoryName = (string)dt.Rows[0]["Category_Name"];
+            string categoryname = ((string)dt.Rows[0]["Category_Name"]).ToLower();
+
+            string CategoryName = categoryname.Replace(" ", "-");
 
             var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
 
@@ -308,8 +432,8 @@ namespace VastraIndiaWebAPI.Controllers
             string xmlcolor = objsqlHelper.ListStrAryToXML(ColorIdsInArray, "colors", "colorcode", "colorid");
             string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
 
-            dt = objProductDAL.UpdateProduct(product.Product_Id,product.Category_Id, product.SubCategory_Id,product.Product_Title, product.Product_Description, MenFrontPhoto, MenSidephotoName, MenBackphotoName, MenSizeChartName,product.WomenProduct_Description, WomenFrontPhoto, WomenSidePhoto, WomenBackPhoto, WomenSizeChart, xmlcolor, xmlsize);
-            var SaveImage = saveImage.SaveProductImagesAsync(product.MenFrontImgFile, product.MenSideImgFile, product.MenBackImgFile, product.MenSizeChartImgFile, MenFrontPhoto, MenSidephotoName, MenBackphotoName, MenSizeChartName, product.WomenFrontImgFile, product.WomenSideImgFile, product.WomenBackImgFile, product.WomenSizeChartImgFile, WomenFrontPhoto, WomenSidePhoto, WomenBackPhoto, WomenSizeChart, ProductFolderbyCategoryName);
+            dt = objProductDAL.UpdateProduct(product.Product_Id, product.Category_Id, product.SubCategory_Id, product.Product_Title, product.Product_Description, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, product.WomenProduct_Description, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, xmlcolor, xmlsize, product.Men_f_svgpath, product.Women_f_svgpath);
+            var SaveImage = saveImage.SaveProductImagesAsync(product.MenFrontImgFile,/* product.MenSideImgFile, product.MenBackImgFile,*/ product.MenSizeChartImgFile, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, product.WomenFrontImgFile, /*product.WomenSideImgFile, product.WomenBackImgFile,*/ product.WomenSizeChartImgFile, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, ProductFolderbyCategoryName);
             return new JsonResult("Updated Successfully");
 
         }

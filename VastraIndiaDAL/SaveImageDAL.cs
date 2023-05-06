@@ -100,6 +100,9 @@ namespace VastraIndiaDAL
                 var file = MenFrontImage;
 
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), FolderName);
+
+                //var pathToSave1 = Path.Combine(Directory.GetCurrentDirectory(), FolderName1);
+
                 if (file.Length > 0)
                 {
                     //var fileName = MenFrontImageFile;

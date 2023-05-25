@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
@@ -11,7 +12,7 @@ namespace VastraIndiaDAL
     {
         public static string sqlDataSource = "Data Source=DESKTOP-AQU9GKL;Initial Catalog=VastraIndia ; Integrated Security = True;";
 
-       
+        
 
         private Hashtable parmCache = Hashtable.Synchronized(new Hashtable());
         public SqlParameter[] cmdParameter;
@@ -342,5 +343,61 @@ namespace VastraIndiaDAL
             string xml = xmlBuilder.ToString();
             return xml;
         }
+        public string ListStrAryToXMLMen(IEnumerable<(string Id, string menFileName)> menarray, string v1, string v2)
+        {
+            string xmlstring = null;
+
+            StringBuilder objstringBuilder = new StringBuilder();
+            objstringBuilder.AppendFormat("<{0}>", v1);
+            foreach ((string id, string menFileName) in menarray)
+            {
+                //xmlBuilder.AppendLine("  <v2>");
+                objstringBuilder.Append("<" + v2 + ">");
+                objstringBuilder.Append("<Id>"+id+"</Id>");
+                objstringBuilder.Append("<Name>" +menFileName+ "</Name>");
+                objstringBuilder.Append("</" + v2 + ">");
+            }
+            objstringBuilder.AppendFormat("</{0}>", v1);
+            string xml = objstringBuilder.ToString();
+            return xml;
+        }
+
+        public string ListStrAryToXMLWomen(IEnumerable<(string Id, string womenFileName)> womenarray, string v1, string v2)
+        {
+            string xmlstring = null;
+
+            StringBuilder objstringBuilder = new StringBuilder();
+            objstringBuilder.AppendFormat("<{0}>", v1);
+            foreach ((string id, string womenFileName) in womenarray)
+            {
+                //xmlBuilder.AppendLine("  <v2>");
+                objstringBuilder.Append("<" + v2 + ">");
+                objstringBuilder.Append("<Id>" + id + "</Id>");
+                objstringBuilder.Append("<Name>" + womenFileName + "</Name>");
+                objstringBuilder.Append("</" + v2 + ">");
+            }
+            objstringBuilder.AppendFormat("</{0}>", v1);
+            string xml = objstringBuilder.ToString();
+            return xml;
+            //string xmlstring = null;
+
+            //StringBuilder objstringBuilder = new StringBuilder();
+            //objstringBuilder.AppendFormat("<{0}>", v1);
+            //foreach ((string id, string womenFileName) in womenarray)
+            //{
+            //    //xmlBuilder.AppendLine("  <v2>");
+            //    objstringBuilder.Append("<" + v2 + ">");
+            //    objstringBuilder.AppendLine($"    <Id>{id}</Id>");
+            //    objstringBuilder.AppendLine($"    <Name>{womenFileName}</Name>");
+            //    objstringBuilder.Append("</" + v2 + ">");
+            //}
+            //objstringBuilder.AppendFormat("<{0}>", v1);
+            //string xml = objstringBuilder.ToString();
+            //return xml;
+        }
+
+
     }
+
+    
 }

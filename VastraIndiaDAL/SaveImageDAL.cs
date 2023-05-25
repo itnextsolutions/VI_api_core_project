@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 
@@ -8,6 +10,33 @@ namespace VastraIndiaDAL
 {
     public class SaveImageDAL
     {
+
+
+        ////private readonly HttpClient _httpClient;
+
+        //public SaveImageDAL(HttpClient httpClient)
+        //{
+        //    _httpClient = httpClient;
+        //}
+
+        //public async Task<string> SaveImageAsync(Stream stream, string fileName)
+        //{
+        //    string apiUrl = "https://vastra.com/api/images";
+        //    string domainFolder = "image";
+        //    string filePath = $"{domainFolder}/{fileName}";
+
+        //    using (var content = new MultipartFormDataContent())
+        //    {
+        //        var fileContent = new StreamContent(stream);
+        //        content.Add(fileContent, "image", fileName);
+
+        //        var response = await _httpClient.PostAsync(apiUrl, content);
+        //        response.EnsureSuccessStatusCode();
+
+        //        return filePath;
+        //    }
+        //}
+
 
         public async Task SaveImagesAsync(IFormFile formFile, string FileName, string FolderName)
         {
@@ -17,7 +46,7 @@ namespace VastraIndiaDAL
                 var file = formFile;
 
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), FolderName);
-                if (file.Length > 0)
+                if (file != null)
                 {
                     var fileName = FileName;
                     //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
@@ -44,7 +73,7 @@ namespace VastraIndiaDAL
                 var file = formFile;
 
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), FolderName);
-                if (file.Length > 0)
+                if (file != null)
                 {
                     var fileName = FileName;
                     //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
@@ -58,7 +87,7 @@ namespace VastraIndiaDAL
 
                 var file1 = File1;
 
-                if (file1.Length > 0)
+                if (file1 != null)
                 {
                     //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var fullPath = Path.Combine(pathToSave, SidephotoName);
@@ -72,7 +101,7 @@ namespace VastraIndiaDAL
 
                 var file2 = File2;
 
-                if (file2.Length > 0)
+                if (file2 != null)
                 {
                     //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var fullPath = Path.Combine(pathToSave, BackphotoName);
@@ -90,29 +119,72 @@ namespace VastraIndiaDAL
             }
         }
 
-       
-
-        public async Task SaveProductImagesAsync(IFormFile MenFrontImage, /*IFormFile MenSideImage, IFormFile MenBackImage,*/ IFormFile MenSizeChartImage, string MenFrontImageFile, /*string MenSideImageFile, string MenBackImageFile,*/ string MenSizeChartImageFile, IFormFile WomenFrontImage, /*IFormFile WomenSideImage, IFormFile WomenBackImage,*/ IFormFile WomenSizeChartImage, string WomenFrontImageFile, /*string WomenSideImageFile, string WomenBakImageFile,*/ string WomenSizeChartImageFile, string FolderName)
+        public async Task SaveSizeChartImageAsync(IFormFile formFile, IFormFile File1,  string Mensizechartr, string Womensizechart,string FolderName)
         {
             try
             {
                 //var formCollection = await Request.ReadFormAsync();
-                var file = MenFrontImage;
+                var file = formFile;
 
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), FolderName);
-
-                //var pathToSave1 = Path.Combine(Directory.GetCurrentDirectory(), FolderName1);
-
-                if (file.Length > 0)
+                if (file != null)
                 {
-                    //var fileName = MenFrontImageFile;
+                    var fileName = Mensizechartr;
                     //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(pathToSave, MenFrontImageFile);
-                    var dbPath = Path.Combine(FolderName, MenFrontImageFile);
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(FolderName, fileName);
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
                         file.CopyTo(stream);
                     }
+                }
+
+                var file1 = File1;
+
+                if (file1 != null)
+                {
+                    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, Womensizechart);
+                    var dbPath = Path.Combine(FolderName, Womensizechart);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file1.CopyTo(stream);
+                    }
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+
+        public async Task SaveProductImageAsync(IFormFile MenFrontImage, /*IFormFile MenSideImage, IFormFile MenBackImage,*/ /*IFormFile MenSizeChartImage,*/ string MenFrontImageFile, /*string MenSideImageFile, string MenBackImageFile,*/ /*string MenSizeChartImageFile,*/ IFormFile WomenFrontImage, /*IFormFile WomenSideImage, IFormFile WomenBackImage,*/ /*IFormFile WomenSizeChartImage,*/ string WomenFrontImageFile, /*string WomenSideImageFile, string WomenBakImageFile,*/ /*string WomenSizeChartImageFile,*/ string FolderName)
+        {
+            try
+            {
+
+               
+                //var formCollection = await Request.ReadFormAsync();
+                var file = MenFrontImage;
+
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), FolderName);
+              
+                //var pathToSave1 = Path.Combine(Directory.GetCurrentDirectory(), FolderName1);
+
+                if (file != null)
+                {
+                    //var fileName = MenFrontImageFile;
+                    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, MenFrontImageFile);
+                    var dbPath1 = Path.Combine(FolderName, MenFrontImageFile);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                   
                 }
 
                 //var file1 = MenSideImage;
@@ -142,22 +214,22 @@ namespace VastraIndiaDAL
                 //    }
                 //}
 
-                var file3 = MenSizeChartImage;
+                //var file3 = MenSizeChartImage;
 
-                if (file3.Length > 0)
-                {
-                    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(pathToSave, MenSizeChartImageFile);
-                    var dbPath = Path.Combine(FolderName, MenSizeChartImageFile);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file3.CopyTo(stream);
-                    }
-                }
+                //if (file3.Length > 0)
+                //{
+                //    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                //    var fullPath = Path.Combine(pathToSave, MenSizeChartImageFile);
+                //    var dbPath = Path.Combine(FolderName, MenSizeChartImageFile);
+                //    using (var stream = new FileStream(fullPath, FileMode.Create))
+                //    {
+                //        file3.CopyTo(stream);
+                //    }
+                //}
 
                 var file4 = WomenFrontImage;
 
-                if (file4.Length > 0)
+                if (file4 != null)
                 {
                     //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var fullPath = Path.Combine(pathToSave, WomenFrontImageFile);
@@ -195,18 +267,19 @@ namespace VastraIndiaDAL
                 //    }
                 //}
 
-                var file7 = WomenSizeChartImage;
+                //var file7 = WomenSizeChartImage;
 
-                if (file7.Length > 0)
-                {
-                    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(pathToSave, WomenSizeChartImageFile);
-                    var dbPath = Path.Combine(FolderName, WomenSizeChartImageFile);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file7.CopyTo(stream);
-                    }
-                }
+                //if (file7.Length > 0)
+                //{
+                //    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                //    var fullPath = Path.Combine(pathToSave, WomenSizeChartImageFile);
+                //    var dbPath = Path.Combine(FolderName, WomenSizeChartImageFile);
+                //    using (var stream = new FileStream(fullPath, FileMode.Create))
+                //    {
+                //        file7.CopyTo(stream);
+                //    }
+                //}
+               
             }
 
             catch (Exception ex)
@@ -215,7 +288,7 @@ namespace VastraIndiaDAL
             }
         }
 
-        public async Task SaveMultiProductImagesAsync(IFormFile[] MenImages, IFormFile[] WomenImages, IFormFile MenFrontImage, IFormFile MenSizeChartImage, IFormFile WomenFrontImage, IFormFile WomenSizeChartImage, string MenFrontImageFile, string MenSizeChartImageFile, string WomenFrontImageFile, string WomenSizeChartImageFile, string FolderName)
+        public async Task SaveMultiProductImagesAsync(IFormFile[] MenImages, IFormFile[] WomenImages, IFormFile MenFrontImage, /*IFormFile MenSizeChartImage,*/ IFormFile WomenFrontImage, /*IFormFile WomenSizeChartImage,*/ string MenFrontImageFile, /*string MenSizeChartImageFile,*/ string WomenFrontImageFile,/* string WomenSizeChartImageFile,*/ string FolderName)
         {
             try
             {
@@ -226,7 +299,8 @@ namespace VastraIndiaDAL
 
                 var files = MenImages;
 
-                if (files.Length > 0)
+                //if (files.Length > 0)
+                if (files!=null)
                 {
 
 
@@ -258,7 +332,8 @@ namespace VastraIndiaDAL
 
                 var Womenfiles = WomenImages;
 
-                if (Womenfiles.Length > 0)
+                //if (Womenfiles.Length > 0)
+                if (Womenfiles != null)
                 {
 
 
@@ -291,7 +366,7 @@ namespace VastraIndiaDAL
                 var file1 = MenFrontImage;
 
 
-                if (file1.Length > 0)
+                if (file1 != null)
                 {
                     //var fileName = MenFrontImageFile;
                     //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
@@ -303,23 +378,23 @@ namespace VastraIndiaDAL
                     }
                 }
 
-                var file2 = MenSizeChartImage;
+                //var file2 = MenSizeChartImage;
 
-                if (file2.Length > 0)
-                {
-                    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(pathToSave, MenSizeChartImageFile);
-                    var dbPath = Path.Combine(FolderName, MenSizeChartImageFile);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file2.CopyTo(stream);
-                    }
-                }
+                //if (file2.Length > 0)
+                //{
+                //    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                //    var fullPath = Path.Combine(pathToSave, MenSizeChartImageFile);
+                //    var dbPath = Path.Combine(FolderName, MenSizeChartImageFile);
+                //    using (var stream = new FileStream(fullPath, FileMode.Create))
+                //    {
+                //        file2.CopyTo(stream);
+                //    }
+                //}
 
 
                 var file3 = WomenFrontImage;
 
-                if (file3.Length > 0)
+                if (file3 != null)
                 {
                     //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var fullPath = Path.Combine(pathToSave, WomenFrontImageFile);
@@ -330,18 +405,18 @@ namespace VastraIndiaDAL
                     }
                 }
 
-                var file4 = WomenSizeChartImage;
+                //var file4 = WomenSizeChartImage;
 
-                if (file4.Length > 0)
-                {
-                    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(pathToSave, WomenSizeChartImageFile);
-                    var dbPath = Path.Combine(FolderName, WomenSizeChartImageFile);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file4.CopyTo(stream);
-                    }
-                }
+                //if (file4.Length > 0)
+                //{
+                //    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                //    var fullPath = Path.Combine(pathToSave, WomenSizeChartImageFile);
+                //    var dbPath = Path.Combine(FolderName, WomenSizeChartImageFile);
+                //    using (var stream = new FileStream(fullPath, FileMode.Create))
+                //    {
+                //        file4.CopyTo(stream);
+                //    }
+                //}
             }
 
             catch (Exception ex)

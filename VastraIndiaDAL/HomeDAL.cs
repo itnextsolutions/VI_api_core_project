@@ -69,6 +69,20 @@ namespace VastraIndiaDAL
             return dt;
         }
 
+
+        public DataTable GetTippingWomenListByProductId(int id)
+        {
+            SqlParameter[] param = new SqlParameter[1];
+
+            param[0] = new SqlParameter();
+            param[0].ParameterName = "@Product_Id";
+            param[0].Value = id;
+            param[0].Direction = ParameterDirection.Input;
+
+            dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "[SP_GetTippingWomenListByProductId]", param);
+            return dt;
+        }
+
         public DataTable GetAllProductCategory(int IsBrand)
         {
             SqlParameter[] param = new SqlParameter[1];

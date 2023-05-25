@@ -381,9 +381,9 @@ namespace VastraIndiaDAL
         //}
 
 
-        public DataTable InsertProduct(int CategoryId, int SubCategory_Id, string ProductName, string Description, string MenFrontImage, /*string MenSidePhotoName, string MenBackPhotoName,*/ string MenSizeChartImage, String WomenDescription, string WomenFrontImage, /*String WomenSideImage, String WomenBackImage,*/ string WomenSizeChartImage, string ColorId, string SizeId, string Men_f_svgpath, string Women_f_svgpath)
+        public DataTable InsertProduct(int CategoryId, int SubCategory_Id, string ProductName, string Description, string MenFrontImage, /*string MenSidePhotoName, string MenBackPhotoName,*/ string MenSizeChartImage, String WomenDescription, string WomenFrontImage, /*String WomenSideImage, String WomenBackImage,*/ string WomenSizeChartImage, string ColorId, string SizeId, string Men_f_svgpath, string Women_f_svgpath,string ProductFolderbyCategoryName)
         {
-            SqlParameter[] param = new SqlParameter[13];
+            SqlParameter[] param = new SqlParameter[14];
 
             param[0] = new SqlParameter();
             param[0].ParameterName = "@Category_Id";
@@ -464,11 +464,11 @@ namespace VastraIndiaDAL
             param[12].Value = WomenSizeChartImage;
             param[12].Direction = ParameterDirection.Input;
 
-            //param[13] = new SqlParameter();
-            //param[13].ParameterName = "@Product_BackPhoto";
-            //param[13].SqlDbType = SqlDbType.VarChar;
-            //param[13].Value =  MenBackPhotoName;
-            //param[13].Direction = ParameterDirection.Input;
+            param[13] = new SqlParameter();
+            param[13].ParameterName = "@Product_BackPhoto";
+            param[13].SqlDbType = SqlDbType.VarChar;
+            param[13].Value = ProductFolderbyCategoryName;
+            param[13].Direction = ParameterDirection.Input;
 
             //param[14] = new SqlParameter();
             //param[14].ParameterName =  "@Product_SidePhoto";
@@ -492,9 +492,9 @@ namespace VastraIndiaDAL
             return dt;
         }
 
-        public DataTable InsertMultiProduct(int CategoryId, int SubCategory_Id, string ProductName, string Description, string NameWithid, string SizeId, string MenFrontPhoto, string MenSizeChartName, string WomenFrontPhoto, string WomenSizeChart)
+        public DataTable InsertMultiProduct(int CategoryId, int SubCategory_Id, string ProductName, string Description, string NameWithid, string xmlwomenWithid, string SizeId, string MenFrontPhoto, string MenSizeChartName, string WomenFrontPhoto, string WomenSizeChart)
         {
-            SqlParameter[] param = new SqlParameter[10];
+            SqlParameter[] param = new SqlParameter[11];
 
             param[0] = new SqlParameter();
             param[0].ParameterName = "@Category_Id";
@@ -556,7 +556,11 @@ namespace VastraIndiaDAL
             param[9].Value = WomenFrontPhoto;
             param[9].Direction = ParameterDirection.Input;
 
-
+            param[10] = new SqlParameter();
+            param[10].ParameterName = "@xmlwomenWithid";
+            param[10].SqlDbType = SqlDbType.Xml;
+            param[10].Value = xmlwomenWithid;
+            param[10].Direction = ParameterDirection.Input;
 
             dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_InsertMultiProducts", param);
             return dt;
@@ -693,9 +697,9 @@ namespace VastraIndiaDAL
             return dt;
         }
 
-        public DataTable InsertCategory(string Category_Name, string Category_Photo, string Category_Description)
+        public DataTable InsertCategory(string Category_Name, string Category_Photo, string Category_Description,int IsBrand)
         {
-            SqlParameter[] param = new SqlParameter[3];
+            SqlParameter[] param = new SqlParameter[4];
 
             param[0] = new SqlParameter();
             param[0].ParameterName = "@Category_Name";
@@ -713,13 +717,18 @@ namespace VastraIndiaDAL
             param[2].Value = Category_Photo;
             param[2].Direction = ParameterDirection.Input;
 
+            param[3] = new SqlParameter();
+            param[3].ParameterName = "@IsBrand";
+            param[3].Value = IsBrand;
+            param[3].Direction = ParameterDirection.Input;
+
             dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_InsertProductCategory", param);
             return dt;
         }
 
-        public DataTable UpdateCategory(int CategoryId, string Category_Name, string CategoryPhoto, string Category_Description)
+        public DataTable UpdateCategory(int CategoryId, string Category_Name, string CategoryPhoto, string Category_Description,int IsBrand)
         {
-            SqlParameter[] param = new SqlParameter[4];
+            SqlParameter[] param = new SqlParameter[5];
             param[0] = new SqlParameter();
             param[0].ParameterName = "@Category_Id";
             param[0].Value = CategoryId;
@@ -740,6 +749,11 @@ namespace VastraIndiaDAL
             param[3].ParameterName = "@Category_Photo";
             param[3].Value = CategoryPhoto;
             param[3].Direction = ParameterDirection.Input;
+
+            param[4] = new SqlParameter();
+            param[4].ParameterName = "@IsBrand";
+            param[4].Value = IsBrand;
+            param[4].Direction = ParameterDirection.Input;
 
             dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_UpdateProductCategory", param);
             return dt;

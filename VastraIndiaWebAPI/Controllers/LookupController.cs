@@ -71,11 +71,21 @@ namespace VastraIndiaWebAPI.Controllers
         {
             if (lookupDetail.Lookup_Id == 3)
             {
-                var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
+                var FileName = "";
+                if (lookupDetail.formFile!=null)
+                {
+                    var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
 
-                var FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+                    FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+                }
+                //var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
 
-                var TippingFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "tipping");
+                //var FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+
+                //var TippingFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "tipping");
+
+                string docPath = MyServer.MapPath("Vastra");
+                var TippingFolderName = Path.Combine(docPath, "assets", "img", "tipping");
 
                 if (!Directory.Exists(TippingFolderName))
                 {
@@ -189,28 +199,49 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/Lookup/UpdateLookupDetails")]
         //  [HttpPut("{id}")]
         [HttpPut]
-        public IActionResult Put([FromBody] LookupDetailsModel lookupDetail)
+        public IActionResult Put([FromForm] LookupDetailsModel lookupDetail)
         {
             if (lookupDetail.Lookup_Details_Id != 0)
             {
-                var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
-
-                var FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
-
-                var TippingFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "tipping");
-
-                if (!Directory.Exists(TippingFolderName))
+                if (lookupDetail.Lookup_Id == 3)
                 {
-                    //If Directory (Folder) does not exists. Create it.
-                    Directory.CreateDirectory(TippingFolderName);
+
+                    var FileName = "";
+                    if (lookupDetail.formFile != null)
+                    {
+                        var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
+
+                        FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+                    }
+                    //var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
+
+                    //var FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+
+                    //var TippingFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "tipping");
+
+                    string docPath = MyServer.MapPath("Vastra");
+                    var TippingFolderName = Path.Combine(docPath, "assets", "img", "tipping");
+
+                    if (!Directory.Exists(TippingFolderName))
+                    {
+                        //If Directory (Folder) does not exists. Create it.
+                        Directory.CreateDirectory(TippingFolderName);
+                    }
+
+                    dt = lookup.UpdateLookupDetail(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, FileName);
+                    //dt = lookup.UpdateLookupDetails(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.ColorName);
+                    var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, FileName, TippingFolderName);
+
+                    return new JsonResult("Updated Successfully");
                 }
-                dt = lookup.UpdateLookupDetails(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.ColorName);
-                var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, FileName, TippingFolderName);
-
-                return new JsonResult("Updated Successfully");
+                else
+                {
+                    dt = lookup.UpdateLookupDetails(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.ColorName);
+                    return new JsonResult("Updated Successfully");
+                }
             }
-            return new JsonResult("LookupDetailId is not valid");
-
+                return new JsonResult("LookupDetailId is not valid");
+            
         }
 
 

@@ -14,12 +14,6 @@ namespace VastraIndiaWebAPI.Controllers
 
         DataTable dt = new DataTable();
         LoginDAL objLogin = new LoginDAL();
-        [HttpGet]
-        [Route("api/Login/getname")]
-        public string getname()
-        {
-            return "Vishal Kondhalkar";
-        }
 
         // GET: api/<LoginController>
         [HttpGet]

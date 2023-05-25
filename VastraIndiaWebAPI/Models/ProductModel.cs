@@ -48,6 +48,8 @@ namespace VastraIndiaWebAPI.Models
 
         public int[] TipingId { get; set; }
 
+        public int[] TipingWomenId { get; set; }
+
         public string Product_Title { get; set; }
 
         public string Product_Description { get; set; }

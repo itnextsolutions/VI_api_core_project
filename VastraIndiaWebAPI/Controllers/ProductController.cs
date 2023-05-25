@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VastraIndiaDAL;
 using VastraIndiaWebAPI.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,24 +22,43 @@ namespace VastraIndiaWebAPI.Controllers
     public class ProductController : ControllerBase
     {
 
-        private readonly IHostingEnvironment _hostingEnvironment;
+        //private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ProductController(IHostingEnvironment hostingEnvironment)
+        //public ProductController(IHostingEnvironment hostingEnvironment)
+        //{
+        //    _hostingEnvironment = hostingEnvironment;
+        //}
+
+
+
+        //public ActionResult Index()
+        //{
+        //    // application's base path
+        //    string contentRootPath1 = _hostingEnvironment.ContentRootPath;
+
+        //    // application's publishing path
+        //    string webRootPath1 = _hostingEnvironment.WebRootPath;
+
+        //    return Content(webRootPath1 + "\n" + contentRootPath1); ;
+        //}
+
+
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public ProductController(IWebHostEnvironment webHostEnvironment)
         {
-            _hostingEnvironment = hostingEnvironment;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-
-        string contentRootPath = "";
-        public ActionResult Index()
+        public IActionResult Index1()
         {
-            // application's base path
-             contentRootPath = _hostingEnvironment.ContentRootPath;
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            string contentRootPath = _webHostEnvironment.ContentRootPath;
 
-            // application's publishing path
-            string webRootPath = _hostingEnvironment.WebRootPath;
-
-            return Content(webRootPath + "\n" + contentRootPath); ;
+            string path = "";
+           string path1 = Path.Combine(webRootPath, "CSS");
+            path = Path.Combine(contentRootPath, "wwwroot", "CSS");
+            return new JsonResult(path);
         }
 
         DataTable dt = new DataTable();
@@ -127,9 +147,6 @@ namespace VastraIndiaWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveProduct([FromForm] ProductModel product)
         {
-
-
-
             var MenFrontPhoto = "";
             //var MenSidephotoName = "";
             //var MenBackphotoName = "";
@@ -173,46 +190,131 @@ namespace VastraIndiaWebAPI.Controllers
                 WomenSizeChart = product.Product_Title + "WomenSizeChart" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
             }
 
+            string Description = "";
+            if (product.Product_Description != null)
+            {
+                Description = product.Product_Description;
+            }
+
+            string WomenDescription = "";
+            if (product.WomenProduct_Description != null)
+            {
+                WomenDescription = product.Product_Description;
+            }
+
+            string men_f_svgpath = "";
+            if (product.Men_f_svgpath != null)
+            {
+                men_f_svgpath = product.Men_f_svgpath;
+            }
+
+            string women_f_svgpath = "";
+            if (product.Women_f_svgpath != null)
+            {
+                women_f_svgpath = product.Men_f_svgpath;
+            }
 
             dt = objProductDAL.GetProductCategoryById(product.Category_Id);
             string categoryname = ((string)dt.Rows[0]["Category_Name"]).ToLower();
 
             string CategoryName = categoryname.Replace(" ", "-");
 
-            //  var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "Alpesh_VastraPro", "Vastra", "src", "assets", "img", CategoryName);
+
 
             //var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
 
-            //if (!Directory.Exists(ProductFolderbyCategoryName))
-            //{
-            //    //If Directory (Folder) does not exists. Create it.
-            //    Directory.CreateDirectory(ProductFolderbyCategoryName);
-            //}
+
+            //string contentRootPath = _webHostEnvironment.ContentRootPath;
+
+            //var ProductFolderbyCategoryName = Path.Combine(contentRootPath, "Vastra", CategoryName);
 
 
-            var docPath = MyServer.MapPath("App_Data/docs");
+            //string contentRootPath = "https://test.vastraindia.com";
 
-
-            string ColorId = product.ColorId;
-            List<int> ColorIds = ColorId.Split(',').Select(int.Parse).ToList();
-            int[] ColorIdsInArray = ColorIds.ToArray();
-
-            string SizeId = product.SizeId;
-            List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
-            int[] SizeIdSInArray = SizeIdS.ToArray();
-
-            string xmlcolor = objsqlHelper.ListStrAryToXML(ColorIdsInArray, "colors", "colorcode", "colorid");
-            string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
+            //var ProductFolderbyCategoryName = Path.Combine("https://test.vastraindia.com/Vastra/assets/img", CategoryName);
 
 
 
+            //string webRootPath = _webHostEnvironment.WebRootPath;
 
-            dt = objProductDAL.InsertProduct(product.Category_Id, product.SubCategory_Id, product.Product_Title, product.Product_Description, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, product.WomenProduct_Description, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, xmlcolor, xmlsize, product.Men_f_svgpath, product.Women_f_svgpath);
+            //var ProductFolderbyCategoryName = Path.Combine(webRootPath, "vastratest", "Vastra", CategoryName);
+
+
+            //string contentRootPath1 = _hostingEnvironment.ContentRootPath;
+            //var ProductFolderbyCategoryName = Path.Combine(contentRootPath1, "vastra", "image", CategoryName);
+
+
+            //string webRootPath1 = _hostingEnvironment.WebRootPath;
+            //var ProductFolderbyCategoryName3 = Path.Combine(webRootPath1, "vastra", "image", CategoryName);
+
+            //var docPath = MyServer.MapPath("Vastra/assets/img");
+
+
+
+            //string docPath = MyServer.MapPath("wwwroot");   // its  work
+
+            //var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);    //its work
+
+
+
+
+            //var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);
+            //D:\INETPUB\VHOSTS\vastraindia.com\vastratest\Vastra\assets\img\uniform
+
+
+            //var virtualDirectoryPath = "D:\\INETPUB\\VHOSTS\\vastraindia.com\\vastratest\\Vastra\\assets\\img";
+            //var ProductFolderbyCategoryName = Path.Combine(virtualDirectoryPath,CategoryName);
+
+            string docPath = MyServer.MapPath("Vastra");
+            var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);    
+
+
+            if (!Directory.Exists(ProductFolderbyCategoryName))
+            {
+                //If Directory (Folder) does not exists. Create it.
+                Directory.CreateDirectory(ProductFolderbyCategoryName);
+            }
+
+            string xmlcolor = "";
+            if (product.ColorId != null)
+            {
+                string ColorId = product.ColorId;
+                List<int> ColorIds = ColorId.Split(',').Select(int.Parse).ToList();
+                int[] ColorIdsInArray = ColorIds.ToArray();
+                xmlcolor = objsqlHelper.ListStrAryToXML(ColorIdsInArray, "colors", "colorcode", "colorid");
+            }
+
+            string xmlsize = "";
+            if (product.SizeId != null)
+            {
+                string SizeId = product.SizeId;
+                List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
+                int[] SizeIdSInArray = SizeIdS.ToArray();
+                xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
+            }
+
+           
+            string SizeChartPath = MyServer.MapPath("Vastra");
+            var ProductFolderbySizeChart = Path.Combine(SizeChartPath, "assets", "img", "size_chart");
+
+            if (!Directory.Exists(ProductFolderbySizeChart))
+            {
+                //If Directory (Folder) does not exists. Create it.
+                Directory.CreateDirectory(ProductFolderbySizeChart);
+            }
 
             // var SaveImage = saveImage.SaveProductImagesAsync(product.formFile, product.file1, product.file2, FileName, SidephotoName, BackphotoName, ProductFolderbyCategoryName);
-            var SaveImage = saveImage.SaveProductImagesAsync(product.MenFrontImgFile, /*product.MenSideImgFile, product.MenBackImgFile,*/ product.MenSizeChartImgFile, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, product.WomenFrontImgFile, /*product.WomenSideImgFile, product.WomenBackImgFile,*/ product.WomenSizeChartImgFile, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, /*ProductFolderbyCategoryName*/ docPath);
+            
+            dt = objProductDAL.InsertProduct(product.Category_Id, product.SubCategory_Id, product.Product_Title, Description, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, WomenDescription, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, xmlcolor, xmlsize, men_f_svgpath, women_f_svgpath, ProductFolderbyCategoryName);
+
+            var SaveImage = saveImage.SaveProductImageAsync(product.MenFrontImgFile, /*product.MenSideImgFile, product.MenBackImgFile,*/ /*product.MenSizeChartImgFile,*/ MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ /*MenSizeChartName,*/ product.WomenFrontImgFile, /*product.WomenSideImgFile, product.WomenBackImgFile,*/ /*product.WomenSizeChartImgFile,*/ WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ /*WomenSizeChart,*/ ProductFolderbyCategoryName);
+
+            var SaveSizaChartImage = saveImage.SaveSizeChartImageAsync(product.MenSizeChartImgFile, product.WomenSizeChartImgFile, MenSizeChartName, WomenSizeChart, ProductFolderbySizeChart);
+
             return new JsonResult("Added Successfully");
 
+            //var res = "Added Successfully!";
+            //return new JsonResult(new { FilePaths = filePaths,Res=res });
 
         }
 
@@ -230,30 +332,37 @@ namespace VastraIndiaWebAPI.Controllers
 
 
 
+
             //var ImageNameInArray = new string[product.MenFrontImgFiles.Length];
 
-            if (product.MenImgFiles.Length > 0)
+            //if (product.MenImgFiles.Length > 0)
+            if (product.MenImgFiles != null)
             {
-                foreach (var file in product.MenImgFiles)
-                {
+                    foreach (var file in product.MenImgFiles)
+                    {
 
-                    var Ext = System.IO.Path.GetExtension(file.FileName);
+                        var Ext = System.IO.Path.GetExtension(file.FileName);
 
-                    var name = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
+                        var name = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
 
 
-                    var MenPhoto = name + DateTime.Now.ToString("-dd-MM-yyyy-HH") + Ext;
+                        var MenPhoto = name + DateTime.Now.ToString("-dd-MM-yyyy-HH") + Ext;
 
-                    //ImageNameInArray.Append(MenFrontPhoto);
+                        //ImageNameInArray.Append(MenFrontPhoto);
 
-                    fileMenName.Add(MenPhoto);
+                        fileMenName.Add(MenPhoto);
+                    }
+
                 }
 
-            }
+            //string[] ImageMenNameInArray =new string[fileMenName.Count];
+
+            //if (fileMenName != null)
+            //{
+            //     ImageMenNameInArray = fileMenName.ToArray();
+            //}
+
             string[] ImageMenNameInArray = fileMenName.ToArray();
-
-
-
 
             var fileWomenName = new List<string>();
 
@@ -261,7 +370,8 @@ namespace VastraIndiaWebAPI.Controllers
 
             //var ImageNameInArray = new string[product.MenFrontImgFiles.Length];
 
-            if (product.WomenImgFiles.Length > 0)
+            //if (product.WomenImgFiles.Length > 0)
+            if (product.WomenImgFiles != null)
             {
                 foreach (var file in product.WomenImgFiles)
                 {
@@ -280,16 +390,89 @@ namespace VastraIndiaWebAPI.Controllers
 
             }
 
+            //string[] ImageWomenNameInArray = new string[fileWomenName.Count];
+
+            //if (fileMenName != null)
+            //{
+            //    ImageWomenNameInArray = fileWomenName.ToArray();
+            //}
+
             string[] ImageWomenNameInArray = fileWomenName.ToArray();
 
-            string[] strArray = product.TipingId.Select(x => x.ToString()).ToArray();
+            //string[] strArray = new string[product.TipingId.Length];
+
+            //if (product.TipingId != null)
+            //{
+            //     strArray = product.TipingId.Select(x => x.ToString()).ToArray();
+
+            //}
 
 
-            var imageNameWithId = strArray.Zip(ImageMenNameInArray, (id, menImageName) => new { Id = id, MenName = menImageName })
-                       .Zip(ImageWomenNameInArray, (person, womenFileName) => new { person.Id, person.MenName, WomenName = womenFileName })
-                       .ToArray();
+
+            //string[] mentipping = product.TipingId.Select(x => x.ToString()).ToArray();
+
+            //var imageNameWithId = mentipping.Zip(ImageMenNameInArray, (id, menImageName) => new { Id = id, MenName = menImageName })
+            //           .Zip(ImageWomenNameInArray, (person, womenFileName) => new { person.Id, person.MenName, WomenName = womenFileName })
+            //           .ToArray();
+
+            //string xmlNameWithid = objsqlHelper.ListStrAryToXMLImage(imageNameWithId, "tippingDetail", "tippingid");
+
+            string xmlmenWithid = "";
+            if (product.TipingId != null)
+            {
+                string[] mentipping = product.TipingId.Select(x => x.ToString()).ToArray();
+                var menarray = (mentipping.Zip(ImageMenNameInArray, (Id, menFileName) => (Id, menFileName)));
+                xmlmenWithid = objsqlHelper.ListStrAryToXMLMen(menarray, "tippingDetail", "tippingid");
+            }
 
 
+
+            string xmlwomenWithid = "";
+            if (product.TipingWomenId != null)
+            {
+                string[] womentipping = product.TipingWomenId.Select(x => x.ToString()).ToArray();
+
+                var womenarray = womentipping.Zip(ImageWomenNameInArray, (Id, womenFileName) => (Id, womenFileName));
+
+                xmlwomenWithid = objsqlHelper.ListStrAryToXMLWomen(womenarray, "tippingDetail", "tippingid");
+            }
+
+            string Description = "";
+            if (product.Product_Description != null)
+            {
+                Description= product.Product_Description;
+            }
+
+
+                //string xmlNameWithid ="";
+                //if (product.MenImgFiles!=null && product.TipingId!=null && product.WomenImgFiles!=null)
+                //{
+                //    if (product.MenImgFiles.Length == product.WomenImgFiles.Length)
+                //    {
+                //        if (product.TipingId.Length == product.WomenImgFiles.Length)
+                //        {
+                //            var imageNameWithId = strArray.Zip(ImageMenNameInArray, (id, menImageName) => new { Id = id, MenName = menImageName })
+                //               .Zip(ImageWomenNameInArray, (person, womenFileName) => new { person.Id, person.MenName, WomenName = womenFileName })
+                //               .ToArray();
+
+                //            xmlNameWithid = objsqlHelper.ListStrAryToXMLImage(imageNameWithId, "tippingDetail", "tippingid");
+                //        }
+                //    }
+                //}
+
+                //if (product.MenImgFiles != null || product.TipingId != null || product.WomenImgFiles != null)
+                //{
+                //    if (product.MenImgFiles.Length != product.WomenImgFiles.Length)
+                //    {
+                //        if (product.TipingId.Length == product.WomenImgFiles.Length)
+                //        {
+                //            var imageNameWithId = strArray.Zip(ImageWomenNameInArray, (id, menImageName) => new { Id = id, MenName = menImageName })
+                //                .ToArray();
+
+                //            xmlNameWithid = objsqlHelper.ListStrAryToXMLImage(imageNameWithId, "tippingDetail", "tippingid");
+                //        }
+                //    }
+                //}
 
 
             if (product.MenFrontImgFile != null)
@@ -326,8 +509,11 @@ namespace VastraIndiaWebAPI.Controllers
 
             string CategoryName = categoryname.Replace(" ", "-");
 
-            var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
+            //var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
 
+
+            string docPath = MyServer.MapPath("Vastra");
+            var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);
 
 
             if (!Directory.Exists(ProductFolderbyCategoryName))
@@ -336,20 +522,38 @@ namespace VastraIndiaWebAPI.Controllers
                 Directory.CreateDirectory(ProductFolderbyCategoryName);
             }
 
+            string xmlsize = "";
 
-            string SizeId = product.SizeId;
-            List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
-            int[] SizeIdSInArray = SizeIdS.ToArray();
+            if (product.SizeId != null)
+            {
+                string SizeId = product.SizeId;
+                List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
+                int[] SizeIdSInArray = SizeIdS.ToArray();
 
-            string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
+                xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
+            }
 
-           
-            string xmlNameWithid = objsqlHelper.ListStrAryToXMLImage(imageNameWithId, "tippingDetail", "tippingid");
+            //string SizeId = product.SizeId;
+            //List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
+            //int[] SizeIdSInArray = SizeIdS.ToArray();
+
+            //string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
+
+            string SizeChartPath = MyServer.MapPath("Vastra");
+            var ProductFolderbySizeChart = Path.Combine(SizeChartPath, "assets", "img", "size_chart");
+
+            if (!Directory.Exists(ProductFolderbySizeChart))
+            {
+                //If Directory (Folder) does not exists. Create it.
+                Directory.CreateDirectory(ProductFolderbySizeChart);
+            }
 
 
-            dt = objProductDAL.InsertMultiProduct(product.Category_Id, product.SubCategory_Id, product.Product_Title, product.Product_Description, xmlNameWithid, xmlsize, MenFrontPhoto, MenSizeChartName, WomenFrontPhoto, WomenSizeChart);
+            dt = objProductDAL.InsertMultiProduct(product.Category_Id, product.SubCategory_Id, product.Product_Title, Description, xmlmenWithid, xmlwomenWithid, xmlsize, MenFrontPhoto, MenSizeChartName, WomenFrontPhoto, WomenSizeChart);
 
-            var SaveImage = saveImage.SaveMultiProductImagesAsync(product.MenImgFiles, product.WomenImgFiles, product.MenFrontImgFile, product.MenSizeChartImgFile, product.WomenFrontImgFile, product.WomenSizeChartImgFile, MenFrontPhoto, MenSizeChartName, WomenFrontPhoto, WomenSizeChart, ProductFolderbyCategoryName);
+            var SaveImage = saveImage.SaveMultiProductImagesAsync(product.MenImgFiles, product.WomenImgFiles, product.MenFrontImgFile, /*product.MenSizeChartImgFile,*/ product.WomenFrontImgFile, /*product.WomenSizeChartImgFile,*/ MenFrontPhoto, /*MenSizeChartName,*/ WomenFrontPhoto,/* WomenSizeChart,*/ ProductFolderbyCategoryName);
+
+            var SaveSizaChartImage = saveImage.SaveSizeChartImageAsync(product.MenSizeChartImgFile, product.WomenSizeChartImgFile, MenSizeChartName, WomenSizeChart, ProductFolderbySizeChart);
 
             return new JsonResult("Added Successfully");
 
@@ -412,7 +616,11 @@ namespace VastraIndiaWebAPI.Controllers
 
             string CategoryName = categoryname.Replace(" ", "-");
 
-            var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
+            //var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
+
+
+            string docPath = MyServer.MapPath("Vastra");
+            var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);
 
             // var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "Alpesh_VastraPro", "Vastra", "src", "assets", "img", CategoryName);
             if (!Directory.Exists(ProductFolderbyCategoryName))
@@ -421,19 +629,65 @@ namespace VastraIndiaWebAPI.Controllers
                 Directory.CreateDirectory(ProductFolderbyCategoryName);
             }
 
-            string ColorId = product.ColorId;
-            List<int> ColorIds = ColorId.Split(',').Select(int.Parse).ToList();
-            int[] ColorIdsInArray = ColorIds.ToArray();
+            string xmlcolor = "";
+            if (product.ColorId != null)
+            {
+                string ColorId = product.ColorId;
+                List<int> ColorIds = ColorId.Split(',').Select(int.Parse).ToList();
+                int[] ColorIdsInArray = ColorIds.ToArray();
+                xmlcolor = objsqlHelper.ListStrAryToXML(ColorIdsInArray, "colors", "colorcode", "colorid");
+            }
 
-            string SizeId = product.SizeId;
-            List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
-            int[] SizeIdSInArray = SizeIdS.ToArray();
+            string xmlsize = "";
+            if (product.ColorId != null)
+            {
+                string SizeId = product.SizeId;
+                List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
+                int[] SizeIdSInArray = SizeIdS.ToArray();
+                xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
+            }
 
-            string xmlcolor = objsqlHelper.ListStrAryToXML(ColorIdsInArray, "colors", "colorcode", "colorid");
-            string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
+            string Description = "";
+            if (product.Product_Description != null)
+            {
+                Description = product.Product_Description;
+            }
 
-            dt = objProductDAL.UpdateProduct(product.Product_Id, product.Category_Id, product.SubCategory_Id, product.Product_Title, product.Product_Description, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, product.WomenProduct_Description, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, xmlcolor, xmlsize, product.Men_f_svgpath, product.Women_f_svgpath);
-            var SaveImage = saveImage.SaveProductImagesAsync(product.MenFrontImgFile,/* product.MenSideImgFile, product.MenBackImgFile,*/ product.MenSizeChartImgFile, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, product.WomenFrontImgFile, /*product.WomenSideImgFile, product.WomenBackImgFile,*/ product.WomenSizeChartImgFile, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, ProductFolderbyCategoryName);
+            string WomenDescription = "";
+            if (product.WomenProduct_Description != null)
+            {
+                WomenDescription = product.Product_Description;
+            }
+
+            string men_f_svgpath = "";
+            if (product.Men_f_svgpath != null)
+            {
+                men_f_svgpath = product.Men_f_svgpath;
+            }
+
+            string women_f_svgpath = "";
+            if (product.Women_f_svgpath != null)
+            {
+                women_f_svgpath = product.Men_f_svgpath;
+            }
+
+            //string xmlcolor = objsqlHelper.ListStrAryToXML(ColorIdsInArray, "colors", "colorcode", "colorid");
+            //string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
+
+            string SizeChartPath = MyServer.MapPath("Vastra");
+            var ProductFolderbySizeChart = Path.Combine(SizeChartPath, "assets", "img", "size_chart");
+
+            if (!Directory.Exists(ProductFolderbySizeChart))
+            {
+                //If Directory (Folder) does not exists. Create it.
+                Directory.CreateDirectory(ProductFolderbySizeChart);
+            }
+
+            dt = objProductDAL.UpdateProduct(product.Product_Id, product.Category_Id, product.SubCategory_Id, product.Product_Title, Description, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, WomenDescription, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, xmlcolor, xmlsize, men_f_svgpath, women_f_svgpath);
+            var SaveImage = saveImage.SaveProductImageAsync(product.MenFrontImgFile,/* product.MenSideImgFile, product.MenBackImgFile,*/ /*product.MenSizeChartImgFile,*/ MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ /*MenSizeChartName,*/ product.WomenFrontImgFile, /*product.WomenSideImgFile, product.WomenBackImgFile,*/ /*product.WomenSizeChartImgFile,*/ WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ /*WomenSizeChart,*/ ProductFolderbyCategoryName);
+
+            var SaveSizaChartImage = saveImage.SaveSizeChartImageAsync(product.MenSizeChartImgFile, product.WomenSizeChartImgFile, MenSizeChartName, WomenSizeChart, ProductFolderbySizeChart);
+
             return new JsonResult("Updated Successfully");
 
         }
@@ -497,11 +751,42 @@ namespace VastraIndiaWebAPI.Controllers
         [HttpPost("")]
         public async Task<ActionResult> SaveProductcategory([FromForm] CategoryModel category)
         {
-            var Ext = System.IO.Path.GetExtension(category.formFile.FileName);
+            var FileName = "";
+            if (category.formFile != null) 
+            {
+                var Ext = System.IO.Path.GetExtension(category.formFile.FileName);
 
-            var FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+                FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+            }
+            
 
-            var CategoryFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img","category");
+            //var CategoryFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img","category");
+
+            //var CategoryFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "category");
+
+
+
+
+
+
+            var CategoryFolderName = "";
+            string IsBrand = "";
+            if (category.IsBrand != null)
+            {
+                IsBrand = category.IsBrand;
+                string docPath = MyServer.MapPath("Vastra");
+                CategoryFolderName = Path.Combine(docPath, "assets", "img", "brand");
+                //CategoryFolderName = Path.Combine("C:", "Projects", "Latest_VastraIndia", "Vastra", "src", "assets", "img", "brand");
+
+            }
+            else
+            {
+                IsBrand = "0";
+                string docPath = MyServer.MapPath("Vastra");
+                CategoryFolderName = Path.Combine(docPath, "assets", "img", "category");
+                //CategoryFolderName = Path.Combine("C:", "Projects", "Latest_VastraIndia",  "Vastra", "src", "assets", "img", "category");
+
+            }
 
             if (!Directory.Exists(CategoryFolderName))
             {
@@ -509,7 +794,9 @@ namespace VastraIndiaWebAPI.Controllers
                 Directory.CreateDirectory(CategoryFolderName);
             }
 
-            dt = objProductDAL.InsertCategory(category.Category_Name, FileName, category.Category_Description);
+            int brand = Convert.ToInt32(IsBrand);
+
+            dt = objProductDAL.InsertCategory(category.Category_Name, FileName, category.Category_Description, brand);
             var SaveImage = saveImage.SaveImagesAsync(category.formFile, FileName, CategoryFolderName);
             return new JsonResult("Added Successfully");
 
@@ -522,19 +809,47 @@ namespace VastraIndiaWebAPI.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateProductcategory([FromForm] CategoryModel category)
         {
+            var FileName = "";
+            if (category.formFile != null)
+            {
+                var Ext = System.IO.Path.GetExtension(category.formFile.FileName);
 
-            var Ext = System.IO.Path.GetExtension(category.formFile.FileName);
+                FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+            }
+            
 
-            var FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+            //var CategoryFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "category");
 
-            var CategoryFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "category");
+
+
+            var CategoryFolderName = "";
+            string IsBrand = "";
+            if (category.IsBrand != null)
+            {
+                IsBrand = category.IsBrand;
+                string docPath = MyServer.MapPath("Vastra");
+                CategoryFolderName = Path.Combine(docPath, "assets", "img", "brand");
+                //CategoryFolderName = Path.Combine("C:", "Projects", "Latest_VastraIndia", "Vastra", "src", "assets", "img", "brand");
+
+            }
+            else
+            {
+                IsBrand = "0";
+                string docPath = MyServer.MapPath("Vastra");
+                CategoryFolderName = Path.Combine(docPath, "assets", "img", "category");
+                //CategoryFolderName = Path.Combine("C:", "Projects", "Latest_VastraIndia", "Vastra", "src", "assets", "img", "category");
+
+            }
+
+            int brand = Convert.ToInt32(IsBrand);
 
             if (!Directory.Exists(CategoryFolderName))
             {
                 //If Directory (Folder) does not exists. Create it.
                 Directory.CreateDirectory(CategoryFolderName);
             }
-            dt = objProductDAL.UpdateCategory(category.Category_Id, category.Category_Name, FileName, category.Category_Description);
+
+            dt = objProductDAL.UpdateCategory(category.Category_Id, category.Category_Name, FileName, category.Category_Description,brand);
             var SaveImage = saveImage.SaveImagesAsync(category.formFile, FileName, CategoryFolderName);
             return new JsonResult("Updated Successfully");
         }
@@ -748,9 +1063,9 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/InsertSubCategory")]
         [HttpPost]
-        public IActionResult Post([FromBody] SubProductCategoryModel subcategory)
+        public IActionResult InsertSubCategory([FromForm] SubProductCategoryModel subcategorymodel)
         {
-            dt = objProductDAL.InsertSubCategory(subcategory.Category_Id, subcategory.Sub_Cat_Name);
+            dt = objProductDAL.InsertSubCategory(subcategorymodel.Category_Id, subcategorymodel.SubCategory);
             return new JsonResult("Added Successfully");
         }
 
@@ -758,9 +1073,9 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/Product/UpdateSubCategory")]
         // [HttpPut("{id}")]
         [HttpPut]
-        public IActionResult Put([FromBody] SubProductCategoryModel subcategory)
+        public IActionResult Put([FromForm] SubProductCategoryModel subcategorymodel)
         {
-            dt = objProductDAL.UpdateSubCategory(subcategory.Id, subcategory.Category_Id, subcategory.Sub_Cat_Name);
+            dt = objProductDAL.UpdateSubCategory(subcategorymodel.SubCategory_Id, subcategorymodel.Category_Id, subcategorymodel.SubCategory);
             return new JsonResult("Updated Successfully");
         }
 

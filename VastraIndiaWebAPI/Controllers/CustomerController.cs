@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using VastraIndiaDAL;
 using VastraIndiaWebAPI.Models;
@@ -69,12 +70,19 @@ namespace VastraIndiaWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveCustReview([FromForm] CustomerModel cust)
         {
+            var FileName = "";
+            if (cust.formFile != null)
+            {
+                var Ext = System.IO.Path.GetExtension(cust.formFile.FileName);
 
-            var Ext = System.IO.Path.GetExtension(cust.formFile.FileName);
+                FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+            }
 
-            var FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
 
-            var ClientReviewsFolderName = Path.Combine("C:",  "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img","client_reviews");
+            //var ClientReviewsFolderName = Path.Combine("C:",  "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img","client_reviews");
+
+            string docPath = MyServer.MapPath("Vastra");
+            var ClientReviewsFolderName = Path.Combine(docPath, "assets", "img", "client_reviews");
 
             if (!Directory.Exists(ClientReviewsFolderName))
             {
@@ -96,11 +104,22 @@ namespace VastraIndiaWebAPI.Controllers
         public async Task<ActionResult> UpdateCustReview([FromForm] CustomerModel cust)
         {
 
-            var Ext = System.IO.Path.GetExtension(cust.formFile.FileName);
+            var FileName = "";
+            if (cust.formFile != null)
+            {
+                var Ext = System.IO.Path.GetExtension(cust.formFile.FileName);
 
-            var FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+                FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+            }
 
-            var ClientReviewsFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img","client_reviews");
+            //var Ext = System.IO.Path.GetExtension(cust.formFile.FileName);
+
+            //var FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+
+            //var ClientReviewsFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img","client_reviews");
+
+            string docPath = MyServer.MapPath("Vastra");
+            var ClientReviewsFolderName = Path.Combine(docPath, "assets", "img", "client_reviews");
 
             if (!Directory.Exists(ClientReviewsFolderName))
             {

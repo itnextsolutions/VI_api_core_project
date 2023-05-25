@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using VastraIndiaDAL;
 using VastraIndiaWebAPI.Models;
@@ -99,13 +100,19 @@ namespace VastraIndiaWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveBlog([FromForm] BlogModel blog)
         {
+            var FileName = "";
+            if (blog.formFile != null)
+            {
+                var Ext = System.IO.Path.GetExtension(blog.formFile.FileName);
 
-            var Ext = System.IO.Path.GetExtension(blog.formFile.FileName);
+                FileName = blog.Blog_Title + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+            }
+            
+            //var BlogFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "blog");
 
-            var FileName = blog.Blog_Title + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+            string docPath = MyServer.MapPath("Vastra");
+            var BlogFolderName = Path.Combine(docPath, "assets", "img", "blog");
 
-            var BlogFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "blog");
-         
 
             if (!Directory.Exists(BlogFolderName))
             {
@@ -125,12 +132,19 @@ namespace VastraIndiaWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateBlog([FromForm] BlogModel blog)
         {
+            var FileName = "";
+            if (blog.formFile!=null)
+            {
+                var Ext = System.IO.Path.GetExtension(blog.formFile.FileName);
 
-            var Ext = System.IO.Path.GetExtension(blog.formFile.FileName);
+                FileName = blog.Blog_Title + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+            }
+            
 
-            var FileName = blog.Blog_Title + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+            //var BlogFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra","src","assets","img","blog");
 
-            var BlogFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra","src","assets","img","blog");
+            string docPath = MyServer.MapPath("Vastra");
+            var BlogFolderName = Path.Combine(docPath, "assets", "img", "blog");
 
             if (!Directory.Exists(BlogFolderName))
             {

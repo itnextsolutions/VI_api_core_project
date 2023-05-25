@@ -13,6 +13,10 @@ namespace VastraIndiaWebAPI.Models
         public string Category_Name { get; set; }
         public int? IsActive { get; set; }
 
+        public string IsBrand { get; set; }
+
+        //public bool IsBrand { get; set; }
+
         [StringLength(50)]
         public string Category_Description { get; set; }
 

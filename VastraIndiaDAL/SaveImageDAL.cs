@@ -161,7 +161,7 @@ namespace VastraIndiaDAL
             }
         }
 
-        public async Task SaveProductImageAsync(IFormFile MenFrontImage, /*IFormFile MenSideImage, IFormFile MenBackImage,*/ /*IFormFile MenSizeChartImage,*/ string MenFrontImageFile, /*string MenSideImageFile, string MenBackImageFile,*/ /*string MenSizeChartImageFile,*/ IFormFile WomenFrontImage, /*IFormFile WomenSideImage, IFormFile WomenBackImage,*/ /*IFormFile WomenSizeChartImage,*/ string WomenFrontImageFile, /*string WomenSideImageFile, string WomenBakImageFile,*/ /*string WomenSizeChartImageFile,*/ string FolderName)
+        public async Task SaveProductImageAsync(IFormFile FrontImgFile, IFormFile MenFrontImage, /*IFormFile MenSideImage, IFormFile MenBackImage,*/ /*IFormFile MenSizeChartImage,*/ string FrontPhoto, string MenFrontImageFile, /*string MenSideImageFile, string MenBackImageFile,*/ /*string MenSizeChartImageFile,*/ IFormFile WomenFrontImage, /*IFormFile WomenSideImage, IFormFile WomenBackImage,*/ /*IFormFile WomenSizeChartImage,*/ string WomenFrontImageFile, /*string WomenSideImageFile, string WomenBakImageFile,*/ /*string WomenSizeChartImageFile,*/ string FolderName)
         {
             try
             {
@@ -187,18 +187,18 @@ namespace VastraIndiaDAL
                    
                 }
 
-                //var file1 = MenSideImage;
+                var file1 = FrontImgFile;
 
-                //if (file1.Length > 0)
-                //{
-                //    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                //    var fullPath = Path.Combine(pathToSave, MenSideImageFile);
-                //    var dbPath = Path.Combine(FolderName, MenSideImageFile);
-                //    using (var stream = new FileStream(fullPath, FileMode.Create))
-                //    {
-                //        file1.CopyTo(stream);
-                //    }
-                //}
+                if (file1.Length > 0)
+                {
+                    //  var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, FrontPhoto);
+                    var dbPath = Path.Combine(FolderName, FrontPhoto);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file1.CopyTo(stream);
+                    }
+                }
 
 
                 //var file2 = MenBackImage;

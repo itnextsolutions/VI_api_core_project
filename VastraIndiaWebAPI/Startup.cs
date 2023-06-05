@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace VastraindiaAPI
 {
     public class Startup
@@ -34,22 +35,37 @@ namespace VastraindiaAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddCors();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = "yourdomain.com",
-            ValidAudience = "yourdomain.com",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_secret_key_here"))
-        };
-    });
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "*",
+                    ValidAudience = "*",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JwtConfig.secret"))
+                };
+            });
+
+            //services.AddTokenAuthentication(Configuration);
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = int.MaxValue; 
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,10 +81,12 @@ namespace VastraindiaAPI
             app.UseRouting();  // first
                                // Use the CORS policy
             //app.UseCors(); // second
-            app.UseCors(
-            options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            //app.UseCors(
+            //options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors("EnableCORS");
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
@@ -78,9 +96,12 @@ namespace VastraindiaAPI
         //    app.UseStaticFiles(new StaticFileOptions
         //    {
         //        FileProvider = new PhysicalFileProvider(
-        //Path.Combine(Directory.GetCurrentDirectory(), "MyDirectory")),
-        //        RequestPath = "/MyDirectory"
+        //Path.Combine(Directory.GetCurrentDirectory(), @"Vastra")),
+        //        RequestPath = "/Vastra"
         //    });
+
+            app.UseStaticFiles();
+
 
             // setup app's root folders
             AppDomain.CurrentDomain.SetData("ContentRootPath", env.ContentRootPath);

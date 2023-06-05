@@ -42,6 +42,8 @@ namespace VastraIndiaWebAPI.Models
 
         public int SubCategory_Id { get; set; }
 
+        public string MRP { get; set; }
+
         public string SizeId { get; set; }
 
         public string ColorId { get; set; }
@@ -62,7 +64,7 @@ namespace VastraIndiaWebAPI.Models
         public IFormFile[] MenImgFiles { get; set; }
 
         public IFormFile MenFrontImgFile { get; set; }
-        //public IFormFile MenSideImgFile { get; set; }
+        public IFormFile FrontImgFile { get; set; }
         //public IFormFile MenBackImgFile { get; set; }
 
         public IFormFile MenSizeChartImgFile { get; set; }

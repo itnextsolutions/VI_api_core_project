@@ -1,9 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using VastraIndiaDAL;
 using VastraIndiaWebAPI.Models;
+using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
+using VastraIndiaWebAPI.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,6 +18,12 @@ namespace VastraIndiaWebAPI.Controllers
 {
     public class LoginController : ControllerBase
     {
+        private IConfiguration _config;
+
+        public LoginController(IConfiguration config)
+        {
+            _config = config;
+        }
 
         DataTable dt = new DataTable();
         LoginDAL objLogin = new LoginDAL();
@@ -46,7 +59,12 @@ namespace VastraIndiaWebAPI.Controllers
 
                 if (dt.Rows.Count != 0)
                 {
-                    return new JsonResult("Success");
+                    var jwt = new JwtService(_config);
+                    var token = jwt.GenerateSecurityToken("fake@email.com");
+
+
+                    return new JsonResult(new AuthenticatedResponse { Token = token });
+                    //return new JsonResult("Success");
                 }
 
                 return new JsonResult("Invalid Password");

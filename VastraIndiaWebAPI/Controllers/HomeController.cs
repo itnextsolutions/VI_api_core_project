@@ -8,6 +8,7 @@ using MimeKit.Text;
 using VastraIndiaWebAPI.Models;
 using System.Net.Mail;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VastraIndiaWebAPI.Controllers
@@ -446,12 +447,31 @@ namespace VastraIndiaWebAPI.Controllers
             }
             return new JsonResult(parentRow);
         }
-    
+
+        //[Route("api/Home/GetBlog")]
+        //[HttpGet("{number}")]
+        //public JsonResult GetBlog(int number)
+        //{
+        //    dt = objHomeDAL.GetBlog(number);
+        //    List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
+        //    Dictionary<string, object> childRow;
+        //    foreach (DataRow row in dt.Rows)
+        //    {
+        //        childRow = new Dictionary<string, object>();
+        //        foreach (DataColumn col in dt.Columns)
+        //        {
+        //            childRow.Add(col.ColumnName, row[col]);
+        //        }
+        //        parentRow.Add(childRow);
+        //    }
+        //    return new JsonResult(parentRow);
+        //}
+
         [Route("api/Home/GetBlog")]
-        [HttpGet("{number}")]
-        public JsonResult GetBlog(int number)
+        [HttpGet]
+        public JsonResult GetBlog()
         {
-            dt = objHomeDAL.GetBlog(number);
+            dt = objHomeDAL.GetBlog();
             List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
             Dictionary<string, object> childRow;
             foreach (DataRow row in dt.Rows)

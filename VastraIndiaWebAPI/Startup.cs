@@ -36,18 +36,29 @@ namespace VastraindiaAPI
         {
             services.AddControllers();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            string secretkey = Configuration.GetSection("JwtConfig:secret").Value;
+
+            string Issuer = Configuration.GetSection("JwtConfig:Issuer").Value;
+
+            string Audience = Configuration.GetSection("JwtConfig:Audience").Value;
+
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
+                    
+                    ValidIssuer = Issuer,
+                    ValidAudience = Audience,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "*",
-                    ValidAudience = "*",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JwtConfig.secret"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretkey))
                 };
             });
 
@@ -76,6 +87,8 @@ namespace VastraindiaAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            
+
             app.UseHttpsRedirection();
 
             app.UseRouting();  // first
@@ -85,8 +98,10 @@ namespace VastraindiaAPI
             //options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseCors("EnableCORS");
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+
+            
 
             app.UseEndpoints(endpoints =>
             {

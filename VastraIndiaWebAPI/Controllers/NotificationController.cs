@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Nancy.Json;
 using System.Collections.Generic;
 using System.Data;
@@ -14,6 +15,7 @@ namespace VastraIndiaWebAPI.Controllers
         SqlHelper objsqlHelper = new SqlHelper();
 
         [HttpGet]
+        
         [Route("api/Notification/GetNotification")]
         public JsonResult GetNotification()
         {
@@ -36,6 +38,7 @@ namespace VastraIndiaWebAPI.Controllers
         // POST api/<ProductController>
         [Route("api/Notification/InsertNotification")]
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody] NotificationModel notification)
         {
 
@@ -47,6 +50,7 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/Notification/UpdateNotification")]
         //  [HttpPut("{id}")]
         [HttpPut]
+        [Authorize]
         public IActionResult Put([FromBody] NotificationModel Notification)
         {
             dt = objNotificationDAL.UpdateNotification(Notification.NotificationId, Notification.NotificationTitle, Notification.FromDate, Notification.ToDate, Notification.ButtonText, Notification.ButtonUrl);
@@ -55,6 +59,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Notification/DeleteNotification")]
         [HttpDelete("{id}")]
+        [Authorize]
         // DELETE api/<ProductController>/5
         public IActionResult DeleteProdctColor(int id)
         {
@@ -64,6 +69,7 @@ namespace VastraIndiaWebAPI.Controllers
 
 
         [HttpGet]
+        [Authorize]
         [Route("api/Notification/GetNotificationPagination")]
         public JsonResult GetNotificationPagination(int pageNo, int pageSize)
         {
@@ -83,6 +89,7 @@ namespace VastraIndiaWebAPI.Controllers
             return new JsonResult(parentRow);
         }
         [HttpGet]
+        [Authorize]
         [Route("api/Notification/GetNotificationCount")]
         public JsonResult GetNotificationCount()
         {

@@ -23,7 +23,7 @@ namespace VastraIndiaWebAPI.Controllers
 
 
         /* GET FAQ */
-        [HttpGet]
+        [HttpGet]       
         [Route("api/Home/GetFaq")]
         public JsonResult GetFaq()
         {
@@ -60,7 +60,7 @@ namespace VastraIndiaWebAPI.Controllers
                     body.subject = subject;
                     email.Subject = body.subject;
                 }
-                else 
+                else
                 {
                     email.Subject = body.subject;
                 }
@@ -72,7 +72,7 @@ namespace VastraIndiaWebAPI.Controllers
                 string name = body.name;
                 string fromail = body.email;
                 string message = body.message;
-                message += "<br>" + "<b>Name:</b> " + name +"<br>"+ " <b>From:</b> " + fromail ;
+                message += "<br>" + "<b>Name:</b> " + name + "<br>" + " <b>From:</b> " + fromail ;
 
 
                 email.Body = new TextPart(TextFormat.Html) { Text = message };
@@ -86,25 +86,12 @@ namespace VastraIndiaWebAPI.Controllers
             }
             return new JsonResult("Please Enter Required Fields");
 
-            //var message = new MailMessage();
-            //message.From = new MailAddress("yogigole1824@gmail.com");
-            //message.To.Add("yogigole1824@gmail.com");
-            //message.Subject = "Test email";
-            //message.Body = "This is a test email from my ASP.NET application.";
-            //message.IsBodyHtml = true;
 
-            //var client = new System.Net.Mail.SmtpClient("smtp.gmail.com");
-            //{
-            //    client.Port = 587;
-            //    client.Credentials = new NetworkCredential("yogigole1824@gmail.com", "kfpmxkhhyaflodet");
-            //    client.EnableSsl = true;
-            //}
-            //client.Send(message);
-            //return Ok();
         }
 
         [Route("api/Home/GetTippingCodeListByProductId")]
         [HttpGet("{id}")]
+       
         public IActionResult GetTippingCodeListByProductId(int id)
         {
             dt = objHomeDAL.GetTippingCodeListByProductId(id);
@@ -126,6 +113,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Home/GetTippingWomenByProductId")]
         [HttpGet("{id}")]
+       
         public IActionResult GetTippingWomEnListByProductId(int id)
         {
             dt = objHomeDAL.GetTippingWomenListByProductId(id);
@@ -146,7 +134,9 @@ namespace VastraIndiaWebAPI.Controllers
 
         /* Menu Binding */
         [HttpGet]
+
         [Route("api/Home/GetMenuList")]
+        [Authorize]
         public JsonResult GetMenuList()
         {
             dt = objHomeDAL.GetMenuList();
@@ -168,6 +158,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         //Notification
         [HttpGet]
+       
         [Route("api/Home/GeNotification")]
         public JsonResult GetNotification()
         {
@@ -188,6 +179,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+       
         [Route("api/Home/GetCustomerReview")]
         public JsonResult GetCustomerReview()
         {
@@ -210,6 +202,7 @@ namespace VastraIndiaWebAPI.Controllers
         //Search Result
         [Route("api/Home/GetSearchProduct")]
         [HttpGet("{search}")]
+       
         public IActionResult GetSearchProduct(string search)
         {
             dt = objHomeDAL.GetSearchProduct(search);
@@ -251,6 +244,7 @@ namespace VastraIndiaWebAPI.Controllers
         
         [Route("api/Home/GetSimillarProducts")]
         [HttpGet("{id}")]
+       
         public IActionResult GetSimillarProducts(int id)
         {
             dt = objHomeDAL.GetSimillarProducts(id);
@@ -271,6 +265,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Home/GetProductsBySubCategory")]
         [HttpGet("{id}/{subCatId}")]
+       
         public IActionResult GetProdutsBySubCategory(int id, int subCatId)
         {
             dt = objHomeDAL.GetProductBySubCategory(id, subCatId);
@@ -291,6 +286,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Home/GetProductsByCategory")]
         [HttpGet("{categoryId}")]
+       
         public IActionResult GetProdutsByCategoryId(int categoryId)
         {
             dt = objHomeDAL.GetProductByCategory(categoryId);
@@ -330,6 +326,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Home/GetColorCodeListByProductId")]
         [HttpGet("{id}")]
+       
         public IActionResult GetColorCodeListByProductId(int id)
         {
             dt = objHomeDAL.GetColorCodeListByProductId(id);
@@ -350,6 +347,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Home/GetSizeListByProductId")]
         [HttpGet("{id}")]
+       
         public IActionResult GetSizeListByProductId(int id)
         {
             dt = objHomeDAL.GetSizeListByProductId(id);
@@ -370,6 +368,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Home/GetSubCategoryByCategoryId")]
         [HttpGet("{id}")]
+       
         public IActionResult GetSubCategoryByCategoryId(int id)
         {
             dt = objHomeDAL.GetSubCategoryByCategoryId(id);
@@ -390,6 +389,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Home/GetSubCategoryById")]
         [HttpGet("{id}")]
+       
         public IActionResult GetSubCategoryById(int id)
         {
             dt = objHomeDAL.GetSubCategoryById(id);
@@ -448,27 +448,10 @@ namespace VastraIndiaWebAPI.Controllers
             return new JsonResult(parentRow);
         }
 
-        //[Route("api/Home/GetBlog")]
-        //[HttpGet("{number}")]
-        //public JsonResult GetBlog(int number)
-        //{
-        //    dt = objHomeDAL.GetBlog(number);
-        //    List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
-        //    Dictionary<string, object> childRow;
-        //    foreach (DataRow row in dt.Rows)
-        //    {
-        //        childRow = new Dictionary<string, object>();
-        //        foreach (DataColumn col in dt.Columns)
-        //        {
-        //            childRow.Add(col.ColumnName, row[col]);
-        //        }
-        //        parentRow.Add(childRow);
-        //    }
-        //    return new JsonResult(parentRow);
-        //}
 
         [Route("api/Home/GetBlog")]
         [HttpGet]
+       
         public JsonResult GetBlog()
         {
             dt = objHomeDAL.GetBlog();
@@ -487,6 +470,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+       
         [Route("api/Home/GetAllBlogs")]
         public JsonResult GetAllBlogs(int Blog_Id)
         {
@@ -508,6 +492,7 @@ namespace VastraIndiaWebAPI.Controllers
         // GET api/<BlogController>/5
         [Route("api/Home/GetBlogById")]
         [HttpGet("{blog_Id}")]
+       
         public IActionResult GetBlogById(int blog_Id)
         {
             dt = objHomeDAL.GetBlogById(blog_Id);
@@ -525,24 +510,6 @@ namespace VastraIndiaWebAPI.Controllers
             }
             return new JsonResult(parentRow);
         }
-        //[Route("api/Home/GetCategoryById")]
-        //public IActionResult GetCategoryById(int id)
-        //{
-        //    dt = objProductDAL.GetProductCategoryById(id);
-        //    JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
-        //    List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
-        //    Dictionary<string, object> childRow;
-        //    foreach (DataRow row in dt.Rows)
-        //    {
-        //        childRow = new Dictionary<string, object>();
-        //        foreach (DataColumn col in dt.Columns)
-        //        {
-        //            childRow.Add(col.ColumnName, row[col]);
-        //        }
-        //        parentRow.Add(childRow);
-        //    }
-        //    return new JsonResult(parentRow);
-        //}
         //Category End
     }
 }

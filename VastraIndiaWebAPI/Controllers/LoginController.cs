@@ -11,6 +11,7 @@ using VastraIndiaWebAPI.Models;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using VastraIndiaWebAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,6 +25,8 @@ namespace VastraIndiaWebAPI.Controllers
         {
             _config = config;
         }
+
+
 
         DataTable dt = new DataTable();
         LoginDAL objLogin = new LoginDAL();
@@ -59,12 +62,10 @@ namespace VastraIndiaWebAPI.Controllers
 
                 if (dt.Rows.Count != 0)
                 {
-                    var jwt = new JwtService(_config);
-                    var token = jwt.GenerateSecurityToken("fake@email.com");
+                    var token = CreateJwt(login.username);
 
 
                     return new JsonResult(new AuthenticatedResponse { Token = token });
-                    //return new JsonResult("Success");
                 }
 
                 return new JsonResult("Invalid Password");
@@ -81,11 +82,37 @@ namespace VastraIndiaWebAPI.Controllers
 
         // DELETE api/<LoginController>/5
         [HttpDelete("{id}")]
+       
         public void Delete(int id)
         {
         }
 
+        private string CreateJwt(string Username)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("PDv7DrqznYL6nv7DrqzjnQYO9JxIsWdcjnQYL6nu0f");
+            var identity = new ClaimsIdentity(new[]
+               {
+                    new Claim(ClaimTypes.Name, Username),
+                     new Claim("CompanyName", "Vastra")
+                });
 
+            var Credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Issuer = "https://test.vastraindia.com/Vastra/",
+                Audience = "https://test.vastraindia.com/Vastra/",
+                Subject = identity,
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = Credentials
+            };
+
+
+            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+
+            return jwtTokenHandler.WriteToken(token);
+
+        }
 
 
     }

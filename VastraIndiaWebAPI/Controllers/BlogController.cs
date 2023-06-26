@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,6 +23,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         // GET: api/<BlogController>
         [HttpGet]
+       
         [Route("api/Blog/GetBlog")]
         public JsonResult GetBlog()
         {
@@ -41,6 +43,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/Blog/GetAllBlog")]
         public JsonResult GetAllBlog()
         {
@@ -62,6 +65,7 @@ namespace VastraIndiaWebAPI.Controllers
         // GET api/<BlogController>/5
         [Route("api/Blog/GetBlogById")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetBlogById(int id)
         {
             dt = objblog.GetBlogById(id);
@@ -79,25 +83,11 @@ namespace VastraIndiaWebAPI.Controllers
             }
             return new JsonResult(parentRow);
         }
-        //// POST api/<BlogController>
-        //[Route("api/Blog/InsertBlog")]
-        //[HttpPost]
-        //public IActionResult Post([FromBody] BlogModel blog)
-        //{
-        //    if (blog.Blog_Title != null)
-        //    {
-        //        dt = objblog.InsertBlog(blog.Blog_Title, blog.Blog_Content, blog.Blog_Topic, blog.Image_Name);
-        //        return new JsonResult("Added Successfully");
-        //    }
-        //    else
-        //    {
-        //        return new JsonResult("Please Enter All Details");
-        //    }
-        //}
 
         // POST api/<CustomerController>
         [Route("api/Blog/InsertBlog")]
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> SaveBlog([FromForm] BlogModel blog)
         {
             var FileName = "";
@@ -108,15 +98,13 @@ namespace VastraIndiaWebAPI.Controllers
                 FileName = blog.Blog_Title + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
             }
             
-            //var BlogFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "blog");
-
-            string docPath = MyServer.MapPath("Vastra");
+             string docPath = MyServer.MapPath("Vastra");
             var BlogFolderName = Path.Combine(docPath, "assets", "img", "blog");
 
 
             if (!Directory.Exists(BlogFolderName))
             {
-                //If Directory (Folder) does not exists. Create it.
+
                 Directory.CreateDirectory(BlogFolderName);
             }
 
@@ -130,6 +118,7 @@ namespace VastraIndiaWebAPI.Controllers
         // POST api/<CustomerController>
         [Route("api/Blog/UpdateBlog")]
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> UpdateBlog([FromForm] BlogModel blog)
         {
             var FileName = "";
@@ -141,15 +130,14 @@ namespace VastraIndiaWebAPI.Controllers
             }
             
 
-            //var BlogFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra","src","assets","img","blog");
+
 
             string docPath = MyServer.MapPath("Vastra");
             var BlogFolderName = Path.Combine(docPath, "assets", "img", "blog");
 
             if (!Directory.Exists(BlogFolderName))
             {
-                //If Directory (Folder) does not exists. Create it.
-                Directory.CreateDirectory(BlogFolderName);
+               Directory.CreateDirectory(BlogFolderName);
             }
 
             dt = objblog.UpdateBlog(blog.Blog_Id, blog.Blog_Title, blog.Blog_Topic, blog.Blog_Content, FileName);
@@ -160,27 +148,12 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
 
-        //// PUT api/<BlogController>/5
-        //[Route("api/Blog/UpdateBlog")]
-        ////  [HttpPut("{id}")]
-        //[HttpPut]
-        //public IActionResult Put([FromBody] BlogModel blog)
-        //{
-        //    if (blog != null)
-        //    {
-        //        if (blog.Blog_Id != 0)
-        //        {
-        //            dt = objblog.UpdateBlog(blog.Blog_Id, blog.Blog_Title, blog.Blog_Topic, blog.Blog_Content, blog.Image_Name);
-        //            return new JsonResult("Updated Successfully");
-        //        }
-        //    }
-        //    return new JsonResult("Data is not valid");
-
-        //}
 
         // DELETE api/<BlogController>/5
         [Route("api/Blog/Delete")]
+        [Authorize]
         [HttpDelete("{id}")]
+        
         public JsonResult Delete(int id)
         {
             dt = objblog.DeleteBlog(id);
@@ -189,6 +162,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/Blog/GetAllBlogPagination")]
         public JsonResult GetAllBlogPagination(int pageNo, int pageSize)
         {
@@ -208,6 +182,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/Blog/GetAllBlogCount")]
         public JsonResult GetAllBlogCount()
         {

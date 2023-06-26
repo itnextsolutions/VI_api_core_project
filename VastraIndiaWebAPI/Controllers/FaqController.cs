@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Nancy.Json;
 using Newtonsoft.Json;
@@ -25,6 +26,7 @@ namespace VastraIndiaWebAPI.Controllers
         FaqDAL objfaq = new FaqDAL();
 
         [HttpGet]
+        [Authorize]
         [Route("api/Faq/GetAllFaqPagination")]
         public JsonResult GetAllFaqPagination(int pageNo, int pageSize)
         {
@@ -43,6 +45,7 @@ namespace VastraIndiaWebAPI.Controllers
             return new JsonResult(parentRow);
         }
         [HttpGet]
+       
         [Route("api/Faq/GetFaqCount")]
         public JsonResult GetAlFaqCount()
         {
@@ -64,6 +67,7 @@ namespace VastraIndiaWebAPI.Controllers
         // POST api/<FaqController>
         [Route("api/Faq/InsertFaq")]
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody] FaqModel faq)
         {
             dt = objfaq.InsertFaq(faq.Question, faq.Answer);
@@ -71,6 +75,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
         // PUT api/<FaqController>/5
         [Route("api/Faq/UpdateFaq")]
+        [Authorize]
         //  [HttpPut("{id}")]
         [HttpPut]
         public IActionResult Put([FromBody] FaqModel faq)

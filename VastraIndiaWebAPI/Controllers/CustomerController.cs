@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Nancy.Json;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         // GET: api/<CustomerController>
         [HttpGet]
+        [Authorize]
         [Route("api/Customer/GetCustomerReview")]
         public JsonResult GetCustomerReview()
         {
@@ -68,6 +70,7 @@ namespace VastraIndiaWebAPI.Controllers
         // POST api/<CustomerController>
         [Route("api/Customer/InsertCustomerReview")]
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> SaveCustReview([FromForm] CustomerModel cust)
         {
             var FileName = "";
@@ -78,15 +81,12 @@ namespace VastraIndiaWebAPI.Controllers
                 FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
             }
 
-
-            //var ClientReviewsFolderName = Path.Combine("C:",  "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img","client_reviews");
-
             string docPath = MyServer.MapPath("Vastra");
             var ClientReviewsFolderName = Path.Combine(docPath, "assets", "img", "client_reviews");
 
             if (!Directory.Exists(ClientReviewsFolderName))
             {
-                //If Directory (Folder) does not exists. Create it.
+   
                 Directory.CreateDirectory(ClientReviewsFolderName);
             }
 
@@ -101,6 +101,7 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/Customer/UpdateCustomerReview")]
         //  [HttpPut("{id}")]
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> UpdateCustReview([FromForm] CustomerModel cust)
         {
 
@@ -112,18 +113,13 @@ namespace VastraIndiaWebAPI.Controllers
                 FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
             }
 
-            //var Ext = System.IO.Path.GetExtension(cust.formFile.FileName);
-
-            //var FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
-
-            //var ClientReviewsFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img","client_reviews");
-
+            
             string docPath = MyServer.MapPath("Vastra");
             var ClientReviewsFolderName = Path.Combine(docPath, "assets", "img", "client_reviews");
 
             if (!Directory.Exists(ClientReviewsFolderName))
             {
-                //If Directory (Folder) does not exists. Create it.
+               
                 Directory.CreateDirectory(ClientReviewsFolderName);
             }
 
@@ -137,6 +133,7 @@ namespace VastraIndiaWebAPI.Controllers
         // DELETE api/<CustomerController>/5
         [Route("api/Customer/DeleteCustomerReview")]
         [HttpDelete("{id}")]
+        [Authorize]
         // DELETE api/<ProductController>/5
         public JsonResult Delete(int id)
         {
@@ -146,6 +143,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/Customer/GetCustomerReviewPagination")]
         public JsonResult GetCustomerReviewPagination(int pageNo, int pageSize)
         {
@@ -167,6 +165,7 @@ namespace VastraIndiaWebAPI.Controllers
 
 
         [HttpGet]
+        [Authorize]
         [Route("api/Customer/GetCustomerReviewCount")]
         public JsonResult GetCustomerReviewCount()
         {

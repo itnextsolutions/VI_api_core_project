@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Nancy.Json;
 using System;
@@ -22,25 +23,7 @@ namespace VastraIndiaWebAPI.Controllers
     public class ProductController : ControllerBase
     {
 
-        //private readonly IHostingEnvironment _hostingEnvironment;
-
-        //public ProductController(IHostingEnvironment hostingEnvironment)
-        //{
-        //    _hostingEnvironment = hostingEnvironment;
-        //}
-
-
-
-        //public ActionResult Index()
-        //{
-        //    // application's base path
-        //    string contentRootPath1 = _hostingEnvironment.ContentRootPath;
-
-        //    // application's publishing path
-        //    string webRootPath1 = _hostingEnvironment.WebRootPath;
-
-        //    return Content(webRootPath1 + "\n" + contentRootPath1); ;
-        //}
+       
 
 
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -67,6 +50,7 @@ namespace VastraIndiaWebAPI.Controllers
         SaveImageDAL saveImage = new SaveImageDAL();
 
         [HttpGet]
+        [Authorize]
         [Route("api/Product/GetProdutCatDropDown")]
         public JsonResult GetProdutCatDropDown()
         {
@@ -89,6 +73,7 @@ namespace VastraIndiaWebAPI.Controllers
         //Products start
         // GET: api/<ProductController>
         [HttpGet]
+        
         [Route("api/Product/GetProducts")]
         public JsonResult GetProduts()
         {
@@ -110,6 +95,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/GetProductsByid")]
         [HttpGet("{id}")]
+        
         public IActionResult GetProdutsByid(int id)
         {
             dt = objProductDAL.GetProductById(id);
@@ -130,6 +116,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/DeleteProduct")]
         [HttpDelete("{id}")]
+        [Authorize]
         // DELETE api/<ProductController>/5
         public JsonResult Delete(int id)
         {
@@ -145,16 +132,13 @@ namespace VastraIndiaWebAPI.Controllers
         // POST api/<ProductController>
         [Route("api/Product/InsertProduct")]
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> SaveProduct([FromForm] ProductModel product)
         {
             var FrontPhoto = "";
             var MenFrontPhoto = "";
-            //var MenSidephotoName = "";
-            //var MenBackphotoName = "";
             var MenSizeChartName = "";
             var WomenFrontPhoto = "";
-            //var WomenSidePhoto = "";
-            //var WomenBackPhoto = "";
             var WomenSizeChart = "";
 
             if (product.FrontImgFile != null)
@@ -235,49 +219,6 @@ namespace VastraIndiaWebAPI.Controllers
 
 
 
-            //var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
-
-
-            //string contentRootPath = _webHostEnvironment.ContentRootPath;
-
-            //var ProductFolderbyCategoryName = Path.Combine(contentRootPath, "Vastra", CategoryName);
-
-
-            //string contentRootPath = "https://test.vastraindia.com";
-
-            //var ProductFolderbyCategoryName = Path.Combine("https://test.vastraindia.com/Vastra/assets/img", CategoryName);
-
-
-
-            //string webRootPath = _webHostEnvironment.WebRootPath;
-
-            //var ProductFolderbyCategoryName = Path.Combine(webRootPath, "vastratest", "Vastra", CategoryName);
-
-
-            //string contentRootPath1 = _hostingEnvironment.ContentRootPath;
-            //var ProductFolderbyCategoryName = Path.Combine(contentRootPath1, "vastra", "image", CategoryName);
-
-
-            //string webRootPath1 = _hostingEnvironment.WebRootPath;
-            //var ProductFolderbyCategoryName3 = Path.Combine(webRootPath1, "vastra", "image", CategoryName);
-
-            //var docPath = MyServer.MapPath("Vastra/assets/img");
-
-
-
-            //string docPath = MyServer.MapPath("wwwroot");   // its  work
-
-            //var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);    //its work
-
-
-
-
-            //var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);
-            //D:\INETPUB\VHOSTS\vastraindia.com\vastratest\Vastra\assets\img\uniform
-
-
-            //var virtualDirectoryPath = "D:\\INETPUB\\VHOSTS\\vastraindia.com\\vastratest\\Vastra\\assets\\img";
-            //var ProductFolderbyCategoryName = Path.Combine(virtualDirectoryPath,CategoryName);
 
             string docPath = MyServer.MapPath("Vastra");
             var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);
@@ -285,7 +226,6 @@ namespace VastraIndiaWebAPI.Controllers
 
             if (!Directory.Exists(ProductFolderbyCategoryName))
             {
-                //If Directory (Folder) does not exists. Create it.
                 Directory.CreateDirectory(ProductFolderbyCategoryName);
             }
 
@@ -313,12 +253,10 @@ namespace VastraIndiaWebAPI.Controllers
 
             if (!Directory.Exists(ProductFolderbySizeChart))
             {
-                //If Directory (Folder) does not exists. Create it.
                 Directory.CreateDirectory(ProductFolderbySizeChart);
             }
 
-            // var SaveImage = saveImage.SaveProductImagesAsync(product.formFile, product.file1, product.file2, FileName, SidephotoName, BackphotoName, ProductFolderbyCategoryName);
-
+            
             dt = objProductDAL.InsertProduct(product.Category_Id, product.SubCategory_Id, product.Product_Title, Description, FrontPhoto, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, WomenDescription, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, xmlcolor, xmlsize, men_f_svgpath, women_f_svgpath,MRP);
 
             var SaveImage = saveImage.SaveProductImageAsync(product.FrontImgFile, product.MenFrontImgFile, /*product.MenSideImgFile, product.MenBackImgFile,*/ /*product.MenSizeChartImgFile,*/FrontPhoto, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ /*MenSizeChartName,*/ product.WomenFrontImgFile, /*product.WomenSideImgFile, product.WomenBackImgFile,*/ /*product.WomenSizeChartImgFile,*/ WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ /*WomenSizeChart,*/ ProductFolderbyCategoryName);
@@ -327,13 +265,12 @@ namespace VastraIndiaWebAPI.Controllers
 
             return new JsonResult("Added Successfully");
 
-            //var res = "Added Successfully!";
-            //return new JsonResult(new { FilePaths = filePaths,Res=res });
-
+            
         }
 
         [Route("api/Product/InsertMultiProduct")]
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> SaveMultiProduct([FromForm] ProductModel product)
         {
 
@@ -354,10 +291,7 @@ namespace VastraIndiaWebAPI.Controllers
             
 
             var fileMenName = new List<string>();
-            //var ImageNameInArray = new string[product.MenFrontImgFiles.Length];
-
-            //if (product.MenImgFiles.Length > 0)
-            if (product.MenImgFiles != null)
+             if (product.MenImgFiles != null)
             {
                 foreach (var file in product.MenImgFiles)
                 {
@@ -369,29 +303,17 @@ namespace VastraIndiaWebAPI.Controllers
 
                     var MenPhoto = name + DateTime.Now.ToString("-dd-MM-yyyy-HH") + Ext;
 
-                    //ImageNameInArray.Append(MenFrontPhoto);
-
                     fileMenName.Add(MenPhoto);
                 }
 
             }
 
-            //string[] ImageMenNameInArray =new string[fileMenName.Count];
-
-            //if (fileMenName != null)
-            //{
-            //     ImageMenNameInArray = fileMenName.ToArray();
-            //}
+           
 
             string[] ImageMenNameInArray = fileMenName.ToArray();
 
             var fileWomenName = new List<string>();
 
-
-
-            //var ImageNameInArray = new string[product.MenFrontImgFiles.Length];
-
-            //if (product.WomenImgFiles.Length > 0)
             if (product.WomenImgFiles != null)
             {
                 foreach (var file in product.WomenImgFiles)
@@ -404,39 +326,15 @@ namespace VastraIndiaWebAPI.Controllers
 
                     var WomenPhoto = name + DateTime.Now.ToString("-dd-MM-yyyy-HH") + Ext;
 
-                    //ImageNameInArray.Append(MenFrontPhoto);
-
                     fileWomenName.Add(WomenPhoto);
                 }
 
             }
 
-            //string[] ImageWomenNameInArray = new string[fileWomenName.Count];
-
-            //if (fileMenName != null)
-            //{
-            //    ImageWomenNameInArray = fileWomenName.ToArray();
-            //}
+      
 
             string[] ImageWomenNameInArray = fileWomenName.ToArray();
 
-            //string[] strArray = new string[product.TipingId.Length];
-
-            //if (product.TipingId != null)
-            //{
-            //     strArray = product.TipingId.Select(x => x.ToString()).ToArray();
-
-            //}
-
-
-
-            //string[] mentipping = product.TipingId.Select(x => x.ToString()).ToArray();
-
-            //var imageNameWithId = mentipping.Zip(ImageMenNameInArray, (id, menImageName) => new { Id = id, MenName = menImageName })
-            //           .Zip(ImageWomenNameInArray, (person, womenFileName) => new { person.Id, person.MenName, WomenName = womenFileName })
-            //           .ToArray();
-
-            //string xmlNameWithid = objsqlHelper.ListStrAryToXMLImage(imageNameWithId, "tippingDetail", "tippingid");
 
             string xmlmenWithid = "";
             if (product.TipingId != null)
@@ -463,37 +361,6 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 Description = product.Product_Description;
             }
-
-
-            //string xmlNameWithid ="";
-            //if (product.MenImgFiles!=null && product.TipingId!=null && product.WomenImgFiles!=null)
-            //{
-            //    if (product.MenImgFiles.Length == product.WomenImgFiles.Length)
-            //    {
-            //        if (product.TipingId.Length == product.WomenImgFiles.Length)
-            //        {
-            //            var imageNameWithId = strArray.Zip(ImageMenNameInArray, (id, menImageName) => new { Id = id, MenName = menImageName })
-            //               .Zip(ImageWomenNameInArray, (person, womenFileName) => new { person.Id, person.MenName, WomenName = womenFileName })
-            //               .ToArray();
-
-            //            xmlNameWithid = objsqlHelper.ListStrAryToXMLImage(imageNameWithId, "tippingDetail", "tippingid");
-            //        }
-            //    }
-            //}
-
-            //if (product.MenImgFiles != null || product.TipingId != null || product.WomenImgFiles != null)
-            //{
-            //    if (product.MenImgFiles.Length != product.WomenImgFiles.Length)
-            //    {
-            //        if (product.TipingId.Length == product.WomenImgFiles.Length)
-            //        {
-            //            var imageNameWithId = strArray.Zip(ImageWomenNameInArray, (id, menImageName) => new { Id = id, MenName = menImageName })
-            //                .ToArray();
-
-            //            xmlNameWithid = objsqlHelper.ListStrAryToXMLImage(imageNameWithId, "tippingDetail", "tippingid");
-            //        }
-            //    }
-            //}
 
 
             if (product.MenFrontImgFile != null)
@@ -530,17 +397,13 @@ namespace VastraIndiaWebAPI.Controllers
 
             string CategoryName = categoryname.Replace(" ", "-");
 
-            //var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
-
-
             string docPath = MyServer.MapPath("Vastra");
             var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);
 
 
             if (!Directory.Exists(ProductFolderbyCategoryName))
             {
-                //If Directory (Folder) does not exists. Create it.
-                Directory.CreateDirectory(ProductFolderbyCategoryName);
+               Directory.CreateDirectory(ProductFolderbyCategoryName);
             }
 
             string xmlsize = "";
@@ -554,18 +417,12 @@ namespace VastraIndiaWebAPI.Controllers
                 xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
             }
 
-            //string SizeId = product.SizeId;
-            //List<int> SizeIdS = SizeId.Split(',').Select(int.Parse).ToList();
-            //int[] SizeIdSInArray = SizeIdS.ToArray();
-
-            //string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
-
+          
             string SizeChartPath = MyServer.MapPath("Vastra");
             var ProductFolderbySizeChart = Path.Combine(SizeChartPath, "assets", "img", "size_chart");
 
             if (!Directory.Exists(ProductFolderbySizeChart))
             {
-                //If Directory (Folder) does not exists. Create it.
                 Directory.CreateDirectory(ProductFolderbySizeChart);
             }
 
@@ -586,16 +443,13 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/Product/UpdateProduct")]
         //  [HttpPut("{id}")]
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> UpdateProduct([FromForm] ProductModel product)
         {
             var FrontPhoto = "";
             var MenFrontPhoto = "";
-            //var MenSidephotoName = "";
-            //var MenBackphotoName = "";
             var MenSizeChartName = "";
             var WomenFrontPhoto = "";
-            //var WomenSidePhoto = "";
-            //var WomenBackPhoto = "";
             var WomenSizeChart = "";
 
             var mrp = "";
@@ -653,17 +507,12 @@ namespace VastraIndiaWebAPI.Controllers
 
             string CategoryName = categoryname.Replace(" ", "-");
 
-            //var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", CategoryName);
-
-
             string docPath = MyServer.MapPath("Vastra");
             var ProductFolderbyCategoryName = Path.Combine(docPath, "assets", "img", CategoryName);
 
-            // var ProductFolderbyCategoryName = Path.Combine("C:", "Projects", "Alpesh_VastraPro", "Vastra", "src", "assets", "img", CategoryName);
             if (!Directory.Exists(ProductFolderbyCategoryName))
             {
-                //If Directory (Folder) does not exists. Create it.
-                Directory.CreateDirectory(ProductFolderbyCategoryName);
+               Directory.CreateDirectory(ProductFolderbyCategoryName);
             }
 
             string xmlcolor = "";
@@ -707,17 +556,12 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 women_f_svgpath = product.Women_f_svgpath;
             }
-
-            //string xmlcolor = objsqlHelper.ListStrAryToXML(ColorIdsInArray, "colors", "colorcode", "colorid");
-            //string xmlsize = objsqlHelper.ListStrAryToXML(SizeIdSInArray, "size", "sizecode", "sizeid");
-
             string SizeChartPath = MyServer.MapPath("Vastra");
             var ProductFolderbySizeChart = Path.Combine(SizeChartPath, "assets", "img", "size_chart");
 
             if (!Directory.Exists(ProductFolderbySizeChart))
             {
-                //If Directory (Folder) does not exists. Create it.
-                Directory.CreateDirectory(ProductFolderbySizeChart);
+               Directory.CreateDirectory(ProductFolderbySizeChart);
             }
 
             dt = objProductDAL.UpdateProduct(product.Product_Id, product.Category_Id, product.SubCategory_Id, product.Product_Title, Description, FrontPhoto, MenFrontPhoto, /*MenSidephotoName, MenBackphotoName,*/ MenSizeChartName, WomenDescription, WomenFrontPhoto, /*WomenSidePhoto, WomenBackPhoto,*/ WomenSizeChart, xmlcolor, xmlsize, men_f_svgpath, women_f_svgpath,MRP);
@@ -734,6 +578,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         //Category start
         [Route("api/Product/GetCategory")]
+        [Authorize]
         public JsonResult GetCategory()
         {
             dt = objProductDAL.GetProductCategory();
@@ -774,6 +619,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/DeleteCategory")]
         [HttpDelete("{id}")]
+        [Authorize]
         // DELETE api/<ProductController>/5
         public JsonResult DeleteCategory(int id)
         {
@@ -786,6 +632,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/InsertCategory")]
         [HttpPost("")]
+        [Authorize]
         public async Task<ActionResult> SaveProductcategory([FromForm] CategoryModel category)
         {
             var FileName = "";
@@ -796,16 +643,6 @@ namespace VastraIndiaWebAPI.Controllers
                 FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
             }
 
-
-            //var CategoryFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img","category");
-
-            //var CategoryFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "category");
-
-
-
-
-
-
             var CategoryFolderName = "";
             string IsBrand = "";
             if (category.IsBrand != null)
@@ -813,22 +650,19 @@ namespace VastraIndiaWebAPI.Controllers
                 IsBrand = category.IsBrand;
                 string docPath = MyServer.MapPath("Vastra");
                 CategoryFolderName = Path.Combine(docPath, "assets", "img", "brand");
-                //CategoryFolderName = Path.Combine("C:", "Projects", "Latest_VastraIndia", "Vastra", "src", "assets", "img", "brand");
-
+               
             }
             else
             {
                 IsBrand = "0";
                 string docPath = MyServer.MapPath("Vastra");
                 CategoryFolderName = Path.Combine(docPath, "assets", "img", "category");
-                //CategoryFolderName = Path.Combine("C:", "Projects", "Latest_VastraIndia",  "Vastra", "src", "assets", "img", "category");
-
+                
             }
 
             if (!Directory.Exists(CategoryFolderName))
             {
-                //If Directory (Folder) does not exists. Create it.
-                Directory.CreateDirectory(CategoryFolderName);
+               Directory.CreateDirectory(CategoryFolderName);
             }
 
             int brand = Convert.ToInt32(IsBrand);
@@ -844,6 +678,7 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/Product/UpdateCategory")]
         // [HttpPut("{id}")]
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> UpdateProductcategory([FromForm] CategoryModel category)
         {
             var FileName = "";
@@ -854,11 +689,6 @@ namespace VastraIndiaWebAPI.Controllers
                 FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
             }
 
-
-            //var CategoryFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "category");
-
-
-
             var CategoryFolderName = "";
             string IsBrand = "";
             if (category.IsBrand != null)
@@ -866,23 +696,20 @@ namespace VastraIndiaWebAPI.Controllers
                 IsBrand = category.IsBrand;
                 string docPath = MyServer.MapPath("Vastra");
                 CategoryFolderName = Path.Combine(docPath, "assets", "img", "brand");
-                //CategoryFolderName = Path.Combine("C:", "Projects", "Latest_VastraIndia", "Vastra", "src", "assets", "img", "brand");
-
+               
             }
             else
             {
                 IsBrand = "0";
                 string docPath = MyServer.MapPath("Vastra");
                 CategoryFolderName = Path.Combine(docPath, "assets", "img", "category");
-                //CategoryFolderName = Path.Combine("C:", "Projects", "Latest_VastraIndia", "Vastra", "src", "assets", "img", "category");
-
+               
             }
 
             int brand = Convert.ToInt32(IsBrand);
 
             if (!Directory.Exists(CategoryFolderName))
             {
-                //If Directory (Folder) does not exists. Create it.
                 Directory.CreateDirectory(CategoryFolderName);
             }
 
@@ -933,6 +760,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/DeleteProdctColor")]
         [HttpDelete("{id}")]
+        [Authorize]
         // DELETE api/<ProductController>/5
         public void DeleteProdctColor(int id)
         {
@@ -964,6 +792,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         //ProductSize start
         [Route("api/Product/GetProductSize")]
+        [Authorize]
         public JsonResult GetProductSize()
         {
             dt = objProductDAL.ProductSize();
@@ -1004,6 +833,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/DeleteProductSize")]
         [HttpDelete("{id}")]
+        [Authorize]
         // DELETE api/<ProductController>/5
         public void DeleteProductSize(int id)
         {
@@ -1015,6 +845,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/InsertProdctColor")]
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody] ProductSize size)
         {
             dt = objProductDAL.InsertProductSize(size.Product_Id, size.Size);
@@ -1037,7 +868,7 @@ namespace VastraIndiaWebAPI.Controllers
 
 
         //SubCategory start
-
+        [Authorize]
         [Route("api/Product/GetSubProductCategory")]
         public JsonResult GetSubProductCategory()
         {
@@ -1100,6 +931,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/InsertSubCategory")]
         [HttpPost]
+        [Authorize]
         public IActionResult InsertSubCategory([FromForm] SubProductCategoryModel subcategorymodel)
         {
             dt = objProductDAL.InsertSubCategory(subcategorymodel.Category_Id, subcategorymodel.SubCategory);
@@ -1110,6 +942,7 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/Product/UpdateSubCategory")]
         // [HttpPut("{id}")]
         [HttpPut]
+        [Authorize]
         public IActionResult Put([FromForm] SubProductCategoryModel subcategorymodel)
         {
             dt = objProductDAL.UpdateSubCategory(subcategorymodel.SubCategory_Id, subcategorymodel.Category_Id, subcategorymodel.SubCategory);
@@ -1118,6 +951,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/DeleteSubCategory")]
         [HttpDelete("{id}")]
+        [Authorize]
         // DELETE api/<ProductController>/5
         public JsonResult DeleteSubCategory(int id)
         {
@@ -1131,6 +965,7 @@ namespace VastraIndiaWebAPI.Controllers
         //Get Sub Cat Dropdown by Cat id
         [Route("api/Product/GetSubCatByCatid")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetSubCatByCatid(int id)
         {
             dt = objProductDAL.GetSubCatByCatid(id);
@@ -1153,6 +988,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/GetColorCodeListByProductId")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetColorCodeListByProductId(int id)
         {
             dt = objProductDAL.GetColorCodeListByProductId(id);
@@ -1176,6 +1012,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/GetProductCategoryPagination")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetProductCategoryPagination(int pageNo, int pageSize)
         {
             //dt = objProductDAL.GetColorCodeListByProductId(id);
@@ -1199,10 +1036,10 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/GetProductCategoryCount")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetProductCategoryCount()
         {
-            //dt = objProductDAL.GetColorCodeListByProductId(id);
-            dt = objProductDAL.GetProductCategoryCount();
+           dt = objProductDAL.GetProductCategoryCount();
             JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
             List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
             Dictionary<string, object> childRow;
@@ -1223,9 +1060,9 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/SubCategoryPagination")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult SubCategoryPagination(int pageNo, int pageSize)
         {
-            //dt = objProductDAL.GetColorCodeListByProductId(id);
             dt = objProductDAL.SubCategoryPagination(pageNo, pageSize);
             JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
             List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
@@ -1244,10 +1081,10 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/SubCategoryCount")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult SubCategoryCount()
         {
-            //dt = objProductDAL.GetColorCodeListByProductId(id);
-            dt = objProductDAL.SubCategoryCount();
+           dt = objProductDAL.SubCategoryCount();
             JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
             List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
             Dictionary<string, object> childRow;
@@ -1269,6 +1106,7 @@ namespace VastraIndiaWebAPI.Controllers
         //ProductPagination
         [Route("api/Product/GetProductPagination")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetProductPagination(int pageNo, int pageSize)
         {
             dt = objProductDAL.GetProductPagination(pageNo, pageSize);
@@ -1289,6 +1127,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Product/GetProductCount")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetProductCount()
         {
             dt = objProductDAL.GetProductCount();

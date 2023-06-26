@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Nancy.Json;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         // GET: api/<LookupController>
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetLookupMaster")]
         public JsonResult GetLookupMaster()
         {
@@ -47,6 +49,7 @@ namespace VastraIndiaWebAPI.Controllers
         // GET api/<LookupController>/5
         [Route("api/Lookup/GetLookupMasterByid")]
         [HttpGet("{id}")]
+        
         public IActionResult GetLookupMasterById(int id)
         {
             dt = lookup.GetLookupMasterById(id);
@@ -67,6 +70,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Lookup/InsertLookupDetails")]
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromForm] LookupDetailsModel lookupDetail)
         {
             if (lookupDetail.Lookup_Id == 3)
@@ -78,19 +82,13 @@ namespace VastraIndiaWebAPI.Controllers
 
                     FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
                 }
-                //var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
-
-                //var FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
-
-                //var TippingFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "tipping");
 
                 string docPath = MyServer.MapPath("Vastra");
                 var TippingFolderName = Path.Combine(docPath, "assets", "img", "tipping");
 
                 if (!Directory.Exists(TippingFolderName))
                 {
-                    //If Directory (Folder) does not exists. Create it.
-                    Directory.CreateDirectory(TippingFolderName);
+                     Directory.CreateDirectory(TippingFolderName);
                 }
                 dt = lookup.InsertLookupDetail(lookupDetail.Lookup_Id, lookupDetail.Description, FileName);
                 var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, FileName, TippingFolderName);
@@ -107,6 +105,7 @@ namespace VastraIndiaWebAPI.Controllers
         // POST api/<LookupController>
         [Route("api/Lookup/InsertLookupMaster")]
         [HttpPost("")]
+        [Authorize]
         public IActionResult Post([FromBody] LookupMasterModel lookupMaster)
         {
             dt = lookup.InsertLookupMaster(lookupMaster.Lookup_Name);
@@ -117,6 +116,7 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/Lookup/UpdateLookupMaster")]
         //  [HttpPut("{id}")]
         [HttpPut]
+        [Authorize]
         public IActionResult Put([FromBody] LookupMasterModel lookupMaster)
         {
             if (lookupMaster.Lookup_Id != 0)
@@ -131,6 +131,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         // DELETE api/<LookupController>/5
         [HttpDelete("{id}")]
+        [Authorize]
         [Route("api/Lookup/DeleteLookupMaster")]
         public JsonResult Delete(int id)
         {
@@ -140,6 +141,7 @@ namespace VastraIndiaWebAPI.Controllers
         //LookupMaster end
 
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetLookupDetails")]
         public JsonResult GetLookupDetails()
         {
@@ -162,6 +164,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Lookup/GetLookupDetailsById")]
         [HttpGet("{id}")]
+        
         public IActionResult GetLookupDetailsById(int id)
         {
             dt = lookup.GetLookupDetailsById(id);
@@ -181,24 +184,12 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
 
-        //[Route("api/Lookup/UpdateLookupDetails")]
-        ////  [HttpPut("{id}")]
-        //[HttpPut]
-        //public IActionResult Put([FromBody] LookupDetailsModel lookupDetail)
-        //{
-        //    if (lookupDetail.Lookup_Details_Id != 0)
-        //    {
-        //        ;
-        //        dt = lookup.UpdateLookupDetails(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.ColorName);
-        //        return new JsonResult("Updated Successfully");
-        //    }
-        //    return new JsonResult("LookupDetailId is not valid");
 
-        //}
 
         [Route("api/Lookup/UpdateLookupDetails")]
         //  [HttpPut("{id}")]
         [HttpPut]
+        [Authorize]
         public IActionResult Put([FromForm] LookupDetailsModel lookupDetail)
         {
             if (lookupDetail.Lookup_Details_Id != 0)
@@ -213,23 +204,16 @@ namespace VastraIndiaWebAPI.Controllers
 
                         FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
                     }
-                    //var Ext = System.IO.Path.GetExtension(lookupDetail.formFile.FileName);
-
-                    //var FileName = lookupDetail.Description + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
-
-                    //var TippingFolderName = Path.Combine("C:", "Projects", "VasraIndia_local", "Vastra", "src", "assets", "img", "tipping");
-
+                    
                     string docPath = MyServer.MapPath("Vastra");
                     var TippingFolderName = Path.Combine(docPath, "assets", "img", "tipping");
 
                     if (!Directory.Exists(TippingFolderName))
                     {
-                        //If Directory (Folder) does not exists. Create it.
                         Directory.CreateDirectory(TippingFolderName);
                     }
 
                     dt = lookup.UpdateLookupDetail(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, FileName);
-                    //dt = lookup.UpdateLookupDetails(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.ColorName);
                     var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, FileName, TippingFolderName);
 
                     return new JsonResult("Updated Successfully");
@@ -247,6 +231,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         // DELETE api/<LookupController>/5
         [HttpDelete("{id}")]
+        [Authorize]
         [Route("api/Lookup/DeleteLookupDetails")]
         public JsonResult DeleteLookupDetails(int id)
         {
@@ -255,6 +240,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetLookupNameDropDown")]
         public JsonResult GetLookupNameDropDown()
         {
@@ -275,6 +261,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetColor")]
         public JsonResult GetColor()
         {
@@ -295,6 +282,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetTipping")]
         public JsonResult GetTipping()
         {
@@ -315,6 +303,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetSize")]
         public JsonResult GetSize()
         {
@@ -336,6 +325,7 @@ namespace VastraIndiaWebAPI.Controllers
 
 
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetLookupMasterPagination")]
         public JsonResult GetLookupMasterPagination(int pageNo, int pageSize)
         {
@@ -355,6 +345,7 @@ namespace VastraIndiaWebAPI.Controllers
             return new JsonResult(parentRow);
         }
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetLookupMasterCount")]
         public JsonResult GetLookupMasterCount()
         {
@@ -376,6 +367,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         // Lookup Details Pagination  Start
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetLookupDetailsPagination")]
         public JsonResult GetLookupDetailsPagination(int pageNo, int pageSize)
         {
@@ -396,6 +388,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("api/Lookup/GetLookupDetailsCount")]
         public JsonResult GetLookupDetailsCount()
         {

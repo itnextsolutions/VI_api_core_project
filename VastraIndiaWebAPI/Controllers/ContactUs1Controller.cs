@@ -25,21 +25,7 @@ namespace VastraIndiaWebAPI.Controllers
             smtp.Send(email);
             smtp.Disconnect(true);
             return Ok();
-            //var message = new MailMessage();
-            //message.From = new MailAddress("yogigole1824@gmail.com");
-            //message.To.Add("yogigole1824@gmail.com");
-            //message.Subject = "Test email";
-            //message.Body = "This is a test email from my ASP.NET application.";
-            //message.IsBodyHtml = true;
-
-            //var client = new System.Net.Mail.SmtpClient("smtp.gmail.com");
-            //{
-            //    client.Port = 587;
-            //    client.Credentials = new NetworkCredential("yogigole1824@gmail.com", "kfpmxkhhyaflodet");
-            //    client.EnableSsl = true;
-            //}
-            //client.Send(message);
-            //return Ok();
+          
         }
     }
 }

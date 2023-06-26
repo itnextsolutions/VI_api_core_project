@@ -18,8 +18,6 @@ namespace VastraIndiaDAL
     {
         DataTable dt = new DataTable();
         SqlHelper objsqlHelper = new SqlHelper();
-        //List<SqlParameter> SqlParameters = new List<SqlParameter>();
-
         public DataTable GetBlog()
         {
             dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_GetBlog");

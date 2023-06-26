@@ -65,9 +65,6 @@ namespace VastraIndiaWebAPI.Controllers
                     email.Subject = body.subject;
                 }
 
-                //newbody = body.email;
-                //newbody += body.subject;
-                //newbody += body.message;
 
                 string name = body.name;
                 string fromail = body.email;

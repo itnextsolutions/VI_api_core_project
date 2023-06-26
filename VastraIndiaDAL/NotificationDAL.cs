@@ -13,7 +13,6 @@ namespace VastraIndiaDAL
 
         DataTable dt = new DataTable();
         SqlHelper objsqlHelper = new SqlHelper();
-        //List<SqlParameter> SqlParameters = new List<SqlParameter>();
 
 
         public DataTable GetNotification()

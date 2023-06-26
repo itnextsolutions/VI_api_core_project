@@ -17,19 +17,7 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/ContactUsController/SendEmail")]
         public IActionResult SendEmail()
         {
-            //var email = new MimeMessage();
-            //email.From.Add(MailboxAddress.Parse("yogigole1824@gmail.com"));
-            //email.To.Add(MailboxAddress.Parse("yogigole1824@gmail.com"));
-            //email.Subject = "test";
-            //email.Body = new TextPart(TextFormat.Html) { Text = body };
-
-            //using var smtp = new SmtpClient();
-            //smtp.Connect("smtp.gmail.com", 465, SecureSocketOptions.StartTls);
-            //smtp.SslProtocol();
-            //smtp.Authenticate("yogigole1824@gmail.com", "uznfqnoxnrwtkxsk");
-            //smtp.Send(email);
-            //smtp.Disconnect(true);
-            //return Ok();
+          
             var message = new MailMessage();
             message.From = new MailAddress("yogigole1824@gmail.com");
             message.To.Add("yogigole1824@gmail.com");

@@ -221,20 +221,7 @@ namespace VastraIndiaDAL
             return dt;
         }
 
-        //Blog start
-        //public DataTable GetBlog(int number)
-        //{
-        //    SqlParameter[] param = new SqlParameter[1];
-
-        //    param[0] = new SqlParameter();
-        //    param[0].ParameterName = "@number";
-        //    param[0].Value = number;
-        //    param[0].Direction = ParameterDirection.Input;
-
-        //    dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_GetBlog", param);
-        //    return dt;
-        //}
-
+       
         public DataTable GetBlog()
         {
             dt = objsqlHelper.ExecuteDataTable(objsqlHelper.GetConnection(), CommandType.StoredProcedure, "SP_GetBlog");

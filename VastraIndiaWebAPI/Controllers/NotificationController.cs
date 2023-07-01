@@ -49,7 +49,7 @@ namespace VastraIndiaWebAPI.Controllers
         // PUT api/<ProductController>/5
         [Route("api/Notification/UpdateNotification")]
         //  [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         public IActionResult Put([FromBody] NotificationModel Notification)
         {
@@ -58,16 +58,16 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [Route("api/Notification/DeleteNotification")]
-        [HttpDelete("{id}")]
+        [HttpPost]
         [Authorize]
         // DELETE api/<ProductController>/5
-        public IActionResult DeleteProdctColor(int id)
+        public IActionResult DeleteProdctColor([FromBody] int NotificationId)
         {
-            dt = objNotificationDAL.DeleteNotification(id);
+            dt = objNotificationDAL.DeleteNotification(NotificationId);
             return new JsonResult("Deleted Successfully");
         }
 
-
+        
         [HttpGet]
         [Authorize]
         [Route("api/Notification/GetNotificationPagination")]

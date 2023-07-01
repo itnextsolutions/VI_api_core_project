@@ -75,13 +75,13 @@ namespace VastraIndiaWebAPI.Controllers
 
         }
         // PUT api/<LoginController>/5
-        [HttpPut("{id}")]
+        [HttpPost("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/<LoginController>/5
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
        
         public void Delete(int id)
         {

@@ -100,7 +100,7 @@ namespace VastraIndiaWebAPI.Controllers
         // PUT api/<CustomerController>/5
         [Route("api/Customer/UpdateCustomerReview")]
         //  [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         public async Task<ActionResult> UpdateCustReview([FromForm] CustomerModel cust)
         {
@@ -132,13 +132,13 @@ namespace VastraIndiaWebAPI.Controllers
 
         // DELETE api/<CustomerController>/5
         [Route("api/Customer/DeleteCustomerReview")]
-        [HttpDelete("{id}")]
+        [HttpPost]
         [Authorize]
         // DELETE api/<ProductController>/5
-        public JsonResult Delete(int id)
+        public JsonResult Delete([FromBody] int Customer_Review_Id)
         {
 
-            dt = customer.DeleteCustomerReviewById(id);
+            dt = customer.DeleteCustomerReviewById(Customer_Review_Id);
             return new JsonResult("Deleted Successfully");
         }
 

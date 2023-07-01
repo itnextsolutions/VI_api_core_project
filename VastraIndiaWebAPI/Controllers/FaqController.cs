@@ -77,7 +77,7 @@ namespace VastraIndiaWebAPI.Controllers
         [Route("api/Faq/UpdateFaq")]
         [Authorize]
         //  [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         public IActionResult Put([FromBody] FaqModel faq)
         {
             if (faq.Id != 0)
@@ -92,10 +92,10 @@ namespace VastraIndiaWebAPI.Controllers
 
         // DELETE api/<FaqController>/5
         [Route("api/Faq/Delete")]
-        [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
+        [HttpPost]
+        public JsonResult Delete([FromBody] int Id)
         {
-            dt = objfaq.DeleteFaq(id);
+            dt = objfaq.DeleteFaq(Id);
             return new JsonResult("Deleted Successfully");
         }
     }

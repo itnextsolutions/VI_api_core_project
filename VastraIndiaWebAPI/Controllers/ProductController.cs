@@ -115,13 +115,13 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [Route("api/Product/DeleteProduct")]
-        [HttpDelete("{id}")]
+        [HttpPost]
         [Authorize]
         // DELETE api/<ProductController>/5
-        public JsonResult Delete(int id)
+        public JsonResult Delete([FromBody]int Product_Id)
         {
 
-            dt = objProductDAL.DeleteProduct(id);
+            dt = objProductDAL.DeleteProduct(Product_Id);
             return new JsonResult("Deleted Successfully");
         }
 
@@ -442,7 +442,7 @@ namespace VastraIndiaWebAPI.Controllers
         // PUT api/<ProductController>/5
         [Route("api/Product/UpdateProduct")]
         //  [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         public async Task<ActionResult> UpdateProduct([FromForm] ProductModel product)
         {
@@ -618,13 +618,13 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [Route("api/Product/DeleteCategory")]
-        [HttpDelete("{id}")]
+        [HttpPost]
         [Authorize]
         // DELETE api/<ProductController>/5
-        public JsonResult DeleteCategory(int id)
+        public JsonResult DeleteCategory([FromBody]  int category_id)
         {
 
-            dt = objProductDAL.DeleteCategory(id);
+            dt = objProductDAL.DeleteCategory(category_id);
             return new JsonResult("Deleted Successfully");
 
         }
@@ -677,7 +677,7 @@ namespace VastraIndiaWebAPI.Controllers
         // PUT api/<ProductController>/5
         [Route("api/Product/UpdateCategory")]
         // [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         public async Task<ActionResult> UpdateProductcategory([FromForm] CategoryModel category)
         {
@@ -759,7 +759,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [Route("api/Product/DeleteProdctColor")]
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
         [Authorize]
         // DELETE api/<ProductController>/5
         public void DeleteProdctColor(int id)
@@ -781,7 +781,7 @@ namespace VastraIndiaWebAPI.Controllers
         // PUT api/<ProductController>/5
         [Route("api/Product/UpdateProdctColor")]
         // [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         public IActionResult Put([FromBody] ProductColor color)
         {
             dt = objProductDAL.UpdateProdctColor(color.Product_Color_Id, color.Product_Id, color.Color_Code);
@@ -832,7 +832,7 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [Route("api/Product/DeleteProductSize")]
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
         [Authorize]
         // DELETE api/<ProductController>/5
         public void DeleteProductSize(int id)
@@ -856,7 +856,7 @@ namespace VastraIndiaWebAPI.Controllers
         // PUT api/<ProductController>/5
         [Route("api/Product/UpdateProductSize")]
         //  [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         public IActionResult Put([FromBody] ProductSize size)
         {
             dt = objProductDAL.UpdateProductSize(size.ProductSizeId, size.Product_Id, size.Size);
@@ -941,7 +941,7 @@ namespace VastraIndiaWebAPI.Controllers
         // PUT api/<ProductController>/5
         [Route("api/Product/UpdateSubCategory")]
         // [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         public IActionResult Put([FromForm] SubProductCategoryModel subcategorymodel)
         {
@@ -950,13 +950,13 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         [Route("api/Product/DeleteSubCategory")]
-        [HttpDelete("{id}")]
+        [HttpPost]
         [Authorize]
         // DELETE api/<ProductController>/5
-        public JsonResult DeleteSubCategory(int id)
+        public JsonResult DeleteSubCategory([FromBody]int Id)
         {
 
-            dt = objProductDAL.DeleteSubCategory(id);
+            dt = objProductDAL.DeleteSubCategory(Id);
             return new JsonResult("Deleted Successfully");
         }
         //SubCategory end

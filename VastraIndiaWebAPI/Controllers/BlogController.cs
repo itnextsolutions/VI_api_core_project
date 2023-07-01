@@ -144,19 +144,20 @@ namespace VastraIndiaWebAPI.Controllers
          
             var SaveImage = saveImage.SaveImagesAsync(blog.formFile, FileName, BlogFolderName);
 
-            return new JsonResult("Added Successfully");
+            return new JsonResult("Updated Successfully");
         }
 
 
 
         // DELETE api/<BlogController>/5
-        [Route("api/Blog/Delete")]
+
+
+        [HttpPost]
         [Authorize]
-        [HttpDelete("{id}")]
-        
-        public JsonResult Delete(int id)
+        [Route("api/Blog/Delete")]
+        public JsonResult Delete([FromBody] int Blog_Id)
         {
-            dt = objblog.DeleteBlog(id);
+            dt = objblog.DeleteBlog(Blog_Id);
             return new JsonResult("Deleted Successfully");
 
         }

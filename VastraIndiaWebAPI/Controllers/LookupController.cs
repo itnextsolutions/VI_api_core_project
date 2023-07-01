@@ -115,7 +115,7 @@ namespace VastraIndiaWebAPI.Controllers
         // PUT api/<LookupController>/5
         [Route("api/Lookup/UpdateLookupMaster")]
         //  [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         public IActionResult Put([FromBody] LookupMasterModel lookupMaster)
         {
@@ -130,12 +130,12 @@ namespace VastraIndiaWebAPI.Controllers
         }
 
         // DELETE api/<LookupController>/5
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
         [Authorize]
         [Route("api/Lookup/DeleteLookupMaster")]
-        public JsonResult Delete(int id)
+        public JsonResult Delete([FromBody] int Lookup_Id)
         {
-            dt = lookup.DeleteLookupMaster(id);
+            dt = lookup.DeleteLookupMaster(Lookup_Id);
             return new JsonResult("Deleted Successfully");
         }
         //LookupMaster end
@@ -188,7 +188,7 @@ namespace VastraIndiaWebAPI.Controllers
 
         [Route("api/Lookup/UpdateLookupDetails")]
         //  [HttpPut("{id}")]
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         public IActionResult Put([FromForm] LookupDetailsModel lookupDetail)
         {
@@ -230,12 +230,12 @@ namespace VastraIndiaWebAPI.Controllers
 
 
         // DELETE api/<LookupController>/5
-        [HttpDelete("{id}")]
+        [HttpPost]
         [Authorize]
         [Route("api/Lookup/DeleteLookupDetails")]
-        public JsonResult DeleteLookupDetails(int id)
+        public JsonResult DeleteLookupDetails([FromBody] int Lookup_Details_Id)
         {
-            dt = lookup.DeleteLookupDetailsById(id);
+            dt = lookup.DeleteLookupDetailsById(Lookup_Details_Id);
             return new JsonResult("Deleted Successfully");
         }
 

@@ -52,11 +52,11 @@ namespace VastraIndiaWebAPI.Controllers
                 var email = new MimeMessage();
                 email.From.Add(MailboxAddress.Parse(body.email));
                 email.Cc.Add(MailboxAddress.Parse(body.email));
-                email.To.Add(MailboxAddress.Parse("yogigole1824@gmail.com"));
+                email.To.Add(MailboxAddress.Parse("shailesh.vastra@gmail.com"));
                 if(body.subject ==null)
                 {
                     string subject;
-                    subject = "Enquiry";
+                    subject = "Enquiry From Website";
                     body.subject = subject;
                     email.Subject = body.subject;
                 }
@@ -76,7 +76,7 @@ namespace VastraIndiaWebAPI.Controllers
 
                 using var smtp = new MailKit.Net.Smtp.SmtpClient();
                 smtp.Connect("smtp.gmail.com", 465);
-                smtp.Authenticate("yogigole1824@gmail.com", "hrwjmbhogwcwhrbo");
+                smtp.Authenticate("shailesh.vastra@gmail.com", "ktpoosnlwonhlekq");
                 smtp.Send(email);
                 smtp.Disconnect(true);
                 return new JsonResult("Message Send Successfully");

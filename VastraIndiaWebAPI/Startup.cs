@@ -87,8 +87,18 @@ namespace VastraindiaAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            
-
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if(context.Response.StatusCode==404 &&
+                !System.IO.Path.HasExtension(context.Request.Path.Value))
+                {
+                    context.Request.Path = "/index.html";
+                    await next();   
+                }
+            });
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseRouting();  // first
@@ -115,7 +125,7 @@ namespace VastraindiaAPI
         //        RequestPath = "/Vastra"
         //    });
 
-            app.UseStaticFiles();
+            
 
 
             // setup app's root folders

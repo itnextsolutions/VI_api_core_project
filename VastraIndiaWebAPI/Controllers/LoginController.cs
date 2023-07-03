@@ -64,9 +64,9 @@ namespace VastraIndiaWebAPI.Controllers
                 {
                     var token = CreateJwt(login.username);
 
-
-                    return new JsonResult(new AuthenticatedResponse { Token = token });
-                }
+                    var message = "Success";
+                    return new JsonResult(new  { Message= message, Token = token });
+                    }
 
                 return new JsonResult("Invalid Password");
             }

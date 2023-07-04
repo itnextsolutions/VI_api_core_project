@@ -110,7 +110,7 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 var Ext = System.IO.Path.GetExtension(cust.formFile.FileName);
 
-                FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+                FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy-hh-mm") + Ext;
             }
 
             
@@ -123,9 +123,18 @@ namespace VastraIndiaWebAPI.Controllers
                 Directory.CreateDirectory(ClientReviewsFolderName);
             }
 
-            dt = customer.UpdateCustomerReview(cust.Customer_Review_Id, cust.Client_Name, cust.Profession, cust.Review, FileName, cust.Rating);
-            var SaveImage = saveImage.SaveImagesAsync(cust.formFile, FileName, ClientReviewsFolderName);
-            return new JsonResult("Updated Successfully");
+            if (FileName != null && FileName != "")
+            {
+                dt = customer.UpdateCustomerReview(cust.Customer_Review_Id, cust.Client_Name, cust.Profession, cust.Review, FileName, cust.Rating);
+                var SaveImage = saveImage.SaveImagesAsync(cust.formFile, FileName, ClientReviewsFolderName);
+            }
+
+            if (cust.update_imageName != null && cust.update_imageName != "")
+            {
+                dt = customer.UpdateCustomerReview(cust.Customer_Review_Id, cust.Client_Name, cust.Profession, cust.Review, cust.update_imageName, cust.Rating);
+                var SaveImage = saveImage.SaveImagesAsync(cust.formFile, cust.update_imageName, ClientReviewsFolderName);
+            }
+                return new JsonResult("Updated Successfully");
 
         }
 

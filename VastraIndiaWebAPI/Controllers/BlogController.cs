@@ -126,7 +126,7 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 var Ext = System.IO.Path.GetExtension(blog.formFile.FileName);
 
-                FileName = blog.Blog_Title + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+                FileName = blog.Blog_Title + "_" + DateTime.Now.ToString("dd-MM-yyyy-hh-mm") + Ext;
             }
             
 
@@ -140,9 +140,18 @@ namespace VastraIndiaWebAPI.Controllers
                Directory.CreateDirectory(BlogFolderName);
             }
 
-            dt = objblog.UpdateBlog(blog.Blog_Id, blog.Blog_Title, blog.Blog_Topic, blog.Blog_Content, FileName);
-         
-            var SaveImage = saveImage.SaveImagesAsync(blog.formFile, FileName, BlogFolderName);
+            if (FileName != null && FileName!="")
+            {
+                dt = objblog.UpdateBlog(blog.Blog_Id, blog.Blog_Title, blog.Blog_Topic, blog.Blog_Content, FileName);
+                var SaveImage = saveImage.SaveImagesAsync(blog.formFile, FileName, BlogFolderName);
+            }
+
+            if (blog.update_imageName != null && blog.update_imageName != "")
+            {
+                dt = objblog.UpdateBlog(blog.Blog_Id, blog.Blog_Title, blog.Blog_Topic, blog.Blog_Content, blog.update_imageName);
+                var SaveImage = saveImage.SaveImagesAsync(blog.formFile, blog.update_imageName, BlogFolderName);
+            }
+
 
             return new JsonResult("Updated Successfully");
         }

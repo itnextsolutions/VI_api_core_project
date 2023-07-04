@@ -213,8 +213,20 @@ namespace VastraIndiaWebAPI.Controllers
                         Directory.CreateDirectory(TippingFolderName);
                     }
 
-                    dt = lookup.UpdateLookupDetail(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, FileName);
-                    var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, FileName, TippingFolderName);
+                    if (FileName != null && FileName != "")
+                    {
+                        dt = lookup.UpdateLookupDetail(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, FileName);
+                        var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, FileName, TippingFolderName);
+                    }
+
+                    if (lookupDetail.update_imageName != null && lookupDetail.update_imageName != "")
+                    {
+                        dt = lookup.UpdateLookupDetail(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, lookupDetail.update_imageName);
+                        var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, lookupDetail.update_imageName, TippingFolderName);
+                    }
+
+                    //dt = lookup.UpdateLookupDetail(lookupDetail.Lookup_Details_Id, lookupDetail.Lookup_Id, lookupDetail.Description, FileName);
+                    //var SaveImage = saveImage.SaveImagesAsync(lookupDetail.formFile, FileName, TippingFolderName);
 
                     return new JsonResult("Updated Successfully");
                 }

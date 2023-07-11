@@ -25,5 +25,6 @@ namespace VastraIndiaWebAPI.Models
         public string Imagepath { get; set; }
 
         public IFormFile formFile { get; set; }
+        public string update_imageName { get; set; }
     }
 }

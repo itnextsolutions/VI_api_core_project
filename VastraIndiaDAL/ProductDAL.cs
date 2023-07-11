@@ -231,7 +231,7 @@ namespace VastraIndiaDAL
 
 
 
-        public DataTable UpdateProduct(int Product_Id, int CategoryId, int SubCategory_Id, string ProductName, string Description,string Frontphoto, string MenFrontImage, /*string MenSidePhotoName, string MenBackPhotoName,*/ string MenSizeChartImage, String WomenDescription, string WomenFrontImage, /*String WomenSideImage, String WomenBackImage,*/ string WomenSizeChartImage, string ColorId, string SizeId, string Men_f_svgpath, string Women_f_svgpath,decimal MRP)
+        public DataTable UpdateProduct(int Product_Id, int CategoryId, int SubCategory_Id, string ProductName, string Description,string Frontphoto, string MenFrontImage,  string MenSizeChartImage, String WomenDescription, string WomenFrontImage, string WomenSizeChartImage, string ColorId, string SizeId, string Men_f_svgpath, string Women_f_svgpath,decimal MRP)
         {
             SqlParameter[] param = new SqlParameter[16];
 

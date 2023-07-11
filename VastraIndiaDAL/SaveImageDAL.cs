@@ -151,7 +151,7 @@ namespace VastraIndiaDAL
 
                 var file1 = FrontImgFile;
 
-                if (file1.Length > 0)
+                if (file1!= null)
                 {
                     var fullPath = Path.Combine(pathToSave, FrontPhoto);
                     var dbPath = Path.Combine(FolderName, FrontPhoto);

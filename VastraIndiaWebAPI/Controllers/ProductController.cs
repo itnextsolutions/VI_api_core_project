@@ -466,14 +466,14 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 var Ext = System.IO.Path.GetExtension(product.FrontImgFile.FileName);
 
-                FrontPhoto = product.Product_Title + "Front" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+                FrontPhoto = product.Product_Title + "Front" + DateTime.Now.ToString("dd-MM-yyyy-HH-mm") + Ext;
             }
 
             if (product.MenFrontImgFile != null)
             {
                 var Ext = System.IO.Path.GetExtension(product.MenFrontImgFile.FileName);
 
-                MenFrontPhoto = product.Product_Title + "_" + "Front" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+                MenFrontPhoto = product.Product_Title + "_" + "Front" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HH-mm") + Ext;
 
             }
 
@@ -483,14 +483,14 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 var Ext = System.IO.Path.GetExtension(product.MenSizeChartImgFile.FileName);
 
-                MenSizeChartName = product.Product_Title + "_" + "MenSizeChart" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+                MenSizeChartName = product.Product_Title + "_" + "MenSizeChart" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HH-mm") + Ext;
             }
 
             if (product.WomenFrontImgFile != null)
             {
                 var Ext = System.IO.Path.GetExtension(product.WomenFrontImgFile.FileName);
 
-                WomenFrontPhoto = product.Product_Title + "_" + "WomenFront" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+                WomenFrontPhoto = product.Product_Title + "_" + "WomenFront" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HH-mm") + Ext;
             }
 
 
@@ -499,7 +499,7 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 var Ext = System.IO.Path.GetExtension(product.WomenSizeChartImgFile.FileName);
 
-                WomenSizeChart = product.Product_Title + "_" + "WomenSizeChart" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HHmm") + Ext;
+                WomenSizeChart = product.Product_Title + "_" + "WomenSizeChart" + "_" + DateTime.Now.ToString("dd-MM-yyyy-HH-mm") + Ext;
             }
 
 
@@ -683,7 +683,7 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 var Ext = System.IO.Path.GetExtension(category.formFile.FileName);
 
-                FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+                FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy-hh") + Ext;
             }
 
             var CategoryFolderName = "";
@@ -729,7 +729,7 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 var Ext = System.IO.Path.GetExtension(category.formFile.FileName);
 
-                FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+                FileName = category.Category_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy-hh-mm") + Ext;
             }
 
             var CategoryFolderName = "";

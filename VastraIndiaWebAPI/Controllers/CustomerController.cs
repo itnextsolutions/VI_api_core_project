@@ -78,7 +78,7 @@ namespace VastraIndiaWebAPI.Controllers
             {
                 var Ext = System.IO.Path.GetExtension(cust.formFile.FileName);
 
-                FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy") + Ext;
+                FileName = cust.Client_Name + "_" + DateTime.Now.ToString("dd-MM-yyyy-hh") + Ext;
             }
 
             string docPath = MyServer.MapPath("Vastra");
